@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Resources\BarberController;
 use App\Http\Controllers\Admin\Resources\SpecialtyController;
 use App\Http\Controllers\Admin\Resources\ClientController;
+use App\Http\Controllers\Admin\Resources\ServiceController;
 
 
 Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::middleware('auth:admin, admin.verified')->prefix('admin')->name('admin.')
     Route::resource('barbers', BarberController::class);
     Route::resource('specialties', SpecialtyController::class);
     Route::resource('clients', ClientController::class)->only(['index', 'show']);
+    Route::resource('services', ServiceController::class);
 });
 
 require __DIR__.'/Client/auth.php';
