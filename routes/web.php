@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Client\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 #CRUD ADMIN -- Controladores
@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('client.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -27,10 +27,6 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('barbers', BarberController::class);
 });
 
-Route::get('/test-middleware', function () {
-    return 'Middleware test passed';
-})->middleware('admin.verified');
-
-require __DIR__.'/auth.php';
+require __DIR__.'/Client/auth.php';
 require __DIR__.'/Admin/auth.php';
 require __DIR__.'/Barber/auth.php';

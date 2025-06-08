@@ -31,13 +31,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
-        <!-- Phone -->
-        <div>
-            <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
-            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
-        </div>
-
         <!-- Profile Photo -->
         <div>
             <x-input-label for="profile_photo" :value="__('Profile Photo')" />
@@ -59,6 +52,13 @@
             @endif
         </div>
 
+        <!-- Phone -->
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+        
         <!-- Email -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
