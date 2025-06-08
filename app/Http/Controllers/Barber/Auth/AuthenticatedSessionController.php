@@ -25,12 +25,29 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('barber.dashboard', absolute: false));
+        $barber = auth('barber')->user();
+        
+        # Redireccionar según el estado de su email
+        if (! $barber->hasVerifiedEmail()) {
+            return redirect()->route('barber.verification.notice');
+        }
+
+        return redirect()->intended(route('barber.dashboard'));
     }
 
    # Cierre de sesión
     public function destroy(Request $request): RedirectResponse
     {
+        $user = auth('barber')->user();
+
+        #Destruir el token de verificación cada que se cierra sesión
+        if ($user) {
+            $user->email_verified_at = null;
+            $user->save();
+
+            logger('Email verification reset for user id: ' . $user->id);
+        }
+
         # Asignamos el guard corerspondiente del modelo
         Auth::guard('barber')->logout();
 

@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('profile_photo');
             $table->text('description');
+            $table->rememberToken();
             $table->timestamps();
         });
 
          # Tabla de tokens para recuperar contraseña
-        Schema::create('password_barber_reset_tokens', function (Blueprint $table) {
+        Schema::create('password_barbers_reset_tokens', function (Blueprint $table) {
                 $table->string('email')->primary();
                 $table->string('token');
                 $table->timestamp('created_at')->nullable();
@@ -32,7 +33,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('barbers');
-        Schema::dropIfExists('password_barber_reset_tokens');
+        Schema::dropIfExists('password_barbers_reset_tokens');
     }
 };
 

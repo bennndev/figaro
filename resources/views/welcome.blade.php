@@ -55,15 +55,20 @@
                         class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
                             Admin Log in
                         </a>
-
-                        @if (Route::has('admin.register'))
-                            <a href="{{ route('admin.register') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Admin Register
-                            </a>
-                        @endif
                     @endauth
 
+                    {{-- Barber --}}
+                    @auth('barber')
+                        <a href="{{ url('barber/dashboard') }}"
+                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                            Barber Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('barber.login') }}"
+                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
+                            Barber Log in
+                        </a>
+                    @endauth
                 </nav>
             @endif
         </header>

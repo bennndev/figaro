@@ -2,7 +2,11 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+            {{ __('Barber Login') }}
+    </h2>
+
+    <form method="POST" action="{{ route('barber.login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -33,8 +37,8 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+            @if (Route::has('barber.password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('barber.password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif

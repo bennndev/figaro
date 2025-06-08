@@ -115,6 +115,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_admins_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'barbers' => [
+            'provider' => 'barbers',
+            'table' => 'password_barbers_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*

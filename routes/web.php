@@ -27,5 +27,10 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('barbers', BarberController::class);
 });
 
+Route::get('/test-middleware', function () {
+    return 'Middleware test passed';
+})->middleware('admin.verified');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/Admin/auth.php';
+require __DIR__.'/Barber/auth.php';

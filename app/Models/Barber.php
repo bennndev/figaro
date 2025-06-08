@@ -5,9 +5,20 @@ namespace App\Models;
 # Uso de autenticacion de breeze
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Barber extends Authenticatable
+# Para que use notificaciones
+use Illuminate\Notifications\Notifiable;
+
+# Trait de Notificaciones
+use App\Traits\Barber\SendsPasswordResetNotifications;
+use App\Traits\Barber\SendEmailVerificationNotification;
+
+# Permite habilitar la verificación de correo electrónico para este modelo
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+class Barber extends Authenticatable implements MustVerifyEmail
 {
-    
+    use Notifiable, SendsPasswordResetNotifications, SendEmailVerificationNotification;
+
     # Guard de Modelo : 'Barber'
     protected $guard = 'barber';
 

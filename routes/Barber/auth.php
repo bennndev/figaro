@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\Auth\PasswordController;
-use App\Http\Controllers\Admin\Auth\NewPasswordController;
-use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Barber\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Barber\ProfileController;
+use App\Http\Controllers\Barber\Auth\PasswordController;
+use App\Http\Controllers\Barber\Auth\NewPasswordController;
+use App\Http\Controllers\Barber\Auth\PasswordResetLinkController;
 
-use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Barber\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Barber\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Barber\Auth\VerifyEmailController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('guest:barber')->prefix('barber')->name('barber.')->group(function () {
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -32,24 +32,25 @@ Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(functio
         ->name('password.store');
 });
 
-Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('auth:barber')->prefix('barber')->name('barber.')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['auth:admin', 'signed', 'throttle:6,1'])
-    ->name('verification.verify');
+        ->middleware(['auth:barber', 'signed', 'throttle:6,1'])
+        ->name('verification.verify');
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
-    
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::middleware('admin.verified')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
+     // Rutas protegidas con correo verificado
+    Route::middleware('barber.verified')->group(function () {
 
         Route::get('/dashboard', function () {
-            return view('admin.dashboard');
+            return view('barber.dashboard');
         })->name('dashboard');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -57,5 +58,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+        
     });
 });
+

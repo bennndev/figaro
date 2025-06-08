@@ -5,9 +5,20 @@ namespace App\Models;
 # Uso de autenticacion de breeze
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Authenticatable
+# Para que use notificaciones
+use Illuminate\Notifications\Notifiable;
+
+# Trait de Notificaciones
+use App\Traits\Admin\SendsPasswordResetNotifications;
+use App\Traits\Admin\SendEmailVerificationNotification;
+
+# Permite habilitar la verificación de correo electrónico para este modelo
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+class Admin extends Authenticatable implements MustVerifyEmail
 {
-    
+    use Notifiable, SendsPasswordResetNotifications, SendEmailVerificationNotification;
+
     # Guard de Modelo : 'Admin'
     protected $guard = 'admin';
 
