@@ -28,7 +28,7 @@
         <!-- Phone -->
         <div>
             <label for="phone">Teléfono</label>
-            <input id="phone" name="phone" type="text">
+            <input id="phone" name="phone" type="text" required>
         </div>
 
         <!-- Profile Photo -->

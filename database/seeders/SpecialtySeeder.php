@@ -5,13 +5,14 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+// Modelo
+use App\Models\Specialty;
 class SpecialtySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
-        //
+        Specialty::create(['name' => 'Corte']);
+        Specialty::create(['name' => 'Barba']);
     }
 }

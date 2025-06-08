@@ -1,30 +1,24 @@
 <?php
 
-use App\Http\Controllers\Client\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 #CRUD ADMIN -- Controladores
 use App\Http\Controllers\Admin\Resources\BarberController;
-
+use App\Http\Controllers\Admin\Resources\SpecialtyController;
+use App\Http\Controllers\Admin\Resources\ClientController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('client.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+### Resources - Barbero -> Después se creará un .php con estas rutas y se importara con require para modular mucho más el código.
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('auth:admin, admin.verified')->prefix('admin')->name('admin.')->group(function () {
     # CRUD Barberos - Admin
     Route::resource('barbers', BarberController::class);
+    Route::resource('specialties', SpecialtyController::class);
+    Route::resource('clients', ClientController::class)->only(['index', 'show']);
 });
 
 require __DIR__.'/Client/auth.php';

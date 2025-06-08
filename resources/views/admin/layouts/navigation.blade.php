@@ -17,12 +17,26 @@
                     </x-nav-link>
                 </div>
 
+                {{-- Clientes --}}
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.clients.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Clientes') }}
+                    </x-nav-link>
+                </div>
+
+                {{-- Barberos --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.barbers.index')" :active="request()->routeIs('dashboard')">
                         {{ __('Barberos') }}
                     </x-nav-link>
                 </div>
 
+                {{-- Especialidades --}}
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.specialties.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Especialidades') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
