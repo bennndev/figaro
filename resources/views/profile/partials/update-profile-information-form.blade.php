@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('Client Profile Information') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
@@ -13,16 +13,53 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
+        <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+        <!-- Last Name -->
+        <div>
+            <x-input-label for="last_name" :value="__('Last Name')" />
+            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autocomplete="family-name" />
+            <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
+        </div>
+
+        <!-- Phone -->
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <!-- Profile Photo -->
+        <div>
+            <x-input-label for="profile_photo" :value="__('Profile Photo')" />
+
+            <div class="mb-2">
+                <img src="{{ $user->profile_photo_url }}" alt="Foto de perfil actual" class="w-24 h-24 rounded-full object-cover">
+            </div>
+
+            <input id="profile_photo" name="profile_photo" type="file" class="mt-1 block w-full" accept="image/*">
+            <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
+
+            @if ($user->profile_photo)
+                <div class="mt-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="remove_photo" value="1" class="mr-2">
+                        <span class="text-sm text-red-600">{{ __('Delete current photo') }}</span>
+                    </label>
+                </div>
+            @endif
+        </div>
+
+        <!-- Email -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
