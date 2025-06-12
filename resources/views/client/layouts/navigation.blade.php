@@ -22,6 +22,18 @@
                         {{ __('Reservas') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('client.barbers.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Barberos') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('client.services.index')" :active="request()->routeIs('dashboard')">
+                        {{ __('Servicios') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

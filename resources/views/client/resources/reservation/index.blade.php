@@ -13,20 +13,6 @@
                 </div>
 
                 <div style="padding: 20px;">
-                    {{-- Formulario de filtros --}}
-                    <form method="GET" action="{{ route('client.reservations.index') }}" style="margin-bottom: 20px;">
-                        <label for="date">Fecha:</label>
-                        <input
-                            type="date"
-                            name="date"
-                            id="date"
-                            value="{{ request('date') }}"
-                            style="margin-right: 10px;"
-                        >
-                        <button type="submit">Buscar</button>
-                        <a href="{{ route('client.reservations.index') }}" style="margin-left: 10px;">Limpiar</a>
-                    </form>
-
                     {{-- Mensaje de éxito --}}
                     @if (session('message'))
                         <p style="color: green; margin-bottom: 10px;">
