@@ -4,6 +4,16 @@
         {{ __('Client Register') }}
     </h2>
 
+    @if ($errors->any())
+    <div class="mb-4 text-red-600">
+        <ul class="list-disc list-inside">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
 
@@ -27,8 +37,8 @@
 
         <!-- Phone -->
         <div>
-            <label for="phone">Teléfono</label>
-            <input id="phone" name="phone" type="text" required>
+            <label for="phone_number">Teléfono</label>
+            <input id="phone_number" name="phone_number" type="text" required>
         </div>
 
         <!-- Profile Photo -->

@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
             'profile_photo' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        $data = $request->only(['name', 'last_name', 'email', 'phone']);
+        $data = $request->only(['name', 'last_name', 'email', 'phone_number']);
         $data['password'] = Hash::make($request->password);
 
         if ($request->hasFile('profile_photo')) {
