@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Resources\Specialty;
+namespace App\Http\Requests\Client\Resources\Barber;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterSpecialtyRequest extends FormRequest
+class FilterBarberRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class FilterSpecialtyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string|max:255',    
+            //
         ];
     }
 }

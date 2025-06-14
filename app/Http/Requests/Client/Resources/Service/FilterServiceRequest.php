@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Resources\Service;
+namespace App\Http\Requests\Client\Resources\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,8 +14,8 @@ class FilterServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string|max:255',
-            'specialty_id' => 'nullable|integer|exists:specialties,id',
+            'name' => ['nullable', 'string'],
+            'specialty_id' => ['nullable', 'integer', 'exists:specialties,id'],
         ];
     }
 }

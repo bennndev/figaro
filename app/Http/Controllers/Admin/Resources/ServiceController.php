@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Resources;
 use App\Http\Controllers\Controller;
 
 use App\Models\Service;
+use App\Models\Specialty;
 use App\Services\Admin\Resources\ServiceService;
 
 use App\Http\Requests\Admin\Resources\Service\CreateServiceRequest;
@@ -21,13 +22,18 @@ class ServiceController extends Controller
     {
         $filters = $request->validated();
         $services = $this->service->filter($filters);
+        $specialties = $this->service->getSpecialties();	
 
-        return view('admin.resources.service.index', compact('services', 'filters'));
+        return view('admin.resources.service.index', compact('services', 'filters', 'specialties'));
     }
 
     public function create()
     {
-        return view('admin.resources.service.form', ['service' => new Service()]);
+        $specialties = $this->service->getSpecialties();
+        return view('admin.resources.service.form', [
+            'service' => new Service(),
+            'specialties' => $specialties,
+        ]);
     }
 
     public function store(CreateServiceRequest $request)
@@ -45,9 +51,10 @@ class ServiceController extends Controller
     }
 
     public function edit(int $id)
-    {
+    {   
+        $specialties = $this->service->getSpecialties();
         $service = $this->service->find($id);
-        return view('admin.resources.service.update', compact('service'));
+        return view('admin.resources.service.update', compact('service', 'specialties'));
     }
 
     public function update(UpdateServiceRequest $request, int $id)

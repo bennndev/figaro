@@ -18,8 +18,12 @@ class CreateServiceRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'required', 'string', 'max:255'],
             'image' => ['sometimes', 'required', 'image', 'max:2048'],
-            'duration_minutes' => ['sometimes', 'required', 'integer', 'min:1'],
-            'price' => ['sometimes', 'required', 'numeric', 'min:0', 'max:999.99'],
+            'duration_minutes' => ['sometimes', 'required', 'integer', 'min:15'],
+            'price' => ['sometimes', 'required', 'numeric', 'min:10', 'max:999.99'],
+
+            # Especialidades
+            'specialties' => ['required', 'array','min:1'],
+            'specialties.*' => ['required', 'integer','exists:specialties,id'],
         ];
     }
 }

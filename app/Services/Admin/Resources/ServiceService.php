@@ -3,58 +3,62 @@
 namespace App\Services\Admin\Resources;
 
 use App\Models\Service;
+use App\Models\Specialty;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 class ServiceService
 {
-    /**
-     * Obtener todos los servicios.
-     */
     public function returnAll()
     {
-        return Service::all();
+        return Service::with('specialties')->get(); // Carga las relaciones también
     }
 
-    /**
-     * Filtrar servicios según los criterios indicados.
-     */
     public function filter(array $filters)
     {
-        $query = Service::query();
+        $query = Service::query()->with('specialties');
 
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
-        return $query->get();
+        if (!empty($filters['specialty_id'])) {
+            $query->whereHas('specialties', function ($q) use ($filters) {
+                $q->where('specialties.id', $filters['specialty_id']);
+            });
+        }
+
+        return $query->paginate(9);
     }
 
-    /**
-     * Buscar un servicio por ID.
-     */
     public function find(int $id): Service
     {
-        return Service::findOrFail($id);
+        return Service::with('specialties')->findOrFail($id);
     }
 
-    /**
-     * Crear un nuevo servicio.
-     */
     public function create(array $data): Service
     {
+        $specialties = $data['specialties'] ?? [];
+        unset($data['specialties']); // Evitar error al guardar
+
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('services/images', 'public');
         }
 
-        return Service::create($data);
+        $service = Service::create($data);
+
+        // Asociar especialidades
+        $service->specialties()->attach($specialties);
+
+        return $service;
     }
 
-    /**
-     * Actualizar un servicio existente.
-     */
     public function update(int $id, array $data): bool
     {
         $service = $this->find($id);
+
+        $specialties = $data['specialties'] ?? null;
+        unset($data['specialties']); // Evitar error
 
         if (isset($data['image'])) {
             if ($service->image) {
@@ -64,12 +68,16 @@ class ServiceService
             $data['image'] = $data['image']->store('services/images', 'public');
         }
 
-        return $service->update($data);
+        $updated = $service->update($data);
+
+        // Solo sincronizar si se enviaron especialidades
+        if (isset($specialties)) {
+            $service->specialties()->sync($specialties);
+        }       
+
+        return $updated;
     }
 
-    /**
-     * Eliminar un servicio.
-     */
     public function delete(int $id): bool
     {
         $service = $this->find($id);
@@ -78,6 +86,15 @@ class ServiceService
             Storage::disk('public')->delete($service->image);
         }
 
+        // También elimina relaciones con specialties (por cascada o detach)
+        $service->specialties()->detach();
+
         return $service->delete();
+    }
+
+    # Obtener las especialidades
+    public function getSpecialties(): Collection
+    {
+        return Specialty::all();
     }
 }

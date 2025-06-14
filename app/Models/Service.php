@@ -18,4 +18,10 @@ class Service extends Model
         'duration_minutes' => 'integer',
         'price' => 'decimal:2',
     ];
+
+    # Relacion de muchos a muchos -> Especialidades
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
+    }
 }

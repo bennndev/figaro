@@ -23,6 +23,19 @@
                     <strong>Precio:</strong> ${{ number_format($service->price, 2) }}
                 </div>
 
+                <div class="mb-4">
+                    <strong>Especialidades:</strong>
+                    @if ($service->specialties && $service->specialties->isNotEmpty())
+                        <ul class="list-disc pl-5">
+                            @foreach ($service->specialties as $specialty)
+                                <li>{{ $specialty->name }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p><em>No tiene especialidades asociadas.</em></p>
+                    @endif
+                </div>
+
                 @if($service->image)
                     <div class="mb-4">
                         <strong>Imagen:</strong><br>

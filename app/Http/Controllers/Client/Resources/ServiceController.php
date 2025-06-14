@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client\Resources;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\Client\Resources\Service\FilterServiceRequest;
+
 use App\Services\Client\Resources\ServiceService;
 
 class ServiceController extends Controller
@@ -15,10 +17,13 @@ class ServiceController extends Controller
         
     }
 
-    public function index()
-    {
-        $services = $this->service->returnAll();
-        return view('client.resources.service.index', compact('services'));
+    public function index(FilterServiceRequest $request)
+    {   
+        $filters = $request->validated();
+        $services = $this->service->filter($filters);
+        $specialties = $this->service->getSpecialties();
+
+        return view('client.resources.service.index', compact('services', 'filters', 'specialties'));
     }
 
     public function create()

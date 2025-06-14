@@ -91,6 +91,30 @@
                             @enderror
                         </div>
 
+                        <div style="margin-bottom: 20px;">
+                            <label><strong>Especialidades:</strong></label><br>
+                            @if ($specialties->isNotEmpty())
+                                @foreach ($specialties as $specialty)
+                                    <div>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="specialties[]"
+                                                value="{{ $specialty->id }}"
+                                                {{ in_array($specialty->id, old('specialties', $service->specialties->pluck('id')->toArray())) ? 'checked' : '' }}
+                                            >
+                                            {{ $specialty->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p><em>No hay especialidades registradas.</em></p>
+                            @endif
+                            @error('specialties')
+                                <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" style="padding: 10px 15px; background-color: #1e40af; color: white; border: none; cursor: pointer;">
                             Actualizar
                         </button>

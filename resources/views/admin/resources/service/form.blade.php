@@ -88,6 +88,28 @@
                             @enderror
                         </div>
 
+                        {{-- Campo de especialidades --}}
+                        <div style="margin-bottom: 20px;">
+                            <label for="specialties">Especialidades:</label><br>
+                            <select
+                                id="specialties"
+                                name="specialties[]"
+                                multiple
+                                required
+                                style="width: 100%; padding: 8px; margin-top: 5px;"
+                            >
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty->id }}" {{ in_array($specialty->id, old('specialties', [])) ? 'selected' : '' }}>
+                                        {{ $specialty->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small style="color: #555;">Mantén presionada Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples</small>
+                            @error('specialties')
+                                <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" style="padding: 10px 15px; background-color: #1e40af; color: white; border: none; cursor: pointer;">
                             Guardar
                         </button>

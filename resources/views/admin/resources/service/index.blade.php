@@ -24,6 +24,17 @@
                             placeholder="Buscar por nombre"
                             style="margin-right: 10px;"
                         >
+
+                        <label for="specialty_id">Especialidad:</label>
+                        <select name="specialty_id" id="specialty_id" style="margin-right: 10px;">
+                            <option value="">-- Todas --</option>
+                            @foreach ($specialties as $specialty)
+                                <option value="{{ $specialty->id }}" {{ request('specialty_id') == $specialty->id ? 'selected' : '' }}>
+                                    {{ $specialty->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
                         <button type="submit">Buscar</button>
                         <a href="{{ route('admin.services.index') }}" style="margin-left: 10px;">Limpiar</a>
                     </form>
@@ -46,16 +57,29 @@
                                     <th>Nombre</th>
                                     <th>Duración (min)</th>
                                     <th>Precio</th>
+                                    <th>Especialidades</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 @foreach ($services as $service)
                                     <tr>
                                         <td>{{ $service->id }}</td>
                                         <td>{{ $service->name }}</td>
                                         <td>{{ $service->duration_minutes }}</td>
                                         <td>${{ number_format($service->price, 2) }}</td>
+                                        <td>
+                                            @if ($service->specialties && $service->specialties->isNotEmpty())
+                                                <ul style="padding-left: 15px; list-style: disc;">
+                                                    @foreach ($service->specialties as $specialty)
+                                                        <li>{{ $specialty->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <em>Sin especialidades</em>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ route('admin.services.show', $service->id) }}">Ver</a> |
                                             <a href="{{ route('admin.services.edit', $service->id) }}">Editar</a> |
@@ -73,8 +97,14 @@
                         </table>
                     @endif
 
+                    {{-- Paginación --}}
                     <div style="margin-top: 20px;">
-                        <a href="{{ route('admin.services.create') }}">Crear nuevo servicio</a>
+                        {{ $services->appends(request()->query())->links() }}
+                    </div>
+
+
+                    <div style="margin-top: 20px;">
+                        <a href="{{ route('admin.services.create') }}">+ Crear nuevo servicio</a>
                     </div>
                 </div>
             </div>
