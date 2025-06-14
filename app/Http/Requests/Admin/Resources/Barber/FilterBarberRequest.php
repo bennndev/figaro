@@ -15,6 +15,8 @@ class FilterBarberRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'specialty_id' => 'nullable|exists:specialties,id',
         ];
     }
 }

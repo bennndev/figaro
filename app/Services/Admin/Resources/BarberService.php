@@ -3,6 +3,8 @@
 namespace App\Services\Admin\Resources;
 
 use App\Models\Barber;
+use App\Models\Specialty;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,13 +23,23 @@ class BarberService
      */
     public function filter(array $filters)
     {
-        $query = Barber::query();
+        $query = Barber::query()->with('specialties');
 
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
-        return $query->get();
+        if (!empty($filters['last_name'])) {
+            $query->where('last_name', 'like', '%' . $filters['last_name'] . '%');
+        }
+
+        if (!empty($filters['specialty_id'])) {
+            $query->whereHas('specialties', function ($q) use ($filters) {
+                $q->where('specialties.id', $filters['specialty_id']);
+            });
+        }
+
+        return $query->paginate(10);
     }
 
     /**
@@ -35,7 +47,7 @@ class BarberService
      */
     public function find(int $id): Barber
     {
-        return Barber::findOrFail($id);
+        return Barber::with('specialties')->findOrFail($id);
     }
 
     /**
@@ -49,7 +61,13 @@ class BarberService
 
         $data['password'] = Hash::make($data['password']);
 
-        return Barber::create($data);
+        $barber = Barber::create($data);
+
+        if (isset($data['specialty_ids'])) {
+            $barber->specialties()->attach($data['specialty_ids']);
+        }
+
+        return $barber;
     }
 
     /**
@@ -73,7 +91,13 @@ class BarberService
             unset($data['password']);
         }
 
-        return $barber->update($data);
+        $updated = $barber->update($data);
+
+        if (isset($data['specialty_ids'])) {
+            $barber->specialties()->sync($data['specialty_ids']);
+        }
+
+        return $updated;
     }
 
     /**
@@ -88,5 +112,10 @@ class BarberService
         }
 
         return $barber->delete();
+    }
+
+    public function getSpecialties()
+    {
+        return Specialty::all();
     }
 }

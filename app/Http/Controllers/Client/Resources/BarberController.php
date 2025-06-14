@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client\Resources;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Resources\Barber\FilterBarberRequest;
 use Illuminate\Http\Request;
 
 use App\Services\Client\Resources\BarberService;
@@ -14,10 +15,14 @@ class BarberController extends Controller
         
     }
 
-    public function index()
+    public function index(FilterBarberRequest $request)
     {
-        $barbers = $this->service->returnAll();
-        return view('client.resources.barber.index', compact('barbers'));
+        $filters = $request->validated();
+        $barbers = $this->service->filter($filters);
+        $specialties = $this->service->getSpecialties();
+
+
+        return view('client.resources.barber.index', compact('barbers', 'filters', 'specialties'));
     }
 
     /**

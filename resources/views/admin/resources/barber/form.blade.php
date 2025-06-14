@@ -12,6 +12,18 @@
                     <form action="{{ route('admin.barbers.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
+                        {{-- Mostrar todos los errores --}}
+                        @if ($errors->any())
+                            <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                                <strong>Se encontraron los siguientes errores:</strong>
+                                <ul class="mt-2 list-disc list-inside">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         {{-- Nombre --}}
                         <div style="margin-bottom: 20px;">
                             <label for="name">Nombre:</label><br>
@@ -76,6 +88,27 @@
                             @enderror
                         </div>
 
+                        {{-- Especialidades --}}
+                        <div style="margin-bottom: 20px;">
+                            <label for="specialties">Especialidades:</label><br>
+                            <select
+                                id="specialties"
+                                name="specialty_ids[]"
+                                multiple
+                                required
+                                style="width: 100%; padding: 8px; margin-top: 5px;"
+                            >
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty->id }}" {{ in_array($specialty->id, old('specialties', [])) ? 'selected' : '' }}>
+                                        {{ $specialty->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('specialties')
+                                <div style="color: red; margin-top: 5px;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
                         {{-- Descripción --}}
                         <div style="margin-bottom: 20px;">
                             <label for="description">Descripción:</label><br>

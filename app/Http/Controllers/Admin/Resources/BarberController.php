@@ -21,13 +21,15 @@ class BarberController extends Controller
     {
         $filters = $request->validated();
         $barbers = $this->service->filter($filters);
+        $specialties = $this->service->getSpecialties();
 
-        return view('admin.resources.barber.index', compact('barbers', 'filters'));
+        return view('admin.resources.barber.index', compact('barbers', 'filters', 'specialties'));
     }
 
     public function create()
     {
-        return view('admin.resources.barber.form', ['barber' => new Barber()]);
+        $specialties = $this->service->getSpecialties();
+        return view('admin.resources.barber.form', ['barber' => new Barber(), 'specialties' => $specialties]);
     }
 
     public function store(CreateBarberRequest $request)
@@ -47,7 +49,9 @@ class BarberController extends Controller
     public function edit(int $id)
     {
         $barber = $this->service->find($id);
-        return view('admin.resources.barber.update', compact('barber'));
+        $specialties = $this->service->getSpecialties();
+
+        return view('admin.resources.barber.update', compact('barber', 'specialties'));
     }
 
     public function update(UpdateBarberRequest $request, int $id)

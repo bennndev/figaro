@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\Specialty;
 class ProfileController extends Controller
 {
 
@@ -22,6 +23,7 @@ class ProfileController extends Controller
     {
         return view('barber.profile.edit', [
             'user' => Auth::guard('barber')->user(),
+            'specialties' => Specialty::all(),
         ]);
     }
 
@@ -47,6 +49,10 @@ class ProfileController extends Controller
         }
 
         $barber->save();
+
+        if (array_key_exists('specialties', $data)) {
+            $barber->specialties()->sync($data['specialties']);
+        }
 
         return Redirect::route('barber.profile.edit')->with('status', 'profile-updated');
     }

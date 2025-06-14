@@ -66,6 +66,24 @@
             @endif
         </div>
 
+        {{-- Specialties --}}
+        <div>
+            <x-input-label for="specialties" :value="__('Specialties (max. 3)')" />
+
+            <select id="specialties" name="specialties[]" multiple
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200"
+                size="5">
+                @foreach ($specialties as $specialty)
+                    <option value="{{ $specialty->id }}"
+                        {{ in_array($specialty->id, old('specialties', $user->specialties->pluck('id')->toArray())) ? 'selected' : '' }}>
+                        {{ $specialty->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <x-input-error class="mt-2" :messages="$errors->get('specialties')" />
+        </div>
+
         {{-- Phone Number --}}
         <div>
             <x-input-label for="phone_number" :value="__('Phone Number')" />

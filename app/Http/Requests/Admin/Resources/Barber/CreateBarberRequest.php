@@ -21,6 +21,8 @@ class CreateBarberRequest extends FormRequest
             'password' => ['required', 'confirmed', 'min:8'],
             'profile_photo' => ['required', 'image', 'max:2048'],
             'description' => ['required', 'string', 'max:1000'],
+            'specialty_ids' => ['required', 'array', 'min:1'],
+            'specialty_ids.*' => ['exists:specialties,id'],
         ];
     }
 }

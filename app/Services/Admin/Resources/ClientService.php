@@ -29,7 +29,7 @@ class ClientService
             $query->where('last_name', 'like', '%' . $filters['last_name'] . '%');
         }
 
-        return $query->get();
+        return $query->paginate(9);
     }
 
     // public function create(array $data): User

@@ -15,4 +15,10 @@ class Specialty extends Model
     {
         return $this->belongsToMany(Service::class);
     }
+
+    # Relación muchos a muchos -> Barber
+    public function barbers()
+    {
+        return $this->belongsToMany(Barber::class);
+    }
 }

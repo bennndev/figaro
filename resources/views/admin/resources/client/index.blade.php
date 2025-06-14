@@ -10,33 +10,36 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{-- Filtros --}}
-                    <form method="GET" action="{{ route('admin.clients.index') }}" style="margin-bottom: 20px;">
-                        <label for="name">Nombre:</label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            value="{{ request('name') }}"
-                            placeholder="Buscar por nombre"
-                            style="margin-right: 10px;"
-                        >
-                        <button type="submit">Buscar</button>
-                        <a href="{{ route('admin.clients.index') }}" style="margin-left: 10px;">Limpiar</a>
-                    </form>
-
-                     <form method="GET" action="{{ route('admin.clients.index') }}" style="margin-bottom: 20px;">
-                        <label for="name">Apellido:</label>
-                        <input
-                            type="text"
-                            name="last_name"
-                            id="last_name"
-                            value="{{ request('last_name') }}"
-                            placeholder="Buscar por apellido"
-                            style="margin-right: 10px;"
-                        >
-                        <button type="submit">Buscar</button>
-                        <a href="{{ route('admin.clients.index') }}" style="margin-left: 10px;">Limpiar</a>
-                    </form>
+                    <form method="GET" action="{{ route('admin.clients.index') }}" class="mb-6 flex flex-wrap items-center gap-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value="{{ request('name') }}"
+                                placeholder="Buscar por nombre"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                            >
+                        </div>
+                    
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Apellido:</label>
+                            <input
+                                type="text"
+                                name="last_name"
+                                id="last_name"
+                                value="{{ request('last_name') }}"
+                                placeholder="Buscar por apellido"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                            >
+                        </div>
+                    
+                        <div class="flex items-end gap-2 mt-4">
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Buscar</button>
+                            <a href="{{ route('admin.clients.index') }}" class="text-sm text-gray-600 hover:underline">Limpiar</a>
+                        </div>
+                    </form>                   
 
                     {{-- Mensaje éxito --}}
                     @if (session('message'))
@@ -73,6 +76,9 @@
                             </tbody>
                         </table>
                     @endif
+                    <div class="mt-4">
+                        {{ $clients->links() }}
+                    </div>
                 </div>
             </div>
         </div>

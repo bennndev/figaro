@@ -24,6 +24,9 @@ class ProfileUpdateRequest extends FormRequest
             'phone_number' => ['required', 'string', 'max:20'],
             'description' => ['nullable', 'string'],
             'profile_photo' => ['nullable', 'image', 'max:2048'],
+
+            'specialties' => ['nullable', 'array', 'max:3'],
+            'specialties.*' => ['exists:specialties,id'],
         ];
     }
 }
