@@ -3,22 +3,44 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Schedule extends Model
 {
     protected $fillable = 
     [
-        'schedule_date',
-        'schedule_time',
+        'barber_id',
+        'date',
         'start_time',
         'end_time',
         'status',
     ];
 
     protected $casts = [
-        'schedule_date' => 'date',
-        'schedule_time' => 'time',
-        'start_time' => 'time',
-        'end_time' => 'time',
+        'date' => 'date',
     ];
+
+    # Relación -> Barberos
+    public function barber()
+    {
+        return $this->belongsTo(Barber::class);
+    }
+    
+    # Mutadores
+
+    public function setStartTimeAttribute($value)
+    {
+        $this->attributes['start_time'] = Carbon::parse($value)->format('H:i:s');
+    }
+
+    public function setEndTimeAttribute($value)
+    {
+        $this->attributes['end_time'] = Carbon::parse($value)->format('H:i:s');
+    }
+
+    public function setDateAttribute($value)
+    {
+        $this->attributes['date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+    
 }

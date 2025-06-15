@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\Resources\SpecialtyController;
 use App\Http\Controllers\Admin\Resources\ClientController;
 use App\Http\Controllers\Admin\Resources\ServiceController;
 
-Route::middleware(['auth:admin, admin.verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth:admin', 'admin.verified'])->prefix('admin')->name('admin.')->group(function () {
     # CRUD Barberos - Admin
     Route::resource('barbers', BarberController::class);
     # CRUD Especialidades - Admin

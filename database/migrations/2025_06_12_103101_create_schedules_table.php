@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->date('schedule_date');
-            $table->time('schedule_time');
+            $table->foreignId('barber_id')->constrained('barbers')->onDelete('cascade');
+            $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
             $table->enum('status', ['available', 'booked'])->default('available');

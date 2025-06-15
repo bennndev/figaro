@@ -39,7 +39,7 @@ class ServiceService
     public function create(array $data): Service
     {
         $specialties = $data['specialties'] ?? [];
-        unset($data['specialties']); // Evitar error al guardar
+        unset($data['specialties']); 
 
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('services/images', 'public');
