@@ -1,11 +1,37 @@
-@import 'tailwindcss';
+@import "bootstrap/dist/css/bootstrap.min.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* Colores base personalizados */
+body {
+    background-color: #2A2A2A;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Estilos del navbar */
+.navbar {
+    background-color: #2A2A2A;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #FFFFFF !important;
+}
+
+/* Footer */
+footer {
+    background-color: #2A2A2A;
+    color: #FFFFFF;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Botones personalizados */
+.btn-custom {
+    background-color: #525252;
+    color: #FFFFFF;
+}
+
+.btn-custom:hover {
+    background-color: #787878;
+    color: #FFFFFF;
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Rincón del Barbero</title>
 
-    {{-- Vite carga los estilos y scripts --}}
+    {{-- Vite (carga los estilos y scripts) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-dark text-white">
