@@ -36,12 +36,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getProfilePhotoUrlAttribute()
     {
+        // Si ya es una URL externa (por ejemplo, de Google)
+        if (filter_var($this->profile_photo, FILTER_VALIDATE_URL)) {
+            return $this->profile_photo;
+        }
+
+        // Si es una ruta local y el archivo existe
         if ($this->profile_photo && Storage::disk('public')->exists($this->profile_photo)) {
             return asset('storage/' . $this->profile_photo);
         }
 
-        // Ruta de la imagen por defecto pública
+        // Imagen por defecto
         return asset('images/default-profile.png');
     }
-
 }

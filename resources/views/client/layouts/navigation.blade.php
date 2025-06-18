@@ -18,19 +18,19 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('client.reservations.index')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('client.reservations.index')" :active="request()->routeIs('client.reservations.index')">
                         {{ __('Reservas') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('client.barbers.index')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('client.barbers.index')" :active="request()->routeIs('client.barbers.index')">
                         {{ __('Barberos') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('client.services.index')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('client.services.index')" :active="request()->routeIs('client.services.index')">
                         {{ __('Servicios') }}
                     </x-nav-link>
                 </div>

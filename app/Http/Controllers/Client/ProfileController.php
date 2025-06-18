@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\Client\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,25 +27,32 @@ class ProfileController extends Controller
         $user = Auth::user();
         $data = $request->validated();
 
-        // Si el usuario quita la foto
+        // Si el usuario quiere quitar la foto actual
         if ($request->has('remove_photo') && $user->profile_photo) {
-            // Eliminar la foto actual
-            Storage::disk('public')->delete($user->profile_photo);
-            $user->profile_photo = null;
-        }
-
-        // Si el usuario subió una nueva foto
-        if ($request->hasFile('profile_photo')) {
-            // Borra la anterior si existe
-            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            // Solo borrar si es una imagen local, no una URL externa
+            if (!filter_var($user->profile_photo, FILTER_VALIDATE_URL) &&
+                Storage::disk('public')->exists($user->profile_photo)) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
 
-            // Guarda la nueva foto
+            $user->profile_photo = null;
+        }
+
+        // Si el usuario sube una nueva foto
+        if ($request->hasFile('profile_photo')) {
+            // Borrar la anterior solo si es local (no URL)
+            if ($user->profile_photo && !filter_var($user->profile_photo, FILTER_VALIDATE_URL) &&
+                Storage::disk('public')->exists($user->profile_photo)) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+
+            // Guardar la nueva imagen
             $data['profile_photo'] = $request->file('profile_photo')->store('clients/profile_photos', 'public');
         }
+
         $user->fill($data);
 
+        // Si cambió el email, marcar como no verificado
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }

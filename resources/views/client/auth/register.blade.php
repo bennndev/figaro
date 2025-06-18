@@ -69,4 +69,16 @@
             </x-primary-button>
         </div>
     </form>
+
+    <p class="text-center text-sm text-gray-500 mt-4">
+        O regístrate con Google:
+    </p>
+    
+    <div class="flex items-center justify-center mt-2">
+        <a href="{{ route('auth.google.redirect') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="h-5 w-5 mr-2" alt="Google logo">
+            Registrarse con Google
+        </a>
+    </div>
+
 </x-guest-layout>

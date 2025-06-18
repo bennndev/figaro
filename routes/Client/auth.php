@@ -9,6 +9,8 @@ use App\Http\Controllers\Client\Auth\PasswordController;
 use App\Http\Controllers\Client\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Client\Auth\RegisteredUserController;
 use App\Http\Controllers\Client\Auth\VerifyEmailController;
+use App\Http\Controllers\Client\Auth\SocialiteController;
+
 use App\Http\Controllers\Client\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +36,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+    
+    // 🔽 Login con Google
+    Route::get('auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+    Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 });
 
 Route::middleware('auth')->group(function () {
