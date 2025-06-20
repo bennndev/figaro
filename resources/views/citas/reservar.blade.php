@@ -7,7 +7,7 @@
     {{-- Simulación de mensaje de confirmación --}}
     @if (session('ficticio'))
         <div class="mb-6 px-4 py-2 bg-green-600 text-white rounded">
-            ✔️ Reserva enviada correctamente (ficticio, sin guardar en base de datos).
+            ✔️ Reserva enviada correctamente.
         </div>
     @endif
 
@@ -35,16 +35,37 @@
             <input type="time" name="hora" class="w-full px-3 py-2 rounded bg-[#2A2A2A] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#787878]" required>
         </div>
 
+        <div>
+            <label class="block text-sm mb-1">Servicio</label>
+            <select name="servicio" class="w-full px-3 py-2 rounded bg-[#2A2A2A] text-white border border-gray-600">
+                <option value="">-- Selecciona un servicio --</option>
+                <option value="corte">Corte de cabello</option> {{-- Ejemplos --}}
+                <option value="barba">Afeitado de barba</option>
+                <option value="tinte">Tinte</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm mb-1">Barbero</label>
+            <select name="barbero" class="w-full px-3 py-2 rounded bg-[#2A2A2A] text-white border border-gray-600">
+                <option value="">-- Selecciona un barbero --</option>
+                <option value="1">Carlos Díaz</option> {{-- Ejemplos --}}
+                <option value="2">Luis Torres</option>
+                <option value="3">José Medina</option>
+            </select>
+        </div>
+
         <button type="submit" class="w-full bg-[#787878] hover:bg-[#FFFFFF] hover:text-[#2A2A2A] text-white font-semibold py-2 rounded transition duration-300">
             ✂️ Reservar
         </button>
     </form>
 </div>
 
-{{-- Script para mostrar el mensaje de forma ficticia --}}
+{{-- Script para mostrar el mensaje --}}
 <script>
     function mostrarMensaje() {
         alert("Reserva enviada correctamente.");
+        return false; 
     }
 </script>
 @endsection

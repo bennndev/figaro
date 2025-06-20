@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Client\Resources\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,7 +8,7 @@ Route::get('/', function () {
 Route::get('/reservar', function () {
     return view('citas.reservar');
 });
-
+Route::post('/citas/guardar', [ReservationController::class, 'store']);
 
 # Rutas de Autenticación
 require __DIR__.'/Client/auth.php';
