@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "bootstrap/dist/css/bootstrap.min.css";
 
 /* Colores base personalizados */
@@ -7,7 +11,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Estilos del navbar */
+/* Navbar */
 .navbar {
     background-color: #2A2A2A;
 }
@@ -25,18 +29,7 @@ footer {
     text-align: center;
 }
 
-/* Botones personalizados */
-.btn-custom {
-    background-color: #525252;
-    color: #FFFFFF;
-}
-
-.btn-custom:hover {
-    background-color: #787878;
-    color: #FFFFFF;
-}
-
-/* Botón de home personalizado */
+/* Botón personalizado */
 .btn-custom {
     background-color: #525252;
     color: #FFFFFF;
