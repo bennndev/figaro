@@ -3,6 +3,8 @@
 namespace App\Services\Admin\Resources;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ClientService
 {
@@ -16,7 +18,6 @@ class ClientService
         return User::findOrFail($id);
     }
 
-    # Busqueda por filtros
     public function filter(array $filters)
     {
         $query = User::query();
@@ -29,21 +30,49 @@ class ClientService
             $query->where('last_name', 'like', '%' . $filters['last_name'] . '%');
         }
 
-        return $query->paginate(9);
+        return $query->paginate(10);
     }
 
-    // public function create(array $data): User
-    // {
-    //     return User::create($data);
-    // }
+    public function create(array $data): User
+    {
+        if (isset($data['profile_photo'])) {
+            $data['profile_photo'] = $data['profile_photo']->store('profiles', 'public');
+        }
 
-    // public function update(int $id, array $data): bool
-    // {
-    //     return User::where('id', $id)->update($data);
-    // }
+        $data['password'] = Hash::make($data['password']);
 
-    // public function delete(int $id):bool
-    // {
-    //     return User::where('id', $id)->delete();
-    // }
+        return User::create($data);
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $client = User::findOrFail($id);
+
+        if (isset($data['profile_photo'])) {
+            if ($client->profile_photo && Storage::disk('public')->exists($client->profile_photo)) {
+                Storage::disk('public')->delete($client->profile_photo);
+            }
+
+            $data['profile_photo'] = $data['profile_photo']->store('profiles', 'public');
+        }
+
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        return $client->update($data);
+    }
+
+    public function delete(int $id): bool
+    {
+        $client = User::findOrFail($id);
+
+        if ($client->profile_photo && Storage::disk('public')->exists($client->profile_photo)) {
+            Storage::disk('public')->delete($client->profile_photo);
+        }
+
+        return $client->delete();
+    }
 }
