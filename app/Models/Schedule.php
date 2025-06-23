@@ -10,6 +10,7 @@ class Schedule extends Model
     protected $fillable = 
     [
         'barber_id',
+        'name',
         'date',
         'start_time',
         'end_time',

@@ -14,7 +14,8 @@ class CreateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'  => 'required|date_format:Y-m-d',
+            'name' => 'required|string|max:255',
+            'date'  => 'required|date_format:Y-m-d|after_or_equal:today',
             'start_time'     => 'required|date_format:H:i|before:end_time',
             'end_time'       => 'required|date_format:H:i|after:start_time',
             'status'         => 'nullable|in:available,booked',

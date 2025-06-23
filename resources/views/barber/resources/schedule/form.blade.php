@@ -29,6 +29,12 @@
                         <input type="date" name="date" id="date" value="{{ old('date') }}" style="width: 100%; padding: 8px; border: 1px solid #ccc;">
                     </div>                    
 
+                    {{-- Nombre --}}
+                    <div style="margin-bottom: 15px;">
+                        <label for="name" style="display: block; font-weight: bold;">Nombre del Horario</label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" style="width: 100%; padding: 8px; border: 1px solid #ccc;" required>
+                    </div>
+
                     {{-- Hora de Inicio --}}
                     <div style="margin-bottom: 15px;">
                         <label for="start_time" style="display: block; font-weight: bold;">Hora de Inicio</label>

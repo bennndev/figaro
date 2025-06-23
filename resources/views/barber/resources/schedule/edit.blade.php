@@ -23,6 +23,12 @@
                 <form method="POST" action="{{ route('barber.schedules.update', $schedule->id) }}">
                     @csrf
                     @method('PUT')
+                    
+                    {{-- Nombre --}}
+                    <div style="margin-bottom: 15px;">
+                        <label for="name" style="display: block; font-weight: bold;">Nombre del Horario</label>
+                        <input type="text" name="name" id="name" value="{{ old('name', $schedule->name) }}" style="width: 100%; padding: 8px; border: 1px solid #ccc;" required>
+                    </div>
 
                     {{-- Fecha --}}
                     <div style="margin-bottom: 15px;">
