@@ -19,5 +19,11 @@ class AdminSeeder extends Seeder
             'email' => 'benjamin.sullca1103@gmail.com',
             'password' => bcrypt('Tecsup2025')
         ]);
+        Admin::create([
+            'name' => 'Ander',
+            'last_name' => 'Bustamante',
+            'email' => 'anderbstz@gmail.com',
+            'password' => bcrypt('Tecsup2025')
+        ]);
     }
 }
