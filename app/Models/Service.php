@@ -24,4 +24,10 @@ class Service extends Model
     {
         return $this->belongsToMany(Specialty::class);
     }
+
+    # Relación muchos a muchos -> Reservas
+    public function reservations()
+    {
+        return $this->belongsToMany(Reservation::class);
+    }
 }

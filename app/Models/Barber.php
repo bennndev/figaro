@@ -59,4 +59,10 @@ class Barber extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Schedule::class);
     }
+
+    # Relación -> 1 a muchos -> Reservas
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
