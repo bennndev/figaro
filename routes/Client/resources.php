@@ -14,14 +14,15 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     Route::resource('services', ServiceController::class)->only(['index','show']);
     # CRUD Reservas - Cliente
     Route::resource('reservations', ReservationController::class)->except(['destroy']);
-
+    # Payment
     Route::resource('payments', PaymentController::class)
-         ->only(['index','store']);
-
-    Route::get('payments/success', [PaymentController::class,'success'])
-         ->name('payments.success');
-
-    Route::get('payments/failure', [PaymentController::class,'failure'])
-         ->name('payments.failure');
+              ->only(['index','store','show']);
+    // Para mantener los callbacks de Stripe:
+    Route::get('payments/success', [PaymentController::class, 'success'])
+              ->name('payments.success');
+    Route::get('payments/failure', [PaymentController::class, 'failure'])
+              ->name('payments.failure');
+    Route::get('payments/pending', [PaymentController::class, 'pending'])
+              ->name('payments.pending');
 });
 

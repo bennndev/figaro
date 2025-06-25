@@ -49,4 +49,12 @@ class User extends Authenticatable implements MustVerifyEmail
         // Imagen por defecto
         return asset('images/default-profile.png');
     }
+
+    # Relaciones
+
+    # Reservas
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

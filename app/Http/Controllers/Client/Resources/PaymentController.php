@@ -18,12 +18,25 @@ class PaymentController extends Controller
         $this->stripe = $stripe;
     }
 
-    public function index()
-    {
-        // sólo las reservas del usuario logueado, con sus servicios
-        $reservations = Reservation::with('services')->where('user_id', auth()->id())->get();
-        return view('client.resources.payments.index', compact('reservations'));
-    }
+public function index()
+{
+    $userId = auth()->id();
+
+    // Pendientes de pago
+    $pending = Reservation::with('services')
+        ->where('user_id', $userId)
+        ->where('status', 'pending_pay')
+        ->get();
+
+    // Historial (ya pagadas)
+    $paid = Reservation::with(['services', 'payment'])
+        ->where('user_id', $userId)
+        ->where('status', 'paid')
+        ->get();
+
+    return view('client.resources.payments.index', compact('pending', 'paid'));
+}
+
 
 // PaymentController.php
 public function store(Request $request)
@@ -71,12 +84,21 @@ public function success(Request $request)
         'status'                   => 'complete',
         'stripe_payment_intent_id' => $session->payment_intent,
     ]);
-
+    $payment->reservation->update(['status' => 'paid']);
     return view('client.resources.payments.success', compact('payment'));
 }
 
     public function failure()
     {
         return view('client.resources.payments.failure');
+    }
+    public function show(int $id)
+    {
+        // Carga la reserva + pago
+        $payment = Payment::with('reservation.services')
+                        ->where('user_id', auth()->id())
+                        ->findOrFail($id);
+
+        return view('client.resources.payments.show', compact('payment'));
     }
 }
