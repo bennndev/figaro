@@ -37,7 +37,7 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('client.payments.index')" :active="request()->routeIs('client.payments.index')">
-                        {{ __('Servicios') }}
+                        {{ __('Pagos') }}
                     </x-nav-link>
                 </div>
 

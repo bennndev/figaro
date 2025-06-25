@@ -1,6 +1,6 @@
 <x-app-layout>
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-green-800">¡Pago Completo!</h2>
-  </x-slot>
-  <div class="p-6">Gracias por tu pago.</div>
+  <div class="container mx-auto p-6">
+    <h1 class="text-2xl font-semibold">Pago completado -- esobrad</h1>
+
+  </div>
 </x-app-layout>
