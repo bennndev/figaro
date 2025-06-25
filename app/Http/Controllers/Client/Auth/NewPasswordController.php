@@ -17,7 +17,7 @@ class NewPasswordController extends Controller
 {
     public function create(Request $request): View
     {
-        return view('client.auth.reset-password', ['request' => $request]);
+        return view('client.auth2.reset-password', ['request' => $request]);
     }
 
     public function store(Request $request): RedirectResponse
