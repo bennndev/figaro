@@ -49,8 +49,4 @@ class User extends Authenticatable implements MustVerifyEmail
         // Imagen por defecto
         return asset('images/default-profile.png');
     }
-        public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
 }
