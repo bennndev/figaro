@@ -24,5 +24,11 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
               ->name('payments.failure');
     Route::get('payments/pending', [PaymentController::class, 'pending'])
               ->name('payments.pending');
+                  // Asistente
+    Route::resource('assistant', \App\Http\Controllers\Client\Resources\AssistantController::class)
+        ->only(['index']);
+    
+    Route::post('assistant/ask', [\App\Http\Controllers\Client\Resources\AssistantController::class, 'ask'])
+        ->name('assistant.ask');
 });
 
