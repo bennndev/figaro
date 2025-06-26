@@ -3,6 +3,10 @@
 namespace App\Services\Client\Resources;
 
 use App\Models\Reservation;
+use App\Models\Schedule;
+use App\Models\Service;
+
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -77,7 +81,7 @@ class ReservationService
                 'status' => 'pending_pay',
             ]);
 
-            $reservation->services()->sync($data['services']);
+            $reservation->services()->sync(array_values($data['services']));
 
             return $reservation->load('services', 'barber');
         });
@@ -95,5 +99,61 @@ class ReservationService
         ]);
 
         return $reservation;
+    }
+
+/**
+ * Obtener bloques de tiempo disponibles según barbero, horario y múltiples servicios
+ */
+    public function getAvailableSlots(int $barberId, int $scheduleId, array $serviceIds): array
+    {
+        $schedule = Schedule::where('barber_id', $barberId)->findOrFail($scheduleId);
+        $totalDuration = (int) Service::whereIn('id', $serviceIds)->sum('duration_minutes');
+
+        if ($totalDuration <= 0) {
+            return [];
+        }
+
+        $start = Carbon::parse($schedule->start_time);
+        $end = Carbon::parse($schedule->end_time);
+
+        // 🔴 Obtenemos TODAS las reservas del barbero para ese día con sus servicios
+        $reservations = Reservation::with('services')
+            ->where('barber_id', $barberId)
+            ->where('reservation_date', $schedule->date)
+            ->get();
+
+        // 🔐 Calculamos los rangos de tiempo ocupados
+        $blockedRanges = $reservations->map(function ($reservation) {
+            $start = Carbon::parse($reservation->reservation_time);
+            $duration = $reservation->services->sum('duration_minutes');
+            return [
+                'start' => $start,
+                'end' => $start->copy()->addMinutes($duration),
+            ];
+        });
+
+        $availableSlots = [];
+
+        // 📆 Generamos bloques disponibles evitando solapamientos
+        while ($start->copy()->addMinutes($totalDuration)->lte($end)) {
+            $slotStart = $start->copy();
+            $slotEnd = $start->copy()->addMinutes($totalDuration);
+
+            // ❌ Si se solapa con cualquier bloque reservado, se descarta
+            $overlaps = $blockedRanges->contains(function ($range) use ($slotStart, $slotEnd) {
+                return $slotStart->lt($range['end']) && $slotEnd->gt($range['start']);
+            });
+
+            if (! $overlaps) {
+                $availableSlots[] = [
+                    'start' => $slotStart->format('H:i'),
+                    'end' => $slotEnd->format('H:i'),
+                ];
+            }
+
+            $start->addMinutes($totalDuration);
+        }
+
+        return $availableSlots;
     }
 }
