@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Client\Resources\Reservation\CreateReservationRequest;
 use App\Http\Requests\Client\Resources\Reservation\UpdateReservationRequest;
 use App\Http\Requests\Client\Resources\Reservation\FilterReservationRequest;
+use App\Http\Requests\Client\Resources\Reservation\AvailableSlotsRequest;
+
 # Modelos
 use App\Models\Reservation;
 use App\Models\Barber;
@@ -81,4 +83,27 @@ class ReservationController extends Controller
         return redirect()->route('client.reservations.index')
                          ->with('message', 'Reserva cancelada correctamente');
     }
+
+    /**
+     * Obtener bloques de horario disponibles (AJAX)
+     */
+    public function availableSlots(Request $request)
+    {
+        \Log::info('LLEGÓ A LA RUTA DE SLOTS ✅');
+        \Log::info($request->all());
+
+        try {
+            $slots = $this->service->getAvailableSlots(
+                $request->input('barber_id'),
+                $request->input('schedule_id'),
+                $request->input('services')
+            );
+
+            return response()->json($slots);
+        } catch (\Exception $e) {
+            \Log::error('Error en getAvailableSlots(): ' . $e->getMessage());
+            return response()->json(['error' => 'Error interno: ' . $e->getMessage()], 500);
+        }
+    }
+    
 }

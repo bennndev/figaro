@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client\Resources;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Resources\Barber\FilterBarberRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 use App\Services\Client\Resources\BarberService;
 
@@ -72,5 +73,17 @@ class BarberController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function availableSchedules(Request $request, int $barberId): JsonResponse
+    {
+        $date = $request->query('date');
+
+        if (!$date) {
+            return response()->json(['error' => 'Fecha requerida'], 422);
+        }
+
+        $schedules = $this->service->getSchedulesByDate($barberId, $date);
+        return response()->json($schedules);
     }
 }
