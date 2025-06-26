@@ -23,7 +23,7 @@ class BarberController extends Controller
         $specialties = $this->service->getSpecialties();
 
 
-        return view('client.resources.barber.index', compact('barbers', 'filters', 'specialties'));
+        return view('client.resources2.barber.index', compact('barbers', 'filters', 'specialties'));
     }
 
     /**
