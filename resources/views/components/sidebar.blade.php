@@ -4,53 +4,45 @@
     }
 @endphp
 
-<nav class="flex flex-col justify-between h-full">
+<nav class="flex flex-col justify-between h-full relative text-sm">
+    {{-- Imagen/Ícono en la cabecera --}}
+    
+
     {{-- Opciones de menú --}}
     <div class="space-y-3">
-        <a href="{{ route('inicio') }}" 
-           class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('inicio') }}">
-            <i class="bi bi-house-door-fill mr-4 text-2xl"></i> Inicio
+        <div class="flex justify-center my-2">
+    <img src="{{ asset('images/imagen.svg') }}" alt="Ícono"
+         class="w-32 h-32 drop-shadow-xl">
+</div>
+
+        <a href="{{ route('dashboard') }}" 
+           class="flex items-center px-4 py-3 rounded transition {{ isActive('dashboard') }}">
+            <i class="bi bi-speedometer2 mr-3 text-lg"></i> Dashboard
         </a>
 
-        <a href="{{ route('perfil') }}"
-            class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('perfil') }}">
-             <i class="bi bi-person-circle mr-4 text-2xl"></i> Perfil
+        <a href="{{ route('client.reservations.index') }}"
+           class="flex items-center px-4 py-3 rounded transition {{ isActive('client.reservations.index') }}">
+            <i class="bi bi-calendar-check-fill mr-3 text-lg"></i> Reservas
         </a>
 
-        <a href="{{ route('usuarios') }}"
-         class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('usuarios') }}">
-            <i class="bi bi-people-fill mr-4 text-2xl"></i> Usuarios
+        <a href="{{ route('client.barbers.index') }}"
+           class="flex items-center px-4 py-3 rounded transition {{ isActive('client.barbers.index') }}">
+            <i class="bi bi-scissors mr-3 text-lg"></i> Barberos
         </a>
 
-        <a href="{{ route('barberos') }}"
-         class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('barberos') }}">
-            <i class="bi bi-scissors mr-4 text-2xl"></i> Barberos
-        </a>
-
-        <a href="{{ route('servicios') }}"
-         class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('servicios') }}">
-            <i class="bi bi-bag-check-fill mr-4 text-2xl"></i> Servicios
-        </a>
-
-        <a href="{{ route('facturas') }}"
-         class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('facturas') }}">
-            <i class="bi bi-receipt-cutoff mr-4 text-2xl"></i> Facturas
-        </a>
-
-        <a href="{{ route('reservas') }}"
-         class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('reservas') }}">
-            <i class="bi bi-calendar-check-fill mr-4 text-2xl"></i> Reservas
+        <a href="{{ route('client.services.index') }}"
+           class="flex items-center px-4 py-3 rounded transition {{ isActive('client.services.index') }}">
+            <i class="bi bi-bag-check-fill mr-3 text-lg"></i> Servicios
         </a>
     </div>
 
     {{-- Botón de cerrar sesión --}}
-    <div class="mt-8">
+    <div class="mt-6 px-4 mb-4">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="w-full flex items-center px-5 py-4 rounded bg-white text-black hover:bg-gray-200 text-xl transition">
-                <i class="bi bi-box-arrow-right mr-4 text-2xl"></i> Cerrar sesión
+            <button type="submit" class="w-full flex items-center px-4 py-3 rounded bg-white text-black hover:bg-gray-200 transition text-sm">
+                <i class="bi bi-box-arrow-right mr-3 text-lg"></i> Cerrar sesión
             </button>
         </form>
     </div>
 </nav>
-

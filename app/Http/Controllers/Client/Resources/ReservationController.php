@@ -30,7 +30,7 @@ class ReservationController extends Controller
         $filters = $request->validated(); // incluso si está vacío, mantiene el estándar
         $reservations = $this->service->filter($filters);
     
-        return view('client.resources.reservation.index', compact('reservations', 'filters'));
+        return view('client.resources2.reservation.index', compact('reservations', 'filters'));
     }
 
     public function create()
