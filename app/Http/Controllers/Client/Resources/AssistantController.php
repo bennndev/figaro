@@ -14,47 +14,56 @@ class AssistantController extends Controller
 
     public function index()
     {
-        return view('client.resources.assistant.index');
+        // Al entrar, limpiamos historial (opcional)
+//      session()->forget('assistant.history');
+
+        return view('client.resources.assistant.index', [
+            'history' => session('assistant.history', [])
+        ]);
     }
 
-    public function ask(AssistantRequest $request)
-    {
-        $validated = $request->validated();
-        $response = $this->service->askQuestion($validated['prompt']);
+public function ask(AssistantRequest $request)
+{
+    try {
+        $prompt = $request->validated()['prompt'];
 
-        if (!$response['success']) {
+        // 1) Pushear mensaje del usuario al historial
+        session()->push('assistant.history', [
+            'role'    => 'user',
+            'content' => $prompt,
+        ]);
+
+        $history = session('assistant.history', []);
+
+        // 2) Preguntar al servicio con prompt + historial
+        $res = $this->service->askQuestion($prompt, $history);
+
+        if (! $res['success']) {
             return response()->json([
-                'message' => $response['error'],
-                'errors' => [
-                    'prompt' => [$response['error']]
-                ]
+                'message' => $res['error'],
+                'errors'  => ['prompt'=> [$res['error']]],
             ], 422);
         }
 
-        return response()->json([
-            'reply' => $response['reply'],
-            'status' => 'success'
-        ]);
-         try {
-        $response = $this->service->askQuestion($request->prompt);
-        
-        if (!$response['success']) {
-            return response()->json([
-                'message' => $response['error'],
-                'errors' => ['prompt' => [$response['error']]]
-            ], 422);
-        }
+        $reply = $res['reply'];
 
-        return response()->json([
-            'reply' => $response['reply'],
-            'status' => 'success'
+        // 3) Pushear respuesta al historial
+        session()->push('assistant.history', [
+            'role'    => 'assistant',
+            'content' => $reply,
         ]);
 
+        // 4) Devolver JSON
+        return response()->json([
+            'reply'  => $reply,
+            'status' => 'success',
+            'history'=> session('assistant.history'),
+        ]);
     } catch (\Exception $e) {
         return response()->json([
             'message' => 'Error interno del servidor',
             'errors' => ['prompt' => ['Ocurrió un error inesperado']]
         ], 500);
     }
-    }
+}
 }
