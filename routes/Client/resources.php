@@ -22,4 +22,6 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     # Solo vistas de barberos y servicios
     Route::resource('barbers', BarberController::class)->only(['index', 'show']);
     Route::resource('services', ServiceController::class)->only(['index', 'show']);
+    # Endpoint personalizado: obtener servicios por especialidad (AJAX)
+Route::get('services/specialty/{id}', [ServiceController::class, 'getBySpecialty'])->name('services.getBySpecialty');
 });
