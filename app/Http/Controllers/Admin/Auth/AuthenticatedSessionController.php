@@ -15,7 +15,7 @@ class AuthenticatedSessionController extends Controller
     # Se envia al formulario de login
     public function create(): View
     {
-        return view('admin.auth.login');
+        return view('admin.auth2.login');
     }
 
     # Se procesan los datos de logueo y se envia al dashbaord si son correctos.

@@ -14,6 +14,7 @@ class UpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' =>'sometimes|string|max:255',
             'date'  => 'sometimes|date_format:Y-m-d',
             'start_time'     => 'sometimes|date_format:H:i|before:end_time',
             'end_time'       => 'sometimes|date_format:H:i|after:start_time',

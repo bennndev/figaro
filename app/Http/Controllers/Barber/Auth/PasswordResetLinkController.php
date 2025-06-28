@@ -15,7 +15,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): View
     {
-        return view('barber.auth.forgot-password');
+        return view('barber.auth2.forgot-password');
     }
 
     /**

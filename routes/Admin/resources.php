@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Resources\BarberController;
 use App\Http\Controllers\Admin\Resources\SpecialtyController;
 use App\Http\Controllers\Admin\Resources\ClientController;
 use App\Http\Controllers\Admin\Resources\ServiceController;
+use App\Http\Controllers\Admin\Resources\ScheduleController;
 
 Route::middleware(['auth:admin', 'admin.verified'])->prefix('admin')->name('admin.')->group(function () {
     # CRUD Barberos - Admin
@@ -13,7 +14,9 @@ Route::middleware(['auth:admin', 'admin.verified'])->prefix('admin')->name('admi
     # CRUD Especialidades - Admin
     Route::resource('specialties', SpecialtyController::class);
     # CRUD Clientes - Admin (Solo ver los registros)
-    Route::resource('clients', ClientController::class)->only(['index', 'show']);
+    Route::resource('clients', ClientController::class);
     # CRUD Servicios - Admin
     Route::resource('services', ServiceController::class);
+    # CRUD Horarios - Admin
+    Route::resource('schedules', ScheduleController::class);
 });

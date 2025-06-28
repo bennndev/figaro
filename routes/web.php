@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Rutas públicas
 Route::get('/', function () {
-    return view('home');
+    return view('welcome2');
 });
 
 Route::get('/reservar', function () {

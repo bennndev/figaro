@@ -23,7 +23,7 @@ class ServiceController extends Controller
         $services = $this->service->filter($filters);
         $specialties = $this->service->getSpecialties();
 
-        return view('client.resources.service.index', compact('services', 'filters', 'specialties'));
+        return view('client.resources2.service.index', compact('services', 'filters', 'specialties'));
     }
 
     public function create()

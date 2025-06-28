@@ -46,6 +46,7 @@
                         <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
                             <thead style="background-color: #f2f2f2;">
                                 <tr>
+                                    <th>Nombre</th>
                                     <th>ID</th>
                                     <th>Día</th>
                                     <th>Hora de Inicio</th>
@@ -56,6 +57,7 @@
                             <tbody>
                                 @foreach ($schedules as $schedule)
                                     <tr>
+                                        <td>{{ $schedule->name }}</td>
                                         <td>{{ $schedule->id }}</td>
                                         <td>{{ $schedule->date->format('Y-m-d') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</td>
@@ -86,6 +88,46 @@
                     <div style="margin-top: 20px;">
                         <a href="{{ route('barber.schedules.create') }}">+ Crear nuevo horario</a>
                     </div>
+
+                    {{-- FullCalendar --}}
+                    <hr style="margin: 40px 0;">
+                    <h3 style="font-weight: bold; margin-bottom: 10px;">Calendario de Horarios</h3>
+                    <div id="calendar"></div>
+
+                    {{-- FullCalendar scripts --}}
+                    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+                    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+                    @php
+                        $calendarEvents = $schedules->map(function ($s) {
+                            return [
+                                'title' => $s->name,
+                                'start' => $s->date->format('Y-m-d') . 'T' . $s->start_time,
+                                'end' => $s->date->format('Y-m-d') . 'T' . $s->end_time,
+                                'color' => $s->status === 'available' ? 'blue' : 'red',
+                            ];
+                        });
+                    @endphp
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            let calendarEl = document.getElementById('calendar');
+
+                            let calendar = new FullCalendar.Calendar(calendarEl, {
+                                initialView: 'dayGridMonth',
+                                locale: 'es',
+                                height: 650,
+                                headerToolbar: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                                },
+                                events: @json($calendarEvents)
+                            });
+
+                            calendar.render();
+                        });
+                    </script>
                 </div>
             </div>
         </div>

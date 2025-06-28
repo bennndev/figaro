@@ -20,7 +20,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('barber.auth.reset-password', ['request' => $request]);
+        return view('barber.auth2.reset-password', ['request' => $request]);
     }
 
     /**

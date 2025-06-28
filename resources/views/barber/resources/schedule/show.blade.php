@@ -10,6 +10,7 @@
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
 
                 <div style="margin-bottom: 20px;">
+                    <p><strong>Nombre:</strong> {{ $schedule->name }}</p>
                     <p><strong>ID:</strong> {{ $schedule->id }}</p>
                     <p><strong>Fecha:</strong> {{ $schedule->date->format('Y-m-d') }}</p>
                     <p><strong>Hora de Inicio:</strong> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</p>
