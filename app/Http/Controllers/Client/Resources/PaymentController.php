@@ -10,6 +10,7 @@ use App\Models\Payment;
 use Stripe\StripeClient;
 use App\Models\Reservation;
 use App\Notifications\Notifications\PaymentNotifier;
+use Barryvdh\DomPDF\Facade\Pdf;
 class PaymentController extends Controller
 {
     protected StripeService $stripe;
@@ -107,5 +108,19 @@ public function success(Request $request)
                         ->findOrFail($id);
 
         return view('client.resources.payments.show', compact('payment'));
+    }
+        public function downloadReport(int $id)
+    {
+        // 1) Carga el pago con su reserva, cliente y barbero
+        $payment     = Payment::with('reservation.services', 'reservation.user', 'reservation.barber')
+                              ->findOrFail($id);
+        $reservation = $payment->reservation;
+
+        // 2) Genera el PDF a partir de la vista Blade
+        $pdf = Pdf::loadView('client.resources.reportes.reservation', compact('reservation', 'payment'))
+                  ->setPaper('a4', 'portrait');
+
+        // 3) Devuelve la descarga
+        return $pdf->download("reporte_pago_{$payment->id}.pdf");
     }
 }

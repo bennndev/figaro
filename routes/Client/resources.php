@@ -34,10 +34,16 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
          ->name('payments.failure');
     Route::get('payments/pending', [PaymentController::class, 'pending'])
          ->name('payments.pending');
-
     ## Después el resource que incluye index, store y show(id)
     Route::resource('payments', PaymentController::class)
          ->only(['index','store','show']);
+     ## Generar reporte PDF del pago
+    # Este endpoint descarga el reporte del pago en PDF
+    Route::get(
+        'payments/{id}/report',
+        [PaymentController::class, 'downloadReport']
+    )->name('payments.report');
+     # Asistente
     Route::resource('assistant', \App\Http\Controllers\Client\Resources\AssistantController::class)
         ->only(['index']);
     Route::post('assistant/ask', [\App\Http\Controllers\Client\Resources\AssistantController::class, 'ask'])
