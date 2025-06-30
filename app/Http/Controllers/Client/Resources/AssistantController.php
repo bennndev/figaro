@@ -17,7 +17,7 @@ class AssistantController extends Controller
         // Al entrar, limpiamos historial (opcional)
 //      session()->forget('assistant.history');
 
-        return view('client.resources.assistant.index', [
+        return view('client.resources2.assistant.index', [
             'history' => session('assistant.history', [])
         ]);
     }

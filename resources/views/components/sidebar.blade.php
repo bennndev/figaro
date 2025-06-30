@@ -8,15 +8,12 @@
     {{-- Imagen/Ícono en la cabecera --}}
     
 
-
-
     {{-- Opciones de menú --}}
     <div class="space-y-2">
         <div class="flex justify-center my-1">
-    <img src="{{ asset('images/imagen.svg') }}" alt="Ícono"
-         class="max-w-[80px] max-h-[80px] drop-shadow-xl"> <!-- Tamaño máximo aumentado -->
-</div>
-<!-- Ajustado el espacio entre opciones -->
+        <img src="{{ asset('images/imagen.svg') }}" alt="Ícono"
+             class="max-w-[80px] max-h-[80px] drop-shadow-xl">
+    </div>  
         <a href="{{ route('dashboard') }}" 
            class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('dashboard') }}">
             <i class="bi bi-speedometer2 mr-3 text-lg"></i> Dashboard
@@ -36,10 +33,17 @@
            class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('client.services.index') }}">
             <i class="bi bi-bag-check-fill mr-3 text-lg"></i> Servicios
         </a>
+
+        <a href="{{ route('client.payments.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('client.payments.index') }}">
+            <i class="bi bi-credit-card-fill mr-3 text-lg"></i> Pagos
+        </a>
+
+        
     </div>
 
     {{-- Botón de cerrar sesión --}}
-    <div class="mt-4 px-4 mb-4"> <!-- Ajustado margen superior -->
+    <div class="mt-4 px-4 mb-4">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" 

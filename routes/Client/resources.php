@@ -26,14 +26,20 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     Route::post('reservations/available-slots', [ReservationController::class, 'availableSlots'])
         ->name('reservations.available-slots');
 
-    // Pagos (Stripe u otro)
-    Route::resource('payments', PaymentController::class)->only(['index', 'store', 'show']);
-    Route::get('payments/success', [PaymentController::class, 'success'])->name('payments.success');
-    Route::get('payments/failure', [PaymentController::class, 'failure'])->name('payments.failure');
-    Route::get('payments/pending', [PaymentController::class, 'pending'])->name('payments.pending');
+    ## Primero los callbacks “estáticos” para evitar choque con payments/{payment}
+    Route::get('payments/success', [PaymentController::class, 'success'])
+         ->name('payments.success');
+    Route::get('payments/failure', [PaymentController::class, 'failure'])
+         ->name('payments.failure');
+    Route::get('payments/pending', [PaymentController::class, 'pending'])
+         ->name('payments.pending');
 
-    // Asistente (IA o similar)
-    Route::resource('assistant', AssistantController::class)->only(['index']);
-    Route::post('assistant/ask', [AssistantController::class, 'ask'])->name('assistant.ask');
+    ## Después el resource que incluye index, store y show(id)
+    Route::resource('payments', PaymentController::class)
+         ->only(['index','store','show']);
+    Route::resource('assistant', \App\Http\Controllers\Client\Resources\AssistantController::class)
+        ->only(['index']);
+    Route::post('assistant/ask', [\App\Http\Controllers\Client\Resources\AssistantController::class, 'ask'])
+        ->name('assistant.ask');
 });
 

@@ -54,7 +54,13 @@
             <main class="p-6">
                 {{ $slot }}
             </main>
+
+            {{-- Asistente virtual (Modal del robot) --}}
+            <x-robot-modal :history="[]" />
         </div>
     </div>
+
+    {{-- Scripts del modal --}}
+    @stack('scripts')
 </body>
 </html>

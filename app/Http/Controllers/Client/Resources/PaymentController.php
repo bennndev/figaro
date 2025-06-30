@@ -34,7 +34,7 @@ public function index()
         ->where('status', 'paid')
         ->get();
 
-    return view('client.resources.payments.index', compact('pending', 'paid'));
+    return view('client.resources2.payments.index', compact('pending', 'paid'));
 }
 
 
@@ -90,7 +90,7 @@ public function success(Request $request)
 
     public function failure()
     {
-        return view('client.resources.payments.failure');
+        return view('client.resources2.payments.failure');
     }
     public function show(int $id)
     {
@@ -99,6 +99,6 @@ public function success(Request $request)
                         ->where('user_id', auth()->id())
                         ->findOrFail($id);
 
-        return view('client.resources.payments.show', compact('payment'));
+        return view('client.resources2.payments.show', compact('payment'));
     }
 }
