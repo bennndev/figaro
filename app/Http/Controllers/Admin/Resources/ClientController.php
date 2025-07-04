@@ -19,12 +19,12 @@ class ClientController extends Controller
         $filters = $request->validated();
         $clients = $this->service->filter($filters);
 
-        return view('admin.resources.client.index', compact('clients', 'filters'));
+        return view('admin.resources2.client.index', compact('clients', 'filters'));
     }
 
     public function create()
     {
-        return view('admin.resources.client.create');
+        return view('admin.resources2.client.create');
     }
 
     public function store(CreateClientRequest $request)
@@ -38,14 +38,14 @@ class ClientController extends Controller
     {
         $client = $this->service->find($id);
 
-        return view('admin.resources.client.show', compact('client'));
+        return view('admin.resources2.client.show', compact('client'));
     }
 
     public function edit(int $id)
     {
         $client = $this->service->find($id);
 
-        return view('admin.resources.client.edit', compact('client'));
+        return view('admin.resources2.client.edit', compact('client'));
     }
 
     public function update(UpdateClientRequest $request, int $id)

@@ -1,12 +1,7 @@
-<section>
+<section class="bg-[#2A2A2A] text-white p-6 rounded-xl shadow-lg">
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Barber Information') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information.") }}
-        </p>
+        <h2 class="text-lg font-semibold">Información del Barbero</h2>
+        <p class="mt-1 text-sm text-gray-400">Actualiza la información de tu perfil.</p>
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
@@ -17,100 +12,156 @@
         @csrf
         @method('patch')
 
-        {{-- Name --}}
+        <!-- Nombre -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="given-name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <label for="name" class="block text-sm font-medium text-white mb-1">Nombre</label>
+            <input id="name" name="name" type="text"
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                value="{{ old('name', $user->name) }}" required>
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('name')" />
         </div>
 
-        {{-- Last Name --}}
+        <!-- Apellido -->
         <div>
-            <x-input-label for="last_name" :value="__('Last Name')" />
-            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autocomplete="family-name" />
-            <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
+            <label for="last_name" class="block text-sm font-medium text-white mb-1">Apellido</label>
+            <input id="last_name" name="last_name" type="text"
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                value="{{ old('last_name', $user->last_name) }}" required>
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('last_name')" />
         </div>
 
-        
-        {{-- Profile Photo --}}
+        <!-- Foto de Perfil -->
         <div>
-            <x-input-label for="profile_photo" :value="__('Profile Photo')" />
+            <label for="profile_photo" class="block text-sm font-medium text-white mb-1">Foto de perfil</label>
             @if ($user->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Current Profile Photo" class="h-20 w-20 object-cover rounded-full mb-2">
+                <img src="{{ asset('storage/' . $user->profile_photo) }}" class="h-20 w-20 object-cover rounded-full mb-2">
             @endif
-            <input id="profile_photo" name="profile_photo" type="file" class="block w-full text-sm text-gray-500" accept="image/*" />
-            <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
+            <input id="profile_photo" name="profile_photo" type="file"
+                class="block w-full text-sm text-white bg-[#1E1E1E] border border-gray-600 rounded px-3 py-2 file:bg-[#2A2A2A] file:text-white file:border-0 file:rounded file:px-4 file:py-1 hover:file:bg-white/10 transition"
+                accept="image/*" />
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('profile_photo')" />
         </div>
-        
-        {{-- Email --}}
+
+        <!-- Correo electrónico -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <label for="email" class="block text-sm font-medium text-white mb-1">Correo electrónico</label>
+            <input id="email" name="email" type="email"
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                value="{{ old('email', $user->email) }}" required>
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div class="mt-2">
-                    <p class="text-sm text-gray-800">
-                        {{ __('Your email address is unverified.') }}
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                <div class="mt-2 text-sm text-white">
+                    Tu correo no está verificado.
+                    <button form="send-verification" class="underline text-sm text-gray-300 hover:text-white">
+                        Haz clic aquí para reenviar el correo de verificación.
+                    </button>
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                        <p class="mt-2 font-medium text-green-400">
+                            Se envió un nuevo enlace de verificación a tu correo.
                         </p>
                     @endif
                 </div>
             @endif
         </div>
 
-        {{-- Specialties --}}
-        <div>
-            <x-input-label for="specialties" :value="__('Specialties (max. 3)')" />
+        <!-- Especialidades -->
+        <div x-data="multiselectDropdown()" x-init="init()" class="relative w-full">
+            <label class="block text-sm font-medium text-white mb-2">Especialidades (máx. 3):</label>
+            <button @click="toggle" type="button"
+                class="w-full bg-[#1E1E1E] text-white border border-gray-600 rounded-md px-4 py-2 flex justify-between items-center">
+                <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Seleccionar especialidades'"></span>
+                <i class="bi bi-chevron-down ml-2"></i>
+            </button>
 
-            <select id="specialties" name="specialties[]" multiple
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200"
-                size="5">
-                @foreach ($specialties as $specialty)
-                    <option value="{{ $specialty->id }}"
-                        {{ in_array($specialty->id, old('specialties', $user->specialties->pluck('id')->toArray())) ? 'selected' : '' }}>
-                        {{ $specialty->name }}
-                    </option>
-                @endforeach
-            </select>
+            <div x-show="open" @click.outside="open = false"
+                class="absolute z-50 mt-2 w-full bg-[#2A2A2A] text-white rounded-md border border-gray-600 shadow-lg max-h-60 overflow-y-auto">
+                <div class="p-2 space-y-1">
+                    @foreach ($specialties as $specialty)
+                        <label class="flex items-center space-x-2 px-2 py-1 hover:bg-white/10 rounded">
+                            <input type="checkbox"
+                                value="{{ $specialty->id }}"
+                                x-ref="checkboxes"
+                                @change="updateSelection($event)"
+                                x-bind:checked="selected.includes({{ $specialty->id }})"
+                                class="text-blue-500 bg-transparent border-gray-500 rounded focus:ring-0">
+                            <span>{{ $specialty->name }}</span>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
 
-            <x-input-error class="mt-2" :messages="$errors->get('specialties')" />
+            <template x-for="id in selected" :key="id">
+                <input type="hidden" name="specialties[]" :value="id">
+            </template>
+
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('specialties')" />
         </div>
 
-        {{-- Phone Number --}}
+        <!-- Teléfono -->
         <div>
-            <x-input-label for="phone_number" :value="__('Phone Number')" />
-            <x-text-input id="phone_number" name="phone_number" type="text" class="mt-1 block w-full" :value="old('phone_number', $user->phone_number)" required />
-            <x-input-error class="mt-2" :messages="$errors->get('phone_number')" />
+            <label for="phone_number" class="block text-sm font-medium text-white mb-1">Teléfono</label>
+            <input id="phone_number" name="phone_number" type="text"
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                value="{{ old('phone_number', $user->phone_number) }}" required>
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('phone_number')" />
         </div>
 
-        {{-- Description --}}
+        <!-- Descripción -->
         <div>
-            <x-input-label for="description" :value="__('Description')" />
-            <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ old('description', $user->description) }}</textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('description')" />
+            <label for="description" class="block text-sm font-medium text-white mb-1">Descripción</label>
+            <textarea id="description" name="description" rows="4"
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500">{{ old('description', $user->description) }}</textarea>
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('description')" />
         </div>
 
+        <!-- Botón -->
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
+            <button type="submit"
+                class="bg-white text-[#2A2A2A] font-semibold rounded-md px-5 py-2 hover:bg-white/90 transition">
+                Guardar
+            </button>
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-400">Guardado.</p>
             @endif
         </div>
     </form>
 </section>
 
+
+<!-- Script para multiselect -->
+<script>
+function multiselectDropdown() {
+    return {
+        open: false,
+        selected: @json(old('specialties', $user->specialties->pluck('id')->toArray())),
+        selectedLabels: [],
+        toggle() {
+            this.open = !this.open;
+        },
+        updateSelection(event) {
+            const id = parseInt(event.target.value);
+            const label = event.target.nextElementSibling.innerText;
+
+            if (event.target.checked) {
+                if (this.selected.length < 3) {
+                    this.selected.push(id);
+                    this.selectedLabels.push(label);
+                } else {
+                    event.target.checked = false;
+                    alert('Solo puedes seleccionar hasta 3 especialidades.');
+                }
+            } else {
+                this.selected = this.selected.filter(i => i !== id);
+                this.selectedLabels = this.selectedLabels.filter(l => l !== label);
+            }
+        },
+        init() {
+            const selectedFromServer = @json($user->specialties->map(fn($s) => ['id' => $s->id, 'name' => $s->name]));
+            this.selectedLabels = selectedFromServer.map(item => item.name);
+            this.selected = selectedFromServer.map(item => item.id);
+        }
+    };
+}
+</script>

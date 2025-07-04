@@ -28,12 +28,12 @@ class SpecialtyController extends Controller
         $filters = $request->validated();
         $specialties = $this->service->filter($filters);
 
-        return view('admin.resources.specialty.index', compact('specialties', 'filters'));
+        return view('admin.resources2.specialty.index', compact('specialties', 'filters'));
     }
 
     public function create()
     {
-        return view('admin.resources.specialty.form', [ 'specialty' => new Specialty() ]);
+        return view('admin.resources2.specialty.form', [ 'specialty' => new Specialty() ]);
     }
 
     public function store(CreateSpecialtyRequest $request)
@@ -47,14 +47,14 @@ class SpecialtyController extends Controller
     {
 
         $specialty = $this->service->find($id);
-        return view('admin.resources.specialty.show', compact('specialty'));
+        return view('admin.resources2.specialty.show', compact('specialty'));
     }
 
     public function edit(int $id)
     {
         $specialty = $this->service->find($id);
 
-        return view('admin.resources.specialty.update', compact('specialty'));
+        return view('admin.resources2.specialty.update', compact('specialty'));
     }
 
     public function update(UpdateSpecialtyRequest $request, int $id)

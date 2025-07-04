@@ -12,6 +12,6 @@ class BarberAppLayout extends Component
      */
     public function render(): View
     {
-        return view('barber.layouts.app');
+        return view('barber.layouts2.app');
     }
 }
