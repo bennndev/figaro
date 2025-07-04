@@ -18,7 +18,6 @@ class UpdateScheduleRequest extends FormRequest
             'date'  => 'sometimes|date_format:Y-m-d',
             'start_time'     => 'sometimes|date_format:H:i|before:end_time',
             'end_time'       => 'sometimes|date_format:H:i|after:start_time',
-            'status'         => 'sometimes|in:available,booked',
         ];
     }
 }

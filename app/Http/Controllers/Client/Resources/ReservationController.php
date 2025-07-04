@@ -37,7 +37,7 @@ class ReservationController extends Controller
 
     public function create()
     {
-        return view('client.resources.reservation.form', 
+        return view('client.resources2.reservation.form', 
         [ 
             'reservation' => new Reservation, 
             'barbers' => Barber::all(),
@@ -55,13 +55,13 @@ class ReservationController extends Controller
     public function show(int $id)
     {
         $reservation = $this->service->find($id);
-        return view('client.resources.reservation.show', compact('reservation'));
+        return view('client.resources2.reservation.show', compact('reservation'));
     }
 
     public function edit(int $id)
     {
         $reservation = $this->service->find($id);
-        return view('client.resources.reservation.edit', compact('reservation'));
+        return view('client.resources2.reservation.edit', compact('reservation'));
     }
 
     public function update(UpdateReservationRequest $request, int $id)
