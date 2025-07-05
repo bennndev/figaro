@@ -58,6 +58,10 @@
 
 
                     {{-- Mensaje de éxito --}}
+                     @if (session('message'))
+                                       <x-admin.alert-success />
+
+                    @endif
                     {{-- Tabla de resultados --}}
 @if ($services->isEmpty())
     <p class="text-gray-300">No hay servicios registrados.</p>
@@ -107,8 +111,7 @@
 
                         {{-- Eliminar --}}
                         <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST"
-                              class="inline"
-                              onsubmit="return confirm('¿Estás seguro que deseas eliminar este servicio?');">
+                              class="inline delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" title="Eliminar"
@@ -137,13 +140,7 @@
                     </div>
 
                     {{-- Crear nuevo --}}
-                    <div x-data="{ showServiceModal: false }" class="mt-6">
-    <button 
-        @click="showServiceModal = true"
-        class="px-5 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition"
-    >
-        + Crear nuevo servicio
-    </button>
+<div class="mt-6">
 
     <x-admin.service-create :specialties="$specialties" />
 
@@ -153,4 +150,5 @@
             </div>
         </div>
     </div>
+    <x-admin.alert-delete />
 </x-admin-app-layout>

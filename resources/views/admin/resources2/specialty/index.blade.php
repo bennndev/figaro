@@ -119,13 +119,7 @@
 
 
                     {{-- Botón --}}
-                    <div x-data="{ showModal: false }" class="mt-6">
-    <button 
-        @click="showModal = true"
-        class="px-5 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition"
-    >
-        + Crear nueva especialidad
-    </button>
+                    <div class="mt-6">
 
     <!-- Componente del modal -->
     <x-admin.specialty-create />

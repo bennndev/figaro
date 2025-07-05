@@ -80,9 +80,11 @@
 
                     {{-- Icono PDF (solo si está pagado) --}}
                     @if ($reservation->status === 'paid')
-                        <span class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-xl" title="PDF Comprobante">
+                        <a href="{{ route('client.payments.report', $reservation->payment->id) }}" 
+                           target="_blank"
+                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-xl" title="PDF Comprobante">
                             <i class="bi bi-filetype-pdf"></i>
-                        </span>
+                        </a>
                     @endif
                 </td>
             </tr>

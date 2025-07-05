@@ -15,7 +15,7 @@
 </div><br>
         <a href="{{ route('dashboard') }}" 
            class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('dashboard') }}">
-            <i class="bi bi-speedometer2 mr-3 text-xl"></i> Dashboard
+            <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
 
         <a href="{{ route('profile.edit') }}" 

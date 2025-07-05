@@ -12,10 +12,13 @@
     {{-- Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{-- Bootstrap Icons --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-    {{-- Tailwind CDN y Alpine.js --}}
+    {{-- Tailwind y Alpine.js --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -24,16 +27,41 @@
             font-family: 'DM Sans', sans-serif;
         }
         [x-cloak] {
-        display: none !important;
+            display: none !important;
+        }
+         input[type="date"],
+    input[type="time"],
+    select {
+        background-color: #1F1F1F;
+        color: white;
+        border: 1px solid #555;
     }
+
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    input[type="date"]:hover::-webkit-calendar-picker-indicator,
+    input[type="time"]:hover::-webkit-calendar-picker-indicator {
+        opacity: 1;
+    }
+
+    /* Placeholder blanco para campos vacíos */
+    input::placeholder {
+        color: #ccc;
+    }
+}
     </style>
 </head>
 <body class="bg-[#1E1E1E] text-white min-h-screen" x-data="{ sidebarOpen: false }">
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen overflow-hidden relative">
 
         {{-- SIDEBAR --}}
         <aside 
-            class="fixed inset-y-0 left-0 z-30 w-64 bg-[#2A2A2A] p-4 transform transition-transform duration-300 ease-in-out
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-[#2A2A2A] p-4 transform transition-transform duration-300 ease-in-out
                    md:relative md:translate-x-0 md:z-0"
             :class="{ '-translate-x-full': !sidebarOpen }"
             x-transition
@@ -43,32 +71,35 @@
 
         {{-- OVERLAY para móviles --}}
         <div 
-            class="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+            class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
             x-show="sidebarOpen"
             @click="sidebarOpen = false"
             x-transition.opacity
+            x-cloak
         ></div>
 
         {{-- CONTENIDO PRINCIPAL --}}
         <div class="flex-1 flex flex-col w-full overflow-y-auto">
-            
-            {{-- Header móvil --}}
-            <header class="bg-[#1E1E1E] shadow-md p-4 flex items-center justify-between md:hidden">
+
+            {{-- HEADER MÓVIL --}}
+            <header class="bg-[#1E1E1E] sticky top-0 z-30 shadow-md p-4 flex items-center justify-between md:hidden">
                 <button @click="sidebarOpen = true" class="text-white">
                     <i class="bi bi-list text-2xl"></i>
                 </button>
-                <h1 class="ml-4 text-xl font-bold">{{ $title }}</h1>
+                <h1 class="ml-4 text-xl font-bold ml-auto">Panel de Administración</h1>
             </header>
 
-            {{-- Header escritorio si se pasa --}}
+            {{-- HEADER ESCRITORIO --}}
             @isset($header)
-                <header class="bg-[#1E1E1E] p-6 shadow hidden md:block">
-                    <h2 class="text-2xl font-semibold text-white">{{ $header }}</h2>
+                <header class="bg-[#1E1E1E] sticky top-0 z-30 p-6 shadow hidden md:flex items-center justify-between">
+                    <div class="flex items-center">
+                        <h2 class="text-2xl font-semibold text-white">{{ $header }}</h2>
+                    </div>
                 </header>
             @endisset
 
-            {{-- Contenido --}}
-            <main class="p-6">
+            {{-- CONTENIDO --}}
+            <main class="p-6 mt-0 md:mt-[16px]">
                 {{ $slot }}
             </main>
         </div>

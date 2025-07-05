@@ -76,9 +76,7 @@
     
                 {{-- Mensaje de sesión --}}
                 @if (session('message'))
-                    <div>
-                        <p class="text-green-400 mb-4">{{ session('message') }}</p>
-                    </div>
+                    <x-admin.client-create />
                 @endif
 
                 {{-- Tabla de barberos --}}
@@ -135,17 +133,15 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form method="POST" action="{{ route('admin.barbers.destroy', $barber->id) }}"
-                              class="inline delete-form"
-                              onsubmit="return confirm('¿Estás seguro de eliminar este barbero?')">
+                        <form method="POST" action="{{ route('admin.barbers.destroy', $barber->id) }}" class="inline delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" title="Eliminar"
-                                    class="text-white hover:text-white/70 transition">
+                                class="text-white hover:text-white/70 transition">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </form>
-                    </div>
+
                 </td>
             </tr>
         @endforeach
@@ -165,13 +161,9 @@
 
  
 
-            </div>
-             {{-- Crear nuevo --}}
-               
-
-
-        </div>
-    </div>
+           
+    </div class="mt-6">
     <x-admin.barber-show />
+<x-admin.alert-delete />
 
 </x-admin-app-layout>

@@ -1,26 +1,35 @@
 @props(['specialties'])
 
-<div 
-    x-show="showServiceModal" 
-    x-transition 
-    x-cloak 
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-    style="display: none;"
->
-    <div class="bg-[#2A2A2A] text-white w-full max-w-2xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
-        <!-- Botón cerrar -->
-        <button 
-            @click="showServiceModal = false"
-            class="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl font-bold"
-        >
-            &times;
-        </button>
+<div x-data="{ showServiceModal: {{ $errors->any() ? 'true' : 'false' }} }">
+    <!-- BOTÓN ABRIR MODAL -->
+    <button 
+        @click="showServiceModal = true"
+        class="px-5 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition"
+    >
+        + Crear nuevo Servicio
+    </button>
 
-        <h2 class="text-2xl font-bold mb-6">Crear Servicio</h2>
+    <!-- MODAL -->
+    <div 
+        x-show="showServiceModal" 
+        x-transition 
+        x-cloak 
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    >
+        <div class="bg-[#2A2A2A] text-white w-full max-w-2xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
 
-        <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+            <!-- Botón cerrar -->
+            <button 
+                @click="showServiceModal = false"
+                class="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl font-bold"
+            >
+                &times;
+            </button>
 
+            <h2 class="text-2xl font-bold mb-6">Crear Servicio</h2>
+
+            <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
             <div class="space-y-4">
                 <div>
                     <label for="name" class="block text-sm font-medium">Nombre:</label>
@@ -101,15 +110,24 @@
 
             </div>
 
-            <div class="mt-6 flex justify-end">
-                <button type="submit"
-                        class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
-                    Guardar
-                </button>
-            </div>
-        </form>
+             <div class="mt-6 flex justify-end">
+                    <button type="submit"
+                            class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<x-utils.modal-error key="showServiceModal" />
+
+
+
+
+
+
 <script>
     function multiselectDropdown() {
         return {

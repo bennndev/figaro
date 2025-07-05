@@ -257,6 +257,19 @@
     .fc-theme-standard td, .fc-theme-standard th {
         border: 1px solid #3B3B3B;
     }
+
+    /* Solo para navegadores WebKit como Chrome, Edge, Brave, Safari */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 1;
+}
+
+/* Para Firefox: mejora la compatibilidad general */
+input[type="date"],
+input[type="time"] {
+    color-scheme: dark;
+}
 </style>
 
 

@@ -17,7 +17,7 @@
     </div>
         <a href="{{ route('barber.dashboard') }}" 
            class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.dashboard') }}">
-            <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Dashboard
+            <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
 <a href="{{ route('barber.profile.edit') }}" 
            class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.profile.edit') }}">

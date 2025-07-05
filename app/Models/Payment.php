@@ -15,7 +15,10 @@ class Payment extends Model
         'status',
         // …
     ];
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

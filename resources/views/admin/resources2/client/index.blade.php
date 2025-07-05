@@ -56,16 +56,15 @@
 
                     {{-- Mensaje éxito --}}
                     @if (session('message'))
-                        <div class="mb-4 text-green-300 bg-green-800/40  rounded-md px-4 py-2">
-                            {{ session('message') }}
-                        </div>
+                                       <x-admin.alert-success />
+
                     @endif
 
                     {{-- Tabla --}}
 @if ($clients->isEmpty())
     <p class="text-center text-gray-400 min-h-[200px]">No hay clientes registrados.</p>
 @else
-    <x-admin.table>
+    <x-admin.table class="min-w-[1000px]">
         <x-slot name="head">
             <tr>
                 <th class="px-4 py-3">ID</th>
@@ -99,16 +98,15 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form method="POST" action="{{ route('admin.clients.destroy', $client->id) }}"
-                            class="inline delete-form"
-                            onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" title="Eliminar"
-                                class="text-white hover:text-white/70 transition">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </form>
+                        <form method="POST" action="{{ route('admin.clients.destroy', $client->id) }}" class="inline delete-form">
+    @csrf
+    @method('DELETE')
+    <button type="submit" title="Eliminar"
+        class="text-white hover:text-white/70 transition">
+        <i class="bi bi-trash-fill"></i>
+    </button>
+</form>
+
                     </div>
                 </td>
             </tr>
@@ -131,4 +129,6 @@
             </div>
         </div>
     </div>
+    <x-admin.alert-delete />
+
 </x-admin-app-layout>

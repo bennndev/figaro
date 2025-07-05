@@ -98,11 +98,12 @@
       </p>
 
       <div class="flex justify-end">
-        <a
-          href="{{ route('client.payments.show', $reservation->payment->id) }}"
-          class="inline-block px-5 py-2 bg-white text-[#2A2A2A] font-semibold rounded-md hover:bg-gray-200 transition">
-          Ver más
-        </a>
+        <a href="{{ route('client.payments.report', $reservation->payment->id) }}" 
+                           target="_blank"
+                        class=" text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-3xl" title="PDF Comprobante">
+                            <i class="bi bi-filetype-pdf"></i>
+                        </a>
+
       </div>
     </div>
   @empty

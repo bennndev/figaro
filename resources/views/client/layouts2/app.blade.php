@@ -1,3 +1,4 @@
+
 @props(['title' => 'Panel de Cliente', 'header' => null])
 
 <!DOCTYPE html>
@@ -112,9 +113,12 @@
             {{-- Modal del asistente virtual --}}
             <x-client.robot-modal :history="[]" />
         </div>
+
     </div>
 
     {{-- Scripts adicionales --}}
     @stack('scripts')
 </body>
+
 </html>
+    

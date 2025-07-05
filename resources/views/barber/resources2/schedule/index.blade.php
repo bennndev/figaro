@@ -1,7 +1,9 @@
 <x-barber-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-white leading-tight">
-            Horarios
+        <h2 class="font-semibold text-2xl text-white leading-tight flex items-center space-x-2">
+            <span>Perfil del Barbero</span>
+            <span class="mx-2 text-white">/</span>
+            <a href="{{ route('barber.dashboard') }}" class="text-white">Inicio</a>
         </h2>
     </x-slot>
 
@@ -10,11 +12,9 @@
             <div class=" shadow-sm sm:rounded-lg text-white p-6">
 
                 {{-- Mensaje de éxito --}}
-                @if (session('message'))
-                    <p class="text-green-400 mb-4">
-                        {{ session('message') }}
-                    </p>
-                @endif
+               <x-barber.alert-success />
+ 
+
 
                 {{-- Filtros --}}
                 <form method="GET" action="{{ route('barber.schedules.index') }}" class="mb-6 flex flex-wrap gap-6 items-end">
@@ -62,8 +62,9 @@
                 @if ($schedules->isEmpty())
                     <p class="text-white">No hay horarios registrados.</p>
                 @else
-                    <div class="overflow-x-auto rounded-xl border border-gray-700">
-                        <table class="w-full text-left border-separate border-spacing-y-1 bg-[#1E1E1E] text-white">
+                    <div class="w-full overflow-x-auto rounded-xl border border-gray-700">
+    <table class="min-w-full table-auto text-left bg-[#1E1E1E] text-white">
+
                             <thead class="bg-[#2A2A2A] text-white">
                                 <tr>
                                     <th class="px-4 py-2">Nombre</th>
@@ -160,30 +161,12 @@
                         calendar.render();
                     });
 
-                    document.addEventListener('DOMContentLoaded', function () {
-        const forms = document.querySelectorAll('.delete-form');
+                    
 
-        forms.forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
 
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "¡Esta acción no se puede deshacer!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    });
+          
+
+
                 </script>
 
                 <style>
@@ -227,9 +210,33 @@
                     .fc-theme-standard th {
                         border: 1px solid #3B3B3B;
                     }
+                    
+/* Mejor visibilidad del input date/time */
+input[type="date"],
+input[type="time"],
+select {
+    background-color: #1F1F1F;
+    color: white;
+    border: 1px solid #555;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+input[type="date"]:hover::-webkit-calendar-picker-indicator,
+input[type="time"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}
+
                 </style>
 
             </div>
         </div>
     </div>
+    <x-barber.alert-delete />
+
 </x-barber-app-layout>

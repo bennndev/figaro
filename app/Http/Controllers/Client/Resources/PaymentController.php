@@ -9,13 +9,17 @@ use App\Services\Client\Resources\StripeService;
 use App\Models\Payment;
 use Stripe\StripeClient;
 use App\Models\Reservation;
+use App\Notifications\Notifications\PaymentNotifier;
+use Barryvdh\DomPDF\Facade\Pdf;
 class PaymentController extends Controller
 {
     protected StripeService $stripe;
-
-    public function __construct(StripeService $stripe)
+    protected PaymentNotifier $notifier;
+    
+    public function __construct(StripeService $stripe, PaymentNotifier $notifier)
     {
-        $this->stripe = $stripe;
+        $this->stripe   = $stripe;
+        $this->notifier = $notifier;
     }
 
 public function index()
@@ -79,18 +83,23 @@ public function success(Request $request)
                          ->with('error', 'El pago no se completó.');
     }
 
-    // Opcional: guarda el intent id si lo necesitas
+        // 1) Actualizamos el pago y la reserva
     $payment->update([
         'status'                   => 'complete',
         'stripe_payment_intent_id' => $session->payment_intent,
     ]);
     $payment->reservation->update(['status' => 'paid']);
+
+    // 2) ¡Disparamos la notificación WhatsApp!
+    $this->notifier->notify($payment);
+
     return view('client.resources.payments.success', compact('payment'));
 }
 
     public function failure()
     {
-        return view('client.resources2.payments.failure');
+        return view('client.resources.payments.cancel');
+
     }
     public function show(int $id)
     {
@@ -100,5 +109,19 @@ public function success(Request $request)
                         ->findOrFail($id);
 
         return view('client.resources2.payments.show', compact('payment'));
+    }
+        public function downloadReport(int $id)
+    {
+        // 1) Carga el pago con su reserva, cliente y barbero
+        $payment     = Payment::with('reservation.services', 'reservation.user', 'reservation.barber')
+                              ->findOrFail($id);
+        $reservation = $payment->reservation;
+
+        // 2) Genera el PDF a partir de la vista Blade
+        $pdf = Pdf::loadView('client.resources2.reportes.reservation', compact('reservation', 'payment'))
+                  ->setPaper('a4', 'portrait');
+
+        // 3) Devuelve la descarga
+        return $pdf->download("reporte_pago_{$payment->id}.pdf");
     }
 }

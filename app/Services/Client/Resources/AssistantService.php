@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Barber;
 use App\Models\Service;
+use App\Models\Schedule;
+use Carbon\Carbon;
 class AssistantService
 {
         /**
@@ -20,11 +22,22 @@ class AssistantService
             ->map(fn($b) => "{$b->name} ({$b->specialty})")
             ->join(', ');
         $servicios = Service::pluck('name')->join(', ');
+        $fechas  = Schedule::pluck('date')
+            ->map(fn($d) => $d->format('d/m/Y'))
+            ->join(', ');
+            // horarios (todos juntos)
+        $horarios = Schedule::all()
+        ->map(fn($s) => 
+            Carbon::parse($s->start_time)->format('H:i')
+            .' - '.
+            Carbon::parse($s->end_time)->format('H:i')
+        )
+        ->join(', ');
 
         // 2) Construir el system prompt
         $system = <<<EOT
         Eres Figaro Assistant, asistente virtual de la barbería Figaro.
-        Horarios: lunes–sábado 9:00–20:00.
+        Fechas: {$fechas}, Horarios: {$horarios}.
         Barberos disponibles: {$barberos}.
         Servicios: {$servicios}.
         Responde en español, de forma clara y profesional.

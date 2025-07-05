@@ -57,7 +57,7 @@
 
         {{-- 🔹 Sección de tarjetas sin fondo propio --}}
         <div class="py-6">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto">
                 @if ($services->isEmpty())
                     <p class="text-center text-gray-400 mt-10">No hay servicios disponibles.</p>
                 @else
