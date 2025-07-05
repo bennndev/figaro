@@ -24,13 +24,13 @@ class ServiceController extends Controller
         $services = $this->service->filter($filters);
         $specialties = $this->service->getSpecialties();	
 
-        return view('admin.resources.service.index', compact('services', 'filters', 'specialties'));
+        return view('admin.resources2.service.index', compact('services', 'filters', 'specialties'));
     }
 
     public function create()
     {
         $specialties = $this->service->getSpecialties();
-        return view('admin.resources.service.form', [
+        return view('admin.resources2.service.form', [
             'service' => new Service(),
             'specialties' => $specialties,
         ]);
@@ -47,14 +47,14 @@ class ServiceController extends Controller
     public function show(int $id)
     {
         $service = $this->service->find($id);
-        return view('admin.resources.service.show', compact('service'));
+        return view('admin.resources2.service.show', compact('service'));
     }
 
     public function edit(int $id)
     {   
         $specialties = $this->service->getSpecialties();
         $service = $this->service->find($id);
-        return view('admin.resources.service.update', compact('service', 'specialties'));
+        return view('admin.resources2.service.update', compact('service', 'specialties'));
     }
 
     public function update(UpdateServiceRequest $request, int $id)

@@ -42,3 +42,5 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     Route::resource('assistant', AssistantController::class)->only(['index']);
     Route::post('assistant/ask', [AssistantController::class, 'ask'])->name('assistant.ask');
 });
+
+

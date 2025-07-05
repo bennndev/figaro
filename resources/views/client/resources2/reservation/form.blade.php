@@ -12,5 +12,5 @@
         </button>
     </div>
 
-    <x-reservation-wizard />
+    <x-client.modal-reservation />
 </x-app-layout>
