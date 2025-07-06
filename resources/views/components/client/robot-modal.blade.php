@@ -75,7 +75,7 @@
         @csrf
         <textarea name="prompt" id="assistant-prompt"
           class="flex-1 p-2 rounded bg-[#333] text-sm focus:outline-none text-white"
-          rows="2" placeholder="Escribe tu mensaje...">{{ old('prompt') }}</textarea>
+          rows="2" placeholder="Escribe tu mensaje..." required></textarea>
         <button type="submit"
           class="bg-white text-[#2A2A2A] px-4 py-2 rounded font-semibold hover:bg-gray-200 transition">
           Enviar
@@ -90,6 +90,9 @@
   const modal = document.getElementById('chatModal');
   const form = document.getElementById('assistant-form');
   const container = document.getElementById('assistant-messages');
+  const sendBtn = form.querySelector('button[type="submit"]');
+  const textarea = document.getElementById('assistant-prompt');
+  let loadingMsg = null;
 
   let isDragging = false;
   let isModalOpen = false;
@@ -100,7 +103,6 @@
   function toggleChat() {
     modal.classList.toggle('hidden');
     isModalOpen = !modal.classList.contains('hidden');
-
     if (isModalOpen) {
       btn.style.left = 'auto';
       btn.style.top = 'auto';
@@ -116,83 +118,98 @@
 
   function startDrag(e) {
     if (isModalOpen) return;
-
     isDragging = true;
     preventClick = false;
-
     const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
     const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     offsetX = clientX - btn.getBoundingClientRect().left;
     offsetY = clientY - btn.getBoundingClientRect().top;
-
     btn.style.transition = 'none';
   }
-
   function onDrag(e) {
     if (!isDragging || isModalOpen) return;
-
     preventClick = true;
-
     const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
     const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-
     const newX = clientX - offsetX;
     const newY = clientY - offsetY;
-
     const maxX = window.innerWidth - btn.offsetWidth;
     const maxY = window.innerHeight - btn.offsetHeight;
-
     btn.style.left = `${Math.min(Math.max(0, newX), maxX)}px`;
     btn.style.top = `${Math.min(Math.max(0, newY), maxY)}px`;
     btn.style.right = 'auto';
     btn.style.bottom = 'auto';
   }
-
   function endDrag(e) {
     if (!isDragging) return;
     isDragging = false;
     btn.style.transition = '';
-
-    // Bloquear el clic siguiente solo si se arrastró
     if (preventClick) {
-      setTimeout(() => {
-        preventClick = false;
-      }, 100);
+      setTimeout(() => { preventClick = false; }, 100);
     }
   }
-
   btn.addEventListener('click', () => {
     if (!preventClick && !isModalOpen) {
       toggleChat();
     }
   });
-
-  // Eventos para PC
   btn.addEventListener('mousedown', startDrag);
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', endDrag);
-
-  // Eventos para móvil
   btn.addEventListener('touchstart', startDrag);
   document.addEventListener('touchmove', onDrag);
   document.addEventListener('touchend', endDrag);
 
-  // Enviar mensaje AJAX
+  // Envío con Enter y salto de línea con Shift+Enter
+  textarea.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendBtn.click();
+    }
+  });
+
+  // Enviar mensaje AJAX con mejoras UX y envío JSON
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    const data = new FormData(form);
-    const resp = await fetch(form.action, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: new URLSearchParams(data)
-    });
-
-    const json = await resp.json();
-    if (!resp.ok) {
-      alert(json.errors.prompt?.[0] ?? json.message);
+    const promptValue = textarea.value.trim();
+    if (!promptValue) {
+      textarea.focus();
       return;
     }
-
+    sendBtn.disabled = true;
+    textarea.disabled = true;
+    // Indicador de carga con Tailwind
+    loadingMsg = document.createElement('div');
+    loadingMsg.className = 'text-center text-gray-400 my-2';
+    loadingMsg.innerHTML = '<span class="animate-pulse">Figaro está pensando...</span>';
+    container.appendChild(loadingMsg);
+    container.scrollTop = container.scrollHeight;
+    let prevError = document.getElementById('assistant-error');
+    if (prevError) prevError.remove();
+    const resp = await fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({ prompt: promptValue })
+    });
+    const json = await resp.json();
+    if (loadingMsg) loadingMsg.remove();
+    sendBtn.disabled = false;
+    textarea.disabled = false;
+    if (!resp.ok) {
+      // Error con Tailwind
+      const errorDiv = document.createElement('div');
+      errorDiv.id = 'assistant-error';
+      errorDiv.className = 'mb-3 text-left';
+      errorDiv.innerHTML = `<div class='inline-block px-4 py-2 rounded bg-red-100 text-red-800 font-semibold'>
+        <strong>Figaro:</strong> ${json.errors?.prompt?.[0] ?? json.message ?? 'Ocurrió un error inesperado'}</div>`;
+      container.appendChild(errorDiv);
+      container.scrollTop = container.scrollHeight;
+      return;
+    }
     form.prompt.value = '';
     container.innerHTML = '';
     json.history.forEach(m => {
@@ -206,11 +223,8 @@
           </div>
         </div>`;
     });
-
     container.scrollTop = container.scrollHeight;
   });
 </script>
-
-
   @endpush
 </div>
