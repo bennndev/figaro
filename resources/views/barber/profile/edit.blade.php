@@ -7,8 +7,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 min-h-screen">
-        <div class="w-full px-6">
+    <div class="py-6 min-h-screen">
+        <div class="max-w-7xl mx-auto">
             
             {{-- Información del perfil --}}
             <div class="bg-[#2A2A2A] shadow-md rounded-xl text-white border border-white/10 overflow-hidden">

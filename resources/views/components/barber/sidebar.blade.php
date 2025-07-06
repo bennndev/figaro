@@ -19,10 +19,7 @@
            class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.dashboard') }}">
             <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
-<a href="{{ route('barber.profile.edit') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.profile.edit') }}">
-            <i class="bi bi-person-circle mr-3 text-2xl"></i> Perfil
-        </a>
+
         <a href="{{ route('barber.schedules.index') }}" 
            class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios

@@ -7,9 +7,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class=" shadow-sm sm:rounded-lg text-white p-6">
+    <div class="py-6 min-h-screen">
+        <div class="max-w-7xl mx-auto ">
+            <div class="bg-[#2A2A2A] shadow-sm sm:rounded-lg text-white p-6">
 
                 {{-- Mensaje de éxito --}}
                <x-barber.alert-success />
@@ -112,7 +112,7 @@
                     <x-barber.create />
 
                 </div>
-
+</div>
                 {{-- FullCalendar --}}
                 <hr class="my-10 border-white/20">
                 <h3 class="text-xl font-semibold mb-4">Calendario de Horarios</h3>
