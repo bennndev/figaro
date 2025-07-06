@@ -71,67 +71,70 @@
                 @if ($payments->isEmpty())
                     <p class="text-white">No tienes pagos registrados.</p>
                 @else
-                    <x-admin.table>
-                        <x-slot name="head">
-                            <tr>
-                                <th class="px-4 py-2 font-semibold">ID</th>
-                                <th class="px-4 py-2 font-semibold">Cliente</th>
-                                <th class="px-4 py-2 font-semibold">Reserva</th>
-                                <th class="px-4 py-2 font-semibold">Monto</th>
-                                <th class="px-4 py-2 font-semibold">Estado</th>
-                                <th class="px-4 py-2 font-semibold">Fecha</th>
-                                <th class="px-4 py-2 font-semibold text-center">Acciones</th>
-                            </tr>
-                        </x-slot>
-
-                        @foreach ($payments as $payment)
-                            <tr class="hover:bg-[#FFFFFF]/20 transition">
-                                <td class="px-4 py-2">{{ $payment->id }}</td>
-                                <td class="px-4 py-2">
-                                    {{ $payment->reservation->user->name ?? 'N/A' }} 
-                                    {{ $payment->reservation->user->last_name ?? '' }}
-                                </td>
-                                <td class="px-4 py-2">
-                                    <span class="text-gray-300">Reserva {{ $payment->reservation->id }}</span>
-                                    <br>
-                                    <span class="text-xs text-gray-400">
-                                        {{ $payment->reservation->reservation_date->format('d/m/Y') }} - 
-                                        {{ $payment->reservation->reservation_time->format('H:i') }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-2">
-                                    <span class="font-semibold text-green-400">
-                                        S/. {{ number_format($payment->amount / 100, 2) }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-2">
-                                    @if ($payment->status === 'complete')
-                                        <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
-                                            Completado
-                                        </span>
-                                    @elseif ($payment->status === 'open')
-                                        <span class="inline-block px-3 py-1 bg-yellow-600 text-white text-sm font-semibold rounded-full">
-                                            Abierto
-                                        </span>
-                                    @else
-                                        <span class="inline-block px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
-                                            {{ ucfirst($payment->status) }}
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-2">{{ $payment->created_at->format('d/m/Y H:i') }}</td>
-                                <td class="px-4 py-2 text-center">
-                                    {{-- Ver --}}
-                                    <a href="{{ route('barber.payments.show', $payment->id) }}" 
-                                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
-                                        title="Ver detalle"
-                                    >
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </x-admin.table>
+                    <div class="overflow-x-auto rounded-xl shadow-lg bg-[#181818]">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-[#232323] text-white">
+                                <tr>
+                                    <th class="px-4 py-3">ID</th>
+                                    <th class="px-4 py-3">Cliente</th>
+                                    <th class="px-4 py-3">Reserva</th>
+                                    <th class="px-4 py-3">Servicios</th>
+                                    <th class="px-4 py-3">Total</th>
+                                    <th class="px-4 py-3">Estado</th>
+                                    <th class="px-4 py-3">Fecha de pago</th>
+                                    <th class="px-4 py-3">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $payment)
+                                    <tr class="border-b border-gray-700 hover:bg-[#FFFFFF]/10 transition">
+                                        <td class="px-4 py-3">{{ $payment->id }}</td>
+                                        <td class="px-4 py-3">{{ $payment->reservation->user->name ?? '-' }}</td>
+                                        <td class="px-4 py-3">#{{ $payment->reservation->id ?? '-' }}</td>
+                                        <td class="px-4 py-3">
+                                            @if($payment->reservation && $payment->reservation->services)
+                                                <ul class="list-disc pl-4">
+                                                    @foreach($payment->reservation->services as $service)
+                                                        <li>{{ $service->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-3 font-semibold text-white">S/. {{ number_format($payment->amount / 100, 2) }}</td>
+                                        <td class="px-4 py-3">
+                                            @php
+                                                $status = $payment->status;
+                                                $statusLabels = [
+                                                    'complete' => 'Completado',
+                                                    'open' => 'Abierto',
+                                                ];
+                                                $statusClasses = [
+                                                    'complete' => 'bg-gray-700 text-white',
+                                                    'open' => 'bg-gray-400 text-white',
+                                                ];
+                                            @endphp
+                                            <span class="px-2 py-1 rounded-lg text-xs font-bold {{ $statusClasses[$status] ?? 'bg-gray-800 text-white' }}">
+                                                {{ $statusLabels[$status] ?? ucfirst($status) ?? '-' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3">{{ $payment->updated_at ? $payment->updated_at->format('d/m/Y H:i') : '-' }}</td>
+                                        <td class="px-4 py-3 text-center">
+                                            <div class="flex items-center justify-center space-x-3">
+                                                <a href="{{ route('barber.payments.show', $payment->id) }}" class="text-white hover:text-white/70 transition" title="Ver detalle">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
+                                                <a href="{{ route('barber.payments.pdf', $payment->id) }}" class="text-white hover:text-white/70 transition text-2xl" title="Descargar recibo PDF" target="_blank">
+                                                    <i class="bi bi-filetype-pdf"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
 
             </div>
