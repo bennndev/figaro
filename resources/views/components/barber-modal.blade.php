@@ -19,7 +19,7 @@
 
         <!-- Foto y nombre -->
         <div class="flex flex-col items-center">
-            <img src="{{ asset('storage/' . $barber->profile_photo) }}"
+            <img src="{{ $barber->profile_photo_url }}"
                  class="w-36 h-36 object-cover rounded-full border border-white shadow mb-4">
             <h3 class="text-2xl font-bold">{{ $barber->name }} {{ $barber->last_name }}</h3>
             <p class="mt-4 text-center">{{ $barber->description }}</p>

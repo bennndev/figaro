@@ -19,7 +19,7 @@
                 
                 <!-- Imagen -->
                 <div class="w-full md:w-1/2 h-64 md:h-full flex items-center justify-center bg-[#2A2A2A]">
-                    <img :src="'/storage/' + selectedBarber.profile_photo"
+                    <img :src="selectedBarber.profile_photo_url"
                          class="h-48 md:h-[90%] aspect-square object-cover rounded-2xl shadow-lg border border-white/10" />
                 </div>
 

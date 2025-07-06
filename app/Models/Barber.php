@@ -39,6 +39,9 @@ class Barber extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    # Incluir accessors en JSON
+    protected $appends = ['profile_photo_url'];
+
     # Con este casting nos aseguramos que los datos que no sean string sean recuperados correctamente
     protected function casts(): array
     {
@@ -64,5 +67,22 @@ class Barber extends Authenticatable implements MustVerifyEmail
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    # Accesor para obtener la URL de la foto de perfil
+    public function getProfilePhotoUrlAttribute()
+    {
+        // Si ya es una URL externa
+        if ($this->profile_photo && filter_var($this->profile_photo, FILTER_VALIDATE_URL)) {
+            return $this->profile_photo;
+        }
+
+        // Si existe la ruta en storage
+        if ($this->profile_photo) {
+            return asset('storage/' . $this->profile_photo);
+        }
+
+        // Imagen por defecto si no tiene foto
+        return asset('storage/barber/default-profile.jpg');
     }
 }
