@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Admin\Resources;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\DashboardService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DashboardService $dashboardService)
     {
-        //
+        $kpis = $dashboardService->getKpis();
+        $chart = $dashboardService->getReservasChartData();
+        $ultimas = $dashboardService->getUltimasReservas();
+        $topServicios = $dashboardService->getTopServicios();
+        return view('admin.dashboard', compact('kpis', 'chart', 'ultimas', 'topServicios'));
     }
 
     /**

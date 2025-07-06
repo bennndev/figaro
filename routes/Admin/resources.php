@@ -26,4 +26,5 @@ Route::middleware(['auth:admin', 'admin.verified'])->prefix('admin')->name('admi
     Route::resource('reservations', ReservationController::class)->only(['index', 'show']);
     # Only View - Pagos
     Route::resource('payments', PaymentController::class)->only(['index', 'show']);
+    Route::get('payments/{payment}/report', [PaymentController::class, 'report'])->name('payments.report');
 });
