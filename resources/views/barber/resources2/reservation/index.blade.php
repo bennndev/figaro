@@ -31,6 +31,7 @@
                 <th class="px-4 py-2 font-semibold">Fecha</th>
                 <th class="px-4 py-2 font-semibold">Hora</th>
                 <th class="px-4 py-2 font-semibold">Estado</th>
+                <th class="px-4 py-2 font-semibold">Pago</th>
                 <th class="px-4 py-2 font-semibold">Notas</th>
                 <th class="px-4 py-2 font-semibold">Acciones</th>
             </tr>
@@ -45,11 +46,19 @@
                 <td class="px-4 py-2">
                     @if ($reservation->status === 'paid')
                         <span class="inline-block px-3 py-1 bg-white text-[#2A2A2A] text-sm font-semibold rounded-full">
-                            Pagado
+                            {{ __('validation.reservation_status.paid') }}
                         </span>
                     @elseif ($reservation->status === 'pending_pay')
                         <span class="inline-block px-3 py-1 border border-white text-white text-sm font-semibold rounded-full">
-                            Pendiente
+                            {{ __('validation.reservation_status.pending_pay') }}
+                        </span>
+                    @elseif ($reservation->status === 'cancelled')
+                        <span class="inline-block px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
+                            {{ __('validation.reservation_status.cancelled') }}
+                        </span>
+                    @elseif ($reservation->status === 'completed')
+                        <span class="inline-block px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
+                            {{ __('validation.reservation_status.completed') }}
                         </span>
                     @else
                         <span class="inline-block px-3 py-1 bg-gray-600 text-white text-sm font-semibold rounded-full">
@@ -68,14 +77,16 @@
                         <i class="bi bi-eye-fill"></i>
                     </a>
                     
-                    {{-- Marcar como completado --}}
-                    <button type="button" 
-                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
-                        title="Marcar como completado"
-                        onclick="markAsCompleted({{ $reservation->id }})"
-                    >
-                        <i class="bi bi-check-lg"></i>
-                    </button>
+                    {{-- Marcar como completado (solo si está pagado, no completado) --}}
+                    @if($reservation->status === 'paid')
+                        <button type="button" 
+                            class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
+                            title="Marcar como completado"
+                            onclick="markAsCompleted({{ $reservation->id }})"
+                        >
+                            <i class="bi bi-check-lg"></i>
+                        </button>
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -91,14 +102,29 @@
         function markAsCompleted(reservationId) {
             // Mostrar confirmación
             if (confirm('¿Está seguro de que desea marcar esta reserva como completada?')) {
-                // Aquí puedes agregar la lógica para actualizar el estado
-                // Por ejemplo, hacer una petición AJAX al servidor
                 
-                // Por ahora, solo mostrar un mensaje de éxito
-                alert('Reserva marcada como completada correctamente.');
-                
-                // Opcional: recargar la página para reflejar los cambios
-                // location.reload();
+                // Hacer petición AJAX al servidor
+                fetch(`/barber/reservations/${reservationId}/complete`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        // Recargar la página para mostrar el cambio
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud.');
+                });
             }
         }
     </script>

@@ -49,9 +49,7 @@ Route::middleware('auth:barber')->prefix('barber')->name('barber.')->group(funct
      // Rutas protegidas con correo verificado
     Route::middleware('barber.verified')->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('barber.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Barber\DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

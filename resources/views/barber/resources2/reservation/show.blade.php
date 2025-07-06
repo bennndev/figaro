@@ -19,8 +19,19 @@
                     <span class="ml-2 px-2 py-1 rounded 
                         {{ $reservation->status === 'paid' ? 'bg-green-600 text-white' : 
                            ($reservation->status === 'pending_pay' ? 'bg-yellow-600 text-white' : 
-                           ($reservation->status === 'completed' ? 'bg-blue-600 text-white' : 'bg-red-600 text-white')) }}">
-                        {{ ucfirst($reservation->status) }}
+                           ($reservation->status === 'completed' ? 'bg-blue-600 text-white' : 
+                           ($reservation->status === 'cancelled' ? 'bg-red-600 text-white' : 'bg-gray-600 text-white'))) }}">
+                        @if($reservation->status === 'paid')
+                            {{ __('validation.reservation_status.paid') }}
+                        @elseif($reservation->status === 'pending_pay')
+                            {{ __('validation.reservation_status.pending_pay') }}
+                        @elseif($reservation->status === 'cancelled')
+                            {{ __('validation.reservation_status.cancelled') }}
+                        @elseif($reservation->status === 'completed')
+                            {{ __('validation.reservation_status.completed') }}
+                        @else
+                            {{ ucfirst($reservation->status) }}
+                        @endif
                     </span>
                 </div>
 

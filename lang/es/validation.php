@@ -308,4 +308,21 @@ return [
         'processed_at'             => 'fecha de procesamiento',
         'is_active'                => 'estado activo',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Estados de Reservas
+    |--------------------------------------------------------------------------
+    |
+    | Las siguientes líneas contienen las traducciones para los estados
+    | de las reservas utilizados en el sistema.
+    |
+    */
+
+    'reservation_status' => [
+        'pending_pay' => 'Pendiente de Pago',
+        'paid'        => 'Pagado',
+        'cancelled'   => 'Cancelado',
+        'completed'   => 'Completado',
+    ],
 ];
