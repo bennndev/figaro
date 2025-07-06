@@ -133,15 +133,11 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form method="POST" action="{{ route('admin.barbers.destroy', $barber->id) }}"
-                              class="inline delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" title="Eliminar"
-                                    class="text-white hover:text-white/70 transition">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </form>
+                        <button onclick="confirmDelete('{{ route('admin.barbers.destroy', $barber->id) }}', '{{ $barber->name }} {{ $barber->last_name }}')" 
+                                title="Eliminar"
+                                class="text-white hover:text-white/70 transition">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
 
                 </td>
             </tr>
@@ -165,7 +161,5 @@
            
     </div class="mt-6">
     <x-admin.barber-show />
-    <x-admin.alert-delete />
-    <x-admin.alert-success />
 
 </x-admin-app-layout>

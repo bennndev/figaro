@@ -29,62 +29,31 @@
         [x-cloak] {
             display: none !important;
         }
-        
-        input[type="date"],
-        input[type="time"],
-        select {
-            background-color: #1F1F1F;
-            color: white;
-            border: 1px solid #555;
-        }
+         input[type="date"],
+    input[type="time"],
+    select {
+        background-color: #1F1F1F;
+        color: white;
+        border: 1px solid #555;
+    }
 
-        input[type="date"]::-webkit-calendar-picker-indicator,
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            cursor: pointer;
-            opacity: 0.8;
-        }
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+        opacity: 0.8;
+    }
 
-        input[type="date"]:hover::-webkit-calendar-picker-indicator,
-        input[type="time"]:hover::-webkit-calendar-picker-indicator {
-            opacity: 1;
-        }
+    input[type="date"]:hover::-webkit-calendar-picker-indicator,
+    input[type="time"]:hover::-webkit-calendar-picker-indicator {
+        opacity: 1;
+    }
 
-        /* Placeholder blanco para campos vacíos */
-        input::placeholder {
-            color: #ccc;
-        }
-        
-        /* Estilos de scrollbar personalizados */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            transition: background 0.3s ease;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-        
-        /* Para Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-        }
-        
-        *:hover {
-            scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-        }
+    /* Placeholder blanco para campos vacíos */
+    input::placeholder {
+        color: #ccc;
+    }
+}
     </style>
 </head>
 <body class="bg-[#1E1E1E] text-white min-h-screen" x-data="{ sidebarOpen: false }">
@@ -150,8 +119,6 @@
                 confirmButtonText: 'Entendido',
                 background: '#2A2A2A',
                 color: '#ffffff',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
                 customClass: {
                     confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
                 }
@@ -251,7 +218,7 @@
                 showAlert('info', 'Información', '{{ session('info') }}');
             @endif
 
-            @if($errors->any() && !session('modal_context'))
+            @if($errors->any())
                 @php
                     $errorMessages = $errors->all();
                     $errorText = count($errorMessages) > 1 

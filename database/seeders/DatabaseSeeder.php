@@ -10,11 +10,26 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        #Seeders
+        // Primero creamos las entidades principales
         $this->call(AdminSeeder::class);
         $this->call(SpecialtySeeder::class);
+        $this->call(ServiceSeeder::class);
+        $this->call(BarberSeeder::class);
         
-        #Factories
-        User::factory(10)->create();
+        // Crear usuarios con factory
+        User::factory(15)->create();
+        
+        // Seeders que dependen de las entidades principales
+        $this->call(ScheduleSeeder::class);
+        $this->call(ReservationSeeder::class);
+        $this->call(PaymentSeeder::class);
+        
+        // Seeders de relaciones many-to-many (tablas pivot)
+        $this->call(ServiceSpecialtySeeder::class);
+        $this->call(BarberSpecialtySeeder::class);
+        
+        // Relaciones que dependen de reservaciones (deben ir al final)
+        $this->call(ReservationServiceSeeder::class);
+        $this->call(ReservationSpecialtySeeder::class);
     }
 }

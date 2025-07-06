@@ -19,13 +19,7 @@ class ReservationController extends Controller
 
     public function index()
     {
-        $filters = [
-            'client_name' => request('client_name'),
-            'reservation_date' => request('reservation_date'),
-            'status' => request('status')
-        ];
-
-        $reservations = $this->service->returnAllWithFilters($filters);
+        $reservations = $this->service->returnAll();
     
         return view('barber.resources2.reservation.index', compact('reservations'));
     }

@@ -48,7 +48,7 @@ class Barber extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    # Relación -> 1 a muchos -> Especialidades
+    # Relación -> muchos a muchos -> Especialidades
     public function specialties()
     {
         return $this->belongsToMany(Specialty::class);
