@@ -119,6 +119,8 @@
                 confirmButtonText: 'Entendido',
                 background: '#2A2A2A',
                 color: '#ffffff',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
                 customClass: {
                     confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
                 }
@@ -218,7 +220,7 @@
                 showAlert('info', 'Información', '{{ session('info') }}');
             @endif
 
-            @if($errors->any())
+            @if($errors->any() && !session('modal_context'))
                 @php
                     $errorMessages = $errors->all();
                     $errorText = count($errorMessages) > 1 

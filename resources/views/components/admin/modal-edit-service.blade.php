@@ -94,6 +94,8 @@
     </div>
 </div>
 
+<x-utils.modal-error key="showEditServiceModal" />
+
 <!-- Scroll personalizado oscuro -->
 <style>
 .custom-scroll::-webkit-scrollbar {

@@ -1,4 +1,3 @@
-{{-- Componente para mostrar mensajes de éxito con SweetAlert2 --}}
 @if (session('message'))
     <script>
         Swal.fire({

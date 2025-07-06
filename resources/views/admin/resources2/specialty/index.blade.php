@@ -89,8 +89,7 @@
                         <form 
                             action="{{ route('admin.specialties.destroy', $specialty->id) }}"
                             method="POST"
-                            class="inline-block"
-                            onsubmit="return confirm('¿Estás seguro que deseas eliminar esta especialidad?');"
+                            class="inline-block delete-form"
                         >
                             @csrf
                             @method('DELETE')
@@ -129,4 +128,6 @@
             </div>
         </div>
     </div>
+    <x-admin.alert-delete />
+    <x-admin.alert-success />
 </x-admin-app-layout>

@@ -50,3 +50,5 @@
         </div>
     </div>
 </div>
+
+<x-utils.modal-error key="showEditSpecialtyModal" />

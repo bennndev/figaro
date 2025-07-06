@@ -151,4 +151,5 @@
         </div>
     </div>
     <x-admin.alert-delete />
+    <x-admin.alert-success />
 </x-admin-app-layout>
