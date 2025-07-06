@@ -12,5 +12,5 @@
         </button>
     </div>
 
-    <x-client.modal-reservation />
+    <x-client.modal-reservation :specialties="$specialties" :services="$services" :barbers="$barbers" />
 </x-app-layout>
