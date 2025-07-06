@@ -20,6 +20,56 @@
                     <p class="text-green-400 mb-4">{{ session('message') }}</p>
                 @endif
 
+                {{-- Formulario de búsqueda --}}
+                <form method="GET" action="{{ route('barber.reservations.index') }}"
+                      class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+
+                    {{-- Cliente --}}
+                    <div>
+                        <label for="client_name" class="block text-sm font-medium text-white">Cliente:</label>
+                        <input type="text" name="client_name" id="client_name" placeholder="Nombre del cliente"
+                               value="{{ request('client_name') }}"
+                               class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"/>
+                    </div>
+
+                    {{-- Fecha --}}
+                    <div>
+                        <label for="reservation_date" class="block text-sm font-medium text-white">Fecha:</label>
+                        <input type="date" name="reservation_date" id="reservation_date"
+                               value="{{ request('reservation_date') }}"
+                               class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"/>
+                    </div>
+
+                    {{-- Estado --}}
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-white">Estado:</label>
+                        <select name="status" id="status"
+                                class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+                            <option value="">-- Todos --</option>
+                            <option value="pending_pay" {{ request('status') == 'pending_pay' ? 'selected' : '' }}>Pendiente de pago</option>
+                            <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Pagado</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completado</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
+                        </select>
+                    </div>
+
+                    {{-- Botones --}}
+                    <div class="flex gap-2 mt-5">
+                        {{-- Botón Filtrar con ícono --}}
+                        <button type="submit"
+                                class="flex items-center justify-center gap-2 px-4 py-2 bg-white text-[#2A2A2A] font-semibold rounded shadow hover:bg-white/80 w-fit">
+                            <i class="bi bi-funnel-fill"></i>
+                        </button>
+
+                        {{-- Botón Limpiar --}}
+                        <a href="{{ route('barber.reservations.index') }}"
+                           class="px-4 py-2 bg-white text-[#2A2A2A] font-semibold rounded shadow hover:bg-white/80 text-center w-fit">
+                            Limpiar
+                        </a>
+                    </div>
+
+                </form>
+
 @if ($reservations->isEmpty())
     <p class="text-white">No tienes reservaciones registradas.</p>
 @else
@@ -32,7 +82,6 @@
                 <th class="px-4 py-2 font-semibold">Hora</th>
                 <th class="px-4 py-2 font-semibold">Estado</th>
                 <th class="px-4 py-2 font-semibold">Pago</th>
-                <th class="px-4 py-2 font-semibold">Notas</th>
                 <th class="px-4 py-2 font-semibold">Acciones</th>
             </tr>
         </x-slot>
@@ -87,6 +136,8 @@
                             <i class="bi bi-check-lg"></i>
                         </button>
                     @endif
+
+
                 </td>
             </tr>
         @endforeach

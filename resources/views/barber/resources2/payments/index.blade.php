@@ -20,6 +20,54 @@
                     <p class="text-green-400 mb-4">{{ session('message') }}</p>
                 @endif
 
+                {{-- Formulario de búsqueda --}}
+                <form method="GET" action="{{ route('barber.payments.index') }}"
+                      class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+
+                    {{-- Cliente --}}
+                    <div>
+                        <label for="client_name" class="block text-sm font-medium text-white">Cliente:</label>
+                        <input type="text" name="client_name" id="client_name" placeholder="Nombre del cliente"
+                               value="{{ request('client_name') }}"
+                               class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"/>
+                    </div>
+
+                    {{-- Fecha --}}
+                    <div>
+                        <label for="payment_date" class="block text-sm font-medium text-white">Fecha:</label>
+                        <input type="date" name="payment_date" id="payment_date"
+                               value="{{ request('payment_date') }}"
+                               class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"/>
+                    </div>
+
+                    {{-- Estado --}}
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-white">Estado:</label>
+                        <select name="status" id="status"
+                                class="mt-1 bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+                            <option value="">-- Todos --</option>
+                            <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Completado</option>
+                            <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Abierto</option>
+                        </select>
+                    </div>
+
+                    {{-- Botones --}}
+                    <div class="flex gap-2 mt-5">
+                        {{-- Botón Filtrar con ícono --}}
+                        <button type="submit"
+                                class="flex items-center justify-center gap-2 px-4 py-2 bg-white text-[#2A2A2A] font-semibold rounded shadow hover:bg-white/80 w-fit">
+                            <i class="bi bi-funnel-fill"></i>
+                        </button>
+
+                        {{-- Botón Limpiar --}}
+                        <a href="{{ route('barber.payments.index') }}"
+                           class="px-4 py-2 bg-white text-[#2A2A2A] font-semibold rounded shadow hover:bg-white/80 text-center w-fit">
+                            Limpiar
+                        </a>
+                    </div>
+
+                </form>
+
                 @if ($payments->isEmpty())
                     <p class="text-white">No tienes pagos registrados.</p>
                 @else

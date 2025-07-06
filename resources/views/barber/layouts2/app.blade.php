@@ -39,30 +39,62 @@
         [x-cloak] {
             display: none !important;
         }
+        
         input[type="date"],
-    input[type="time"],
-    select {
-        background-color: #1F1F1F;
-        color: white;
-        border: 1px solid #555;
-    }
+        input[type="time"],
+        select {
+            background-color: #1F1F1F;
+            color: white;
+            border: 1px solid #555;
+        }
 
-    input[type="date"]::-webkit-calendar-picker-indicator,
-    input[type="time"]::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-        cursor: pointer;
-        opacity: 0.8;
-    }
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+            opacity: 0.8;
+        }
 
-    input[type="date"]:hover::-webkit-calendar-picker-indicator,
-    input[type="time"]:hover::-webkit-calendar-picker-indicator {
-        opacity: 1;
-    }
+        input[type="date"]:hover::-webkit-calendar-picker-indicator,
+        input[type="time"]:hover::-webkit-calendar-picker-indicator {
+            opacity: 1;
+        }
 
-    /* Placeholder blanco para campos vacíos */
-    input::placeholder {
-        color: #ccc;
-    }
+        /* Placeholder blanco para campos vacíos */
+        input::placeholder {
+            color: #ccc;
+        }
+        
+        /* Estilos de scrollbar personalizados */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Para Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+        
+        *:hover {
+            scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+        }
     </style>
 </head>
 
@@ -104,6 +136,53 @@
                     <div class="flex items-center">
                         <h2 class="text-2xl font-semibold text-white">{{ $header }}</h2>
                     </div>
+                    
+                    {{-- Perfil del usuario --}}
+                    <div class="flex items-center space-x-4" x-data="{ open: false }">
+                        <span class="text-white font-medium">{{ Auth::guard('barber')->user()->name }}</span>
+                        
+                        {{-- Avatar con dropdown --}}
+                        <div class="relative">
+                            <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
+                                <img src="{{ Auth::guard('barber')->user()->profile_photo_url ?? asset('images/default-profile.png') }}" 
+                                     alt="Perfil" 
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-white/20 hover:border-white/40 transition-colors">
+                                <i class="bi bi-chevron-down text-white transition-transform" :class="{ 'rotate-180': open }"></i>
+                            </button>
+                            
+                            {{-- Dropdown menu --}}
+                            <div x-show="open" 
+                                 @click.away="open = false"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="absolute right-0 mt-2 w-48 bg-[#2A2A2A] rounded-lg shadow-lg border border-white/10 z-50">
+                                
+                                <a href="{{ route('barber.profile.edit') }}" 
+                                   class="block px-4 py-2 text-white hover:bg-white/10 transition-colors">
+                                    <i class="bi bi-eye mr-2"></i>Ver perfil
+                                </a>
+                                
+                                <button @click="$dispatch('open-profile-modal')" 
+                                        class="w-full text-left block px-4 py-2 text-white hover:bg-white/10 transition-colors">
+                                    <i class="bi bi-pencil mr-2"></i>Editar perfil
+                                </button>
+                                
+                                <div class="border-t border-white/10 my-1"></div>
+                                
+                                <form method="POST" action="{{ route('barber.logout') }}">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="w-full text-left block px-4 py-2 text-white hover:bg-white/10 transition-colors">
+                                        <i class="bi bi-box-arrow-right mr-2"></i>Cerrar sesión
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </header>
             @endisset
 
@@ -113,6 +192,9 @@
             </main>
         </div>
     </div>
+
+    {{-- Modal de perfil --}}
+    <x-barber.perfil />
 
     @stack('scripts')
 </body>

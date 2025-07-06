@@ -22,6 +22,38 @@ class ReservationService
     }
 
     /**
+     * Obtener todas las reservas con filtros aplicados
+     */
+    public function returnAllWithFilters(array $filters): Collection
+    {
+        $query = auth()->guard('barber')
+            ->user()
+            ->reservations()
+            ->whereIn('status', ['paid', 'completed'])
+            ->with('services', 'user', 'payment');
+
+        // Filtro por nombre del cliente
+        if (!empty($filters['client_name'])) {
+            $query->whereHas('user', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['client_name'] . '%')
+                  ->orWhere('last_name', 'like', '%' . $filters['client_name'] . '%');
+            });
+        }
+
+        // Filtro por fecha de reserva
+        if (!empty($filters['reservation_date'])) {
+            $query->whereDate('reservation_date', $filters['reservation_date']);
+        }
+
+        // Filtro por estado
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->get();
+    }
+
+    /**
      * Obtener una reserva específica pagada o completada del barbero autenticado
      */
     public function find($id): Reservation

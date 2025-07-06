@@ -14,7 +14,13 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $payments = $this->service->returnAll();
+        $filters = [
+            'client_name' => request('client_name'),
+            'payment_date' => request('payment_date'),
+            'status' => request('status')
+        ];
+
+        $payments = $this->service->returnAllWithFilters($filters);
         $stats = $this->service->getStats();
         
         return view('barber.resources2.payments.index', compact('payments', 'stats'));

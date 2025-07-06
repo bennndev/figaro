@@ -1,7 +1,6 @@
-<section class="bg-[#2A2A2A] text-white p-6 rounded-xl shadow-lg">
+<section>
     <header>
-        <h2 class="text-lg font-semibold">Información del Barbero</h2>
-        <p class="mt-1 text-sm text-gray-400">Actualiza la información de tu perfil.</p>
+        <h3 class="text-lg font-semibold text-white mb-4">Información del Barbero</h3>
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
@@ -17,7 +16,7 @@
             <label for="name" class="block text-sm font-medium text-white mb-1">Nombre</label>
             <input id="name" name="name" type="text"
                 class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('name', $user->name) }}" required>
+                value="{{ old('name', $user->name ?? '') }}" required>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('name')" />
         </div>
 
@@ -26,19 +25,32 @@
             <label for="last_name" class="block text-sm font-medium text-white mb-1">Apellido</label>
             <input id="last_name" name="last_name" type="text"
                 class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('last_name', $user->last_name) }}" required>
+                value="{{ old('last_name', $user->last_name ?? '') }}" required>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('last_name')" />
         </div>
 
         <!-- Foto de Perfil -->
-        <div>
-            <label for="profile_photo" class="block text-sm font-medium text-white mb-1">Foto de perfil</label>
-            @if ($user->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile_photo) }}" class="h-20 w-20 object-cover rounded-full mb-2">
+        <div class="flex flex-col items-center space-y-4">
+            <div class="relative">
+                <img src="{{ ($user && $user->profile_photo_url) ? $user->profile_photo_url : asset('images/default-profile.png') }}" 
+                     alt="Foto de perfil" 
+                     class="w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-lg">
+                <label for="profile_photo" 
+                       class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 cursor-pointer transition-colors shadow-lg">
+                    <i class="bi bi-camera text-sm"></i>
+                </label>
+            </div>
+            
+            <input id="profile_photo" name="profile_photo" type="file" class="hidden" accept="image/*" />
+            
+            @if ($user && $user->profile_photo)
+                <button type="button" 
+                        class="text-sm text-red-400 hover:text-red-300 transition-colors"
+                        onclick="removePhoto()">
+                    <i class="bi bi-trash mr-1"></i>Eliminar foto actual
+                </button>
             @endif
-            <input id="profile_photo" name="profile_photo" type="file"
-                class="block w-full text-sm text-white bg-[#1E1E1E] border border-gray-600 rounded px-3 py-2 file:bg-[#2A2A2A] file:text-white file:border-0 file:rounded file:px-4 file:py-1 hover:file:bg-white/10 transition"
-                accept="image/*" />
+            
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('profile_photo')" />
         </div>
 
@@ -47,10 +59,10 @@
             <label for="email" class="block text-sm font-medium text-white mb-1">Correo electrónico</label>
             <input id="email" name="email" type="email"
                 class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('email', $user->email) }}" required>
+                value="{{ old('email', $user->email ?? '') }}" required>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+            @if ($user && $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div class="mt-2 text-sm text-white">
                     Tu correo no está verificado.
                     <button form="send-verification" class="underline text-sm text-gray-300 hover:text-white">
@@ -103,7 +115,7 @@
             <label for="phone_number" class="block text-sm font-medium text-white mb-1">Teléfono</label>
             <input id="phone_number" name="phone_number" type="text"
                 class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('phone_number', $user->phone_number) }}" required>
+                value="{{ old('phone_number', $user->phone_number ?? '') }}" required>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('phone_number')" />
         </div>
 
@@ -111,7 +123,7 @@
         <div>
             <label for="description" class="block text-sm font-medium text-white mb-1">Descripción</label>
             <textarea id="description" name="description" rows="4"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500">{{ old('description', $user->description) }}</textarea>
+                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500">{{ old('description', $user->description ?? '') }}</textarea>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('description')" />
         </div>
 
@@ -135,7 +147,7 @@
 function multiselectDropdown() {
     return {
         open: false,
-        selected: @json(old('specialties', $user->specialties->pluck('id')->toArray())),
+        selected: @json(old('specialties', ($user && $user->specialties) ? $user->specialties->pluck('id')->toArray() : [])),
         selectedLabels: [],
         toggle() {
             this.open = !this.open;
@@ -158,7 +170,7 @@ function multiselectDropdown() {
             }
         },
         init() {
-            const selectedFromServer = @json($user->specialties->map(fn($s) => ['id' => $s->id, 'name' => $s->name]));
+            const selectedFromServer = @json(($user && $user->specialties) ? $user->specialties->map(fn($s) => ['id' => $s->id, 'name' => $s->name]) : []);
             this.selectedLabels = selectedFromServer.map(item => item.name);
             this.selected = selectedFromServer.map(item => item.id);
         }
