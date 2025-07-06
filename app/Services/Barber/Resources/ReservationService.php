@@ -8,29 +8,29 @@ use Illuminate\Support\Collection;
 class ReservationService
 {
     /**
-     * Obtener todas las reservas pagadas del barbero autenticado
+     * Obtener todas las reservas pagadas y completadas del barbero autenticado
      */
     public function returnAll(): Collection
     {
         return auth()->guard('barber')
             ->user()
             ->reservations()
-            ->where('status', 'paid')
-            ->with('services', 'user')
+            ->whereIn('status', ['paid', 'completed'])
+            ->with('services', 'user', 'payment')
             ->latest()
             ->get();
     }
 
     /**
-     * Obtener una reserva específica pagada del barbero autenticado
+     * Obtener una reserva específica pagada o completada del barbero autenticado
      */
     public function find($id): Reservation
     {
         return auth()->guard('barber')
             ->user()
             ->reservations()
-            ->where('status', 'paid')
-            ->with('services', 'user')
+            ->whereIn('status', ['paid', 'completed'])
+            ->with('services', 'user', 'payment')
             ->findOrFail($id);
     }
 
@@ -85,7 +85,7 @@ class ReservationService
     }
 
     /**
-     * Verificar si una reserva pertenece al barbero autenticado y está pagada
+     * Verificar si una reserva pertenece al barbero autenticado y está pagada o completada
      */
     public function isPaidReservationOwner(int $reservationId): bool
     {
@@ -93,7 +93,27 @@ class ReservationService
             ->user()
             ->reservations()
             ->where('id', $reservationId)
-            ->where('status', 'paid')
+            ->whereIn('status', ['paid', 'completed'])
             ->exists();
+    }
+
+    /**
+     * Marcar una reserva como completada
+     */
+    public function markAsCompleted(int $reservationId): bool
+    {
+        $reservation = auth()->guard('barber')
+            ->user()
+            ->reservations()
+            ->where('id', $reservationId)
+            ->where('status', 'paid') // Solo se pueden completar reservas pagadas
+            ->first();
+
+        if (!$reservation) {
+            return false;
+        }
+
+        $reservation->update(['status' => 'completed']);
+        return true;
     }
 }

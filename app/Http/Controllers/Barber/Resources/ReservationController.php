@@ -35,4 +35,28 @@ class ReservationController extends Controller
         
         return view('barber.resources2.reservation.show', compact('reservation'));
     }
+
+    public function markAsCompleted(int $id)
+    {
+        try {
+            $success = $this->service->markAsCompleted($id);
+            
+            if ($success) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Reserva marcada como completada correctamente.'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se pudo completar la reserva. Verifica que sea tuya y esté pagada.'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al procesar la solicitud.'
+            ], 500);
+        }
+    }
 }

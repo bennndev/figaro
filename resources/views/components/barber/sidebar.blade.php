@@ -32,6 +32,10 @@
             <i class="bi bi-calendar2-check mr-3 text-2xl"></i> Reservas
         </a>
 
+        <a href="{{ route('barber.payments.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.payments.index') }}">
+            <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
+        </a>
     </div>  
 
     <!-- Cerrar sesión -->
