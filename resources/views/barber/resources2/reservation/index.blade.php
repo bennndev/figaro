@@ -1,9 +1,9 @@
-<x-app-layout>
+<x-barber-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-white leading-tight flex items-center space-x-2">
             <span>Mis reservas</span>
             <span class="mx-2 text-white">/</span>
-            <a href="{{ route('dashboard') }}" class="text-[#FFFFFF] flex items-center">
+            <a href="{{ route('barber.dashboard') }}" class="text-[#FFFFFF] flex items-center">
                 <span>Inicio</span>
             </a>
         </h2>
@@ -27,9 +27,11 @@
         <x-slot name="head">
             <tr>
                 <th class="px-4 py-2 font-semibold">ID</th>
+                <th class="px-4 py-2 font-semibold">Cliente</th>
                 <th class="px-4 py-2 font-semibold">Fecha</th>
                 <th class="px-4 py-2 font-semibold">Hora</th>
                 <th class="px-4 py-2 font-semibold">Estado</th>
+                <th class="px-4 py-2 font-semibold">Pago</th>
                 <th class="px-4 py-2 font-semibold">Notas</th>
                 <th class="px-4 py-2 font-semibold">Acciones</th>
             </tr>
@@ -38,16 +40,25 @@
         @foreach ($reservations as $reservation)
             <tr class="hover:bg-[#FFFFFF]/20 transition">
                 <td class="px-4 py-2">{{ $reservation->id }}</td>
+                <td class="px-4 py-2">{{ $reservation->user->name ?? 'N/A' }} {{ $reservation->user->last_name ?? '' }}</td>
                 <td class="px-4 py-2">{{ $reservation->reservation_date->format('d/m/Y') }}</td>
                 <td class="px-4 py-2">{{ $reservation->reservation_time->format('H:i') }}</td>
                 <td class="px-4 py-2">
                     @if ($reservation->status === 'paid')
                         <span class="inline-block px-3 py-1 bg-white text-[#2A2A2A] text-sm font-semibold rounded-full">
-                            Pagado
+                            {{ __('validation.reservation_status.paid') }}
                         </span>
                     @elseif ($reservation->status === 'pending_pay')
                         <span class="inline-block px-3 py-1 border border-white text-white text-sm font-semibold rounded-full">
-                            Pendiente
+                            {{ __('validation.reservation_status.pending_pay') }}
+                        </span>
+                    @elseif ($reservation->status === 'cancelled')
+                        <span class="inline-block px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-full">
+                            {{ __('validation.reservation_status.cancelled') }}
+                        </span>
+                    @elseif ($reservation->status === 'completed')
+                        <span class="inline-block px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
+                            {{ __('validation.reservation_status.completed') }}
                         </span>
                     @else
                         <span class="inline-block px-3 py-1 bg-gray-600 text-white text-sm font-semibold rounded-full">
@@ -59,81 +70,63 @@
                 <td class="px-4 py-2">{{ $reservation->note ?? '—' }}</td>
                 <td class="px-4 py-2 flex space-x-3 whitespace-nowrap">
                     {{-- Ver --}}
-                    <button 
-                        @click="$dispatch('open-modal-show-reservation-{{ $reservation->id }}')" 
+                    <a href="{{ route('barber.reservations.show', $reservation->id) }}" 
                         class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
-                        title="Ver"
+                        title="Ver detalle"
                     >
                         <i class="bi bi-eye-fill"></i>
-                    </button>
-
-                    {{-- Editar (solo si está pendiente de pago) --}}
-                    @if ($reservation->status === 'pending_pay')
-                        <button 
-                            @click="$dispatch('open-modal-edit-reservation-{{ $reservation->id }}')" 
+                    </a>
+                    
+                    {{-- Marcar como completado (solo si está pagado, no completado) --}}
+                    @if($reservation->status === 'paid')
+                        <button type="button" 
                             class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
-                            title="Editar"
+                            title="Marcar como completado"
+                            onclick="markAsCompleted({{ $reservation->id }})"
                         >
-                            <i class="bi bi-pencil-fill"></i>
+                            <i class="bi bi-check-lg"></i>
                         </button>
-                    @endif
-
-                    {{-- Icono PDF (solo si está pagado) --}}
-                    @if ($reservation->status === 'paid')
-                        <a href="{{ route('client.payments.report', $reservation->payment->id) }}" 
-                           target="_blank"
-                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-xl" title="PDF Comprobante">
-                            <i class="bi bi-filetype-pdf"></i>
-                        </a>
                     @endif
                 </td>
             </tr>
         @endforeach
     </x-admin.table>
-
-    {{-- Renderizar modales después de la tabla --}}
-    @foreach ($reservations as $reservation)
-        <x-client.modal-show-reservation :reservation="$reservation" />
-        @if ($reservation->status === 'pending_pay')
-            <x-client.modal-edit-reservation :reservation="$reservation" />
-        @endif
-    @endforeach
 @endif
 
+            </div>
+        </div>
+    </div>
 
-
-
-
+    {{-- Script para marcar como completado --}}
+    <script>
+        function markAsCompleted(reservationId) {
+            // Mostrar confirmación
+            if (confirm('¿Está seguro de que desea marcar esta reserva como completada?')) {
                 
-<!-- Botón para abrir el modal -->
-<div class="mt-6 flex justify-end">
-  <a href="#" onclick="openReservationModal()" class="bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition text-sm sm:text-base">
-    Nueva Reservación
-  </a>
-</div>
+                // Hacer petición AJAX al servidor
+                fetch(`/barber/reservations/${reservationId}/complete`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        // Recargar la página para mostrar el cambio
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud.');
+                });
+            }
+        }
+    </script>
 
-<!-- Modal -->
-<div id="reservationModal"
-     class="hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8">
-  <x-client.modal-reservation
-    :specialties="$specialties"
-    :services="$services"
-    :barbers="$barbers"
-  />
-</div>
-
-<!-- Script para abrir modal automáticamente -->
-<script>
-  function openReservationModal() {
-    document.getElementById('reservationModal').classList.remove('hidden');
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('autoOpenReservationModal') === 'true') {
-      localStorage.removeItem('autoOpenReservationModal');
-      openReservationModal();
-    }
-  });
-</script>
-
-</x-app-layout>
+</x-barber-app-layout>

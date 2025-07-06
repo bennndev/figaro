@@ -27,9 +27,16 @@
            class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
         </a>
+        <a href="{{ route('barber.reservations.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.reservations.index') }}">
+            <i class="bi bi-calendar2-check mr-3 text-2xl"></i> Reservas
+        </a>
 
-        
-    </div>
+        <a href="{{ route('barber.payments.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.payments.index') }}">
+            <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
+        </a>
+    </div>  
 
     <!-- Cerrar sesión -->
     <div class="mt-6">
