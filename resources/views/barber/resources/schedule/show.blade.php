@@ -15,8 +15,6 @@
                     <p><strong>Fecha:</strong> {{ $schedule->date->format('Y-m-d') }}</p>
                     <p><strong>Hora de Inicio:</strong> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</p>
                     <p><strong>Hora de Fin:</strong> {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</p>
-                    <p><strong>Estado:</strong> {{ ucfirst($schedule->status) }}</p>
-                </div>
 
                 <div style="margin-top: 20px;">
                     <a href="{{ route('barber.schedules.edit', $schedule->id) }}" style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px;">

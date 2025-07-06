@@ -15,7 +15,6 @@ class FilterScheduleRequest extends FormRequest
     {
         return [
             'date' => 'nullable|date_format:Y-m-d',
-            'status' => 'nullable|in:available,booked',
             'start_time' => 'nullable|date_format:H:i',
         ];
     }

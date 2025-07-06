@@ -12,10 +12,8 @@
             <p><strong>Barbero:</strong> {{ $schedule->barber->first_name }} {{ $schedule->barber->last_name }}</p>
             <p><strong>Nombre:</strong> {{ $schedule->name }}</p>
             <p><strong>Fecha:</strong> {{ $schedule->date->format('Y-m-d') }}</p>
-            <p><strong>Hora Inicio:</strong> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</p>
-            <p><strong>Hora Fin:</strong> {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</p>
-            <p><strong>Estado:</strong> {{ ucfirst($schedule->status) }}</p>
-
+            <p><strong>Hora Inicio:</strong> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</p>            <p><strong>Hora Fin:</strong> {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</p>
+            
             <div style="margin-top: 20px;">
                 <a href="{{ route('admin.schedules.edit', $schedule->id) }}" style="color: blue;">Editar</a> |
                 <a href="{{ route('admin.schedules.index') }}" style="color: #555;">Volver al listado</a>

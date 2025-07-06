@@ -20,7 +20,6 @@
                 <p><span class="font-semibold">Fecha:</span> {{ $schedule->date->format('Y-m-d') }}</p>
                 <p><span class="font-semibold">Hora de Inicio:</span> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</p>
                 <p><span class="font-semibold">Hora de Fin:</span> {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</p>
-                <p><span class="font-semibold">Estado:</span> {{ ucfirst($schedule->status) }}</p>
             </div>
 
             <div class="flex justify-end pt-4">

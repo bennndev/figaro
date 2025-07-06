@@ -31,15 +31,6 @@
                         <input type="date" name="date" id="date" value="{{ request('date') }}">
                     </div>
 
-                    {{-- Estado --}}
-                    <div>
-                        <label for="status">Estado:</label>
-                        <select name="status" id="status">
-                            <option value="">Todos</option>
-                            <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Disponible</option>
-                            <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>Reservado</option>
-                        </select>
-                    </div>
 
                     {{-- Botones --}}
                     <div>
@@ -62,7 +53,6 @@
                                 <th>Fecha</th>
                                 <th>Hora Inicio</th>
                                 <th>Hora Fin</th>
-                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -75,7 +65,6 @@
                                     <td>{{ $schedule->date->format('Y-m-d') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</td>
-                                    <td>{{ ucfirst($schedule->status) }}</td>
                                     <td>
                                         <a href="{{ route('admin.schedules.show', $schedule->id) }}">Ver</a> |
                                         <a href="{{ route('admin.schedules.edit', $schedule->id) }}">Editar</a> |

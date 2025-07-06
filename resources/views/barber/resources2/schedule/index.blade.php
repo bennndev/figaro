@@ -34,17 +34,6 @@
                             class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500" />
                     </div>
 
-                    {{-- Estado --}}
-                    <div class="flex flex-col">
-                        <label for="status" class="mb-1 text-sm">Estado</label>
-                        <select id="status" name="status"
-                            class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
-                            <option value="">Todos</option>
-                            <option value="available" {{ request('status') === 'available' ? 'selected' : '' }}>Disponible</option>
-                            <option value="booked" {{ request('status') === 'booked' ? 'selected' : '' }}>Reservado</option>
-                        </select>
-                    </div>
-
                     {{-- Botones --}}
                     <div class="flex gap-2 mt-4">
                         <button type="submit"
@@ -139,7 +128,7 @@
                             'title' => $s->name,
                             'start' => $s->date->format('Y-m-d') . 'T' . $s->start_time,
                             'end' => $s->date->format('Y-m-d') . 'T' . $s->end_time,
-                            'color' => $s->status === 'available' ? '#3B82F6' : '#DC2626',
+                            'color' => '#3B82F6',
                         ];
                     });
                 @endphp

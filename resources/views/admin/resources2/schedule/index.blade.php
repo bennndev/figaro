@@ -41,17 +41,6 @@
             class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500" />
     </div>
 
-    {{-- Estado --}}
-    <div class="flex flex-col">
-        <label for="status" class="mb-1 text-sm text-white">Estado</label>
-        <select name="status" id="status"
-            class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
-            <option value="">Todos</option>
-            <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Disponible</option>
-            <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>Reservado</option>
-        </select>
-    </div>
-
     {{-- Botones --}}
     <div class="flex gap-2 mt-4">
         <button type="submit"
@@ -83,7 +72,6 @@
                 <th class="px-4 py-3">Fecha</th>
                 <th class="px-4 py-3">Hora Inicio</th>
                 <th class="px-4 py-3">Hora Fin</th>
-                <th class="px-4 py-3">Estado</th>
                 <th class="px-4 py-3">Acciones</th>
             </tr>
         </x-slot>
@@ -96,7 +84,6 @@
                 <td class="px-4 py-2">{{ $schedule->date->format('Y-m-d') }}</td>
                 <td class="px-4 py-2">{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</td>
                 <td class="px-4 py-2">{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</td>
-                <td class="px-4 py-2">{{ ucfirst($schedule->status) }}</td>
                 <td class="px-4 py-2 whitespace-nowrap">
                     <div class="flex items-center space-x-3">
                         {{-- Ver --}}
@@ -180,7 +167,7 @@
                             'title' => "{$s->name} - {$s->barber->name}",
                             'start' => $s->date->format('Y-m-d') . 'T' . $s->start_time,
                             'end' => $s->date->format('Y-m-d') . 'T' . $s->end_time,
-                            'color' => $s->status === 'available' ? '#3B82F6' : '#DC2626',
+                            'color' => '#3B82F6',
                         ];
                     });
                 @endphp

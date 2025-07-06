@@ -23,8 +23,6 @@
                 <li><strong>Fecha:</strong> {{ $schedule->date->format('Y-m-d') }}</li>
                 <li><strong>Hora de inicio:</strong> {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</li>
                 <li><strong>Hora de fin:</strong> {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</li>
-                <li><strong>Estado:</strong> {{ ucfirst($schedule->status) }}</li>
-            </ul>
 
             <div class="mt-6 flex justify-end">
                 <button @click="showScheduleModal = false"

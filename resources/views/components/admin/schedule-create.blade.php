@@ -64,16 +64,6 @@
                         class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
                     @error('end_time') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium">Estado</label>
-                    <select name="status" id="status" required
-                        class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
-                        <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Disponible</option>
-                        <option value="booked" {{ old('status') == 'booked' ? 'selected' : '' }}>Reservado</option>
-                    </select>
-                    @error('status') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
-                </div>
             </div>
 
             <div class="mt-6 flex justify-end">

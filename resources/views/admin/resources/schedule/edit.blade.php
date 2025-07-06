@@ -42,14 +42,6 @@
                     <input type="time" name="end_time" id="end_time" value="{{ old('end_time', $schedule->end_time) }}" required>
                 </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label for="status">Estado:</label>
-                    <select name="status" id="status" required>
-                        <option value="available" {{ $schedule->status === 'available' ? 'selected' : '' }}>Disponible</option>
-                        <option value="booked" {{ $schedule->status === 'booked' ? 'selected' : '' }}>Reservado</option>
-                    </select>
-                </div>
-
                 <button type="submit" style="background-color: blue; color: white; padding: 10px 20px; border-radius: 5px;">
                     Actualizar
                 </button>
