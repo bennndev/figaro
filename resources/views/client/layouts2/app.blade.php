@@ -113,7 +113,6 @@
             {{-- Modal del asistente virtual --}}
             <x-client.robot-modal :history="[]" />
         </div>
-
     </div>
 
     {{-- Scripts adicionales --}}

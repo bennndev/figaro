@@ -72,19 +72,20 @@ class ReservationService
     public function create(array $data): Reservation
     {
         return DB::transaction(function () use ($data) {
-            $reservation = Reservation::create([
-                'user_id' => auth()->id(),
-                'barber_id' => $data['barber_id'],
-                'reservation_date' => $data['reservation_date'],
-                'reservation_time' => $data['reservation_time'],
-                'note' => $data['note'] ?? null,
-                'status' => 'pending_pay',
-            ]);
+        $reservation = Reservation::create([
+            'user_id' => auth()->id(),
+            'barber_id' => $data['barber_id'],
+            'reservation_date' => $data['reservation_date'],
+            'reservation_time' => $data['reservation_time'],
+            'note' => $data['note'] ?? null,
+            'status' => 'pending_pay',
+        ]);
 
-            $reservation->services()->sync(array_values($data['services']));
+        $reservation->services()->sync(array_values($data['services']));
+        $reservation->specialties()->sync(array_values($data['specialties'])); // <-- nuevo
 
-            return $reservation->load('services', 'barber');
-        });
+        return $reservation->load('services', 'barber', 'specialties');
+    });
     }
 
     /**

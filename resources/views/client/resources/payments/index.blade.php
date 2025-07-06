@@ -76,15 +76,24 @@
           @php
             $totalPaid = $reservation->payment->amount / 100;
           @endphp
-          <p class="font-medium">
-            Total: USD {{ number_format($totalPaid, 2) }}
-            <a
-              href="{{ route('client.payments.show', $reservation->payment->id) }}"
-              class="text-blue-600 hover:underline ml-4"
-            >
-              Ver detalle
-            </a>
-          </p>
+<p class="font-medium flex items-center space-x-4">
+  <span>Total: USD {{ number_format($totalPaid, 2) }}</span>
+
+  <a
+    href="{{ route('client.payments.show', $reservation->payment->id) }}"
+    class="text-blue-600 hover:underline"
+  >
+    Ver detalle
+  </a>
+
+  <a
+    href="{{ route('client.payments.report', $reservation->payment->id) }}"
+    class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+    target="_blank"
+  >
+    Generar reporte
+  </a>
+</p>
         </div>
       @empty
         <p>Aún no tienes pagos completados.</p>

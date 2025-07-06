@@ -119,9 +119,12 @@ public function success(Request $request)
 
         // 2) Genera el PDF a partir de la vista Blade
         $pdf = Pdf::loadView('client.resources2.reportes.reservation', compact('reservation', 'payment'))
-                  ->setPaper('a4', 'portrait');
+      ->setPaper('a4', 'portrait');
 
         // 3) Devuelve la descarga
         return $pdf->download("reporte_pago_{$payment->id}.pdf");
     }
+
 }
+
+

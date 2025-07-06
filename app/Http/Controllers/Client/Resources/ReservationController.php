@@ -15,7 +15,7 @@ use App\Http\Requests\Client\Resources\Reservation\AvailableSlotsRequest;
 use App\Models\Reservation;
 use App\Models\Barber;
 use App\Models\Service;
-
+use App\Models\Specialty;
 use App\Services\Client\Resources\ReservationService;
 
 class ReservationController extends Controller
@@ -31,8 +31,10 @@ class ReservationController extends Controller
     {
         $filters = $request->validated(); // incluso si está vacío, mantiene el estándar
         $reservations = $this->service->filter($filters);
-    
-        return view('client.resources2.reservation.index', compact('reservations', 'filters'));
+        $specialties = Specialty::all();
+        $services    = Service::all();
+        $barbers     = Barber::all();
+        return view('client.resources2.reservation.index', compact('reservations', 'filters', 'specialties', 'services', 'barbers'));
     }
 
     public function create()
@@ -46,11 +48,17 @@ class ReservationController extends Controller
     }
 
     public function store(CreateReservationRequest $request)
-    {
-        $this->service->create($request->validated());
+{
+    $this->service->create($request->validated());
 
-        return redirect()->route('client.reservations.index')->with('message', 'Reserva creada con éxito');
+    // Si la petición es AJAX o espera JSON, responde JSON
+    if ($request->expectsJson() || $request->ajax()) {
+        return response()->json(['success' => true, 'message' => 'Reserva creada con éxito']);
     }
+
+    // Si es formulario tradicional, redirige
+    return redirect()->route('client.reservations.index')->with('message', 'Reserva creada con éxito');
+}
 
     public function show(int $id)
     {

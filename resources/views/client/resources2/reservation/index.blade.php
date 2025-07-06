@@ -105,36 +105,35 @@
 
 
                 
+<!-- Botón para abrir el modal -->
+<div class="mt-6 flex justify-end">
+  <a href="#" onclick="openReservationModal()" class="bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition text-sm sm:text-base">
+    Nueva Reservación
+  </a>
+</div>
 
-                <!-- Botón para abrir el modal -->
-                <div class="mt-6 flex justify-end">
-                    <a href="#" onclick="openReservationModal()" class="bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition text-sm sm:text-base">
-                        Nueva Reservación
-                    </a>
-                </div>
+<!-- Modal -->
+<div id="reservationModal"
+     class="hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8">
+  <x-client.modal-reservation
+    :specialties="$specialties"
+    :services="$services"
+    :barbers="$barbers"
+  />
+</div>
 
-                <!-- Modal -->
-                <div id="reservationModal" class="hidden fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8">
-                    <x-client.modal-reservation />
-                </div>
+<!-- Script para abrir modal automáticamente -->
+<script>
+  function openReservationModal() {
+    document.getElementById('reservationModal').classList.remove('hidden');
+  }
 
-                <!-- Script para abrir modal automáticamente -->
-                <script>
-                    function openReservationModal() {
-                        document.getElementById('reservationModal').classList.remove('hidden');
-                    }
-
-                    window.addEventListener('DOMContentLoaded', () => {
-                        if (localStorage.getItem('autoOpenReservationModal') === 'true') {
-                            localStorage.removeItem('autoOpenReservationModal');
-                            openReservationModal();
-                        }
-                    });
-                </script>
-
-            </div>
-        </div>
-    </div>
-    <x-client.perfil :user="Auth::user()" />
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('autoOpenReservationModal') === 'true') {
+      localStorage.removeItem('autoOpenReservationModal');
+      openReservationModal();
+    }
+  });
+</script>
 
 </x-app-layout>
