@@ -12,6 +12,20 @@
                     <form action="{{ route('admin.barbers.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
+                        {{-- CSS para ocultar selects no deseados --}}
+                        <style>
+                            /* Ocultar cualquier select de especialidades que no sea nuestro */
+                            select[name*="specialty"]:not([name="specialty_ids_backup[]"]) {
+                                display: none !important;
+                            }
+                            
+                            /* Asegurar que nuestros checkboxes se muestren correctamente */
+                            input[type="checkbox"][name="specialty_ids[]"] {
+                                display: inline-block !important;
+                                visibility: visible !important;
+                            }
+                        </style>
+
                         {{-- Mostrar todos los errores --}}
                         @if ($errors->any())
                             <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -90,21 +104,29 @@
 
                         {{-- Especialidades --}}
                         <div style="margin-bottom: 20px;">
-                            <label for="specialties">Especialidades:</label><br>
-                            <select
-                                id="specialties"
-                                name="specialty_ids[]"
-                                multiple
-                                required
-                                style="width: 100%; padding: 8px; margin-top: 5px;"
-                            >
+                            <label>Especialidades:</label><br>
+                            
+                            {{-- Versión con checkboxes para debugging --}}
+                            <div style="border: 1px solid #ccc; padding: 10px; margin-top: 5px; max-height: 150px; overflow-y: auto;">
                                 @foreach ($specialties as $specialty)
-                                    <option value="{{ $specialty->id }}" {{ in_array($specialty->id, old('specialties', [])) ? 'selected' : '' }}>
-                                        {{ $specialty->name }}
-                                    </option>
+                                    <div style="margin-bottom: 5px;">
+                                        <label style="display: flex; align-items: center;">
+                                            <input type="checkbox" 
+                                                name="specialty_ids[]" 
+                                                value="{{ $specialty->id }}"
+                                                {{ in_array($specialty->id, old('specialty_ids', [])) ? 'checked' : '' }}
+                                                style="margin-right: 8px;">
+                                            {{ $specialty->name }}
+                                        </label>
+                                    </div>
                                 @endforeach
-                            </select>
-                            @error('specialties')
+                            </div>
+                            
+                            <div style="margin-top: 5px; font-size: 12px; color: #666;">
+                                Selecciona las especialidades marcando las casillas correspondientes
+                            </div>
+                            
+                            @error('specialty_ids')
                                 <div style="color: red; margin-top: 5px;">{{ $message }}</div>
                             @enderror
                         </div>
@@ -168,10 +190,66 @@
                             >
                         </div>
 
-                        <button type="submit" style="padding: 10px 15px; background-color: #1e40af; color: white; border: none; cursor: pointer;">
+                        <button type="submit" 
+                            style="padding: 10px 15px; background-color: #1e40af; color: white; border: none; cursor: pointer;"
+                            onclick="debugFormData(event)">
                             Guardar
                         </button>
                     </form>
+
+                    <script>
+                    function debugFormData(event) {
+                        event.preventDefault(); // Prevenir el envío inicialmente
+                        
+                        const form = event.target.form;
+                        
+                        console.log('=== DEBUG FORM DATA (CREATE) ===');
+                        console.log('Form action:', form.action);
+                        console.log('Form method:', form.method);
+                        
+                        // Verificar checkboxes de especialidades
+                        const specialtyCheckboxes = form.querySelectorAll('input[name="specialty_ids[]"]');
+                        const checkedSpecialties = Array.from(specialtyCheckboxes).filter(cb => cb.checked);
+                        
+                        console.log('Total specialty checkboxes:', specialtyCheckboxes.length);
+                        console.log('Checked specialties:', checkedSpecialties.length);
+                        console.log('Checked values:', checkedSpecialties.map(cb => cb.value));
+                        
+                        // Crear FormData
+                        const formData = new FormData(form);
+                        
+                        // Ver todos los datos del formulario
+                        console.log('All form data:');
+                        for (let [key, value] of formData.entries()) {
+                            console.log(`${key}: ${value}`);
+                        }
+                        
+                        // Verificar si specialty_ids[] está en FormData
+                        const specialtyIds = formData.getAll('specialty_ids[]');
+                        console.log('specialty_ids[] from FormData:', specialtyIds);
+                        
+                        // Verificar que al menos una especialidad esté seleccionada
+                        if (specialtyIds.length === 0) {
+                            alert('Debe seleccionar al menos una especialidad');
+                            return false;
+                        }
+                        
+                        // Mostrar alerta y preguntar si continuar
+                        if (confirm(`Found ${specialtyIds.length} specialties. Debug info logged to console. Check console and click OK to submit form.`)) {
+                            form.submit();
+                        }
+                        
+                        return false;
+                    }
+                    
+                    // También agregar evento al cargar la página
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const checkboxes = document.querySelectorAll('input[name="specialty_ids[]"]');
+                        const checkedBoxes = Array.from(checkboxes).filter(cb => cb.checked);
+                        console.log('Page loaded (CREATE) - Total checkboxes:', checkboxes.length);
+                        console.log('Initially checked:', checkedBoxes.map(cb => cb.value));
+                    });
+                    </script>
 
                     <div style="margin-top: 20px;">
                         <a href="{{ route('admin.barbers.index') }}">← Volver al listado</a>

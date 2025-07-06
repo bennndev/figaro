@@ -21,8 +21,8 @@
                 action="{{ route('admin.barbers.update', $barber->id) }}" 
                 method="POST" 
                 enctype="multipart/form-data" 
-                x-data="multiselectDropdown()" 
-                x-init="init(@json($barber->specialties->pluck('id')), @json($barber->specialties->pluck('name')))"
+                x-data="modalFormData()" 
+                x-init="initBarberData(@json($barber->specialties->pluck('id')), @json($barber->specialties->pluck('name')))"
             >
                 @csrf
                 @method('PUT')
@@ -56,41 +56,44 @@
                 </div>
 
                 <!-- Especialidades -->
-                <div class="mb-4 relative" x-data="multiselectDropdown()" x-init="init(@json($barber->specialties->map(fn($s) => ['id' => $s->id, 'name' => $s->name])))">
-    <label class="block text-sm font-medium mb-1 text-white">Especialidades (máx. 3)</label>
+                <div class="mb-4 relative">
+                    <label class="block text-sm font-medium mb-1 text-white">Especialidades (máx. 3)</label>
 
-    <button type="button" @click="toggle"
-        class="w-full px-4 py-2 bg-[#2A2A2A] border border-gray-600 rounded flex justify-between items-center">
-        <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Seleccionar especialidades'"></span>
-        <i class="bi bi-chevron-down ml-2"></i>
-    </button>
+                    <button type="button" @click="toggle"
+                        class="w-full px-4 py-2 bg-[#2A2A2A] border border-gray-600 rounded flex justify-between items-center">
+                        <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Seleccionar especialidades'"></span>
+                        <i class="bi bi-chevron-down ml-2"></i>
+                    </button>
 
-    <div x-show="open" @click.outside="open = false"
-        class="absolute z-50 mt-2 w-full bg-[#2A2A2A] border border-gray-600 rounded shadow-lg max-h-60 overflow-y-auto">
-        <div class="p-2 space-y-1">
-            @foreach ($specialties as $specialty)
-                <label class="flex items-center space-x-2 px-2 py-1 hover:bg-white/10 rounded">
-                    <input type="checkbox"
-                        value="{{ $specialty->id }}"
-                        x-ref="checkboxes"
-                        @change="updateSelection($event)"
-                        x-bind:checked="selected.includes({{ $specialty->id }})"
-                        data-label="{{ $specialty->name }}"
-                        class="text-indigo-500 bg-transparent border-gray-500 rounded focus:ring-0">
-                    <span>{{ $specialty->name }}</span>
-                </label>
-            @endforeach
-        </div>
-    </div>
+                    <div x-show="open" @click.outside="open = false"
+                        class="absolute z-50 mt-2 w-full bg-[#2A2A2A] border border-gray-600 rounded shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-2 space-y-1">
+                            @foreach ($specialties as $specialty)
+                                @php
+                                    $isSelected = in_array($specialty->id, $barber->specialties->pluck('id')->toArray());
+                                @endphp
+                                <label class="flex items-center space-x-2 px-2 py-1 hover:bg-white/10 rounded">
+                                    <input type="checkbox"
+                                        value="{{ $specialty->id }}"
+                                        @change="updateSelection($event)"
+                                        @if($isSelected) checked @endif
+                                        data-label="{{ $specialty->name }}"
+                                        class="text-indigo-500 bg-transparent border-gray-500 rounded focus:ring-0">
+                                    <span>{{ $specialty->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
 
-    <template x-for="id in selected" :key="id">
-        <input type="hidden" name="specialties[]" :value="id">
-    </template>
+                    <template x-for="id in selected" :key="id">
+                        <input type="hidden" name="specialty_ids[]" :value="id">
+                    </template>
 
-    <div x-show="warning" x-transition class="text-sm text-red-400 mt-2">
-        Solo puedes seleccionar hasta 3 especialidades.
-    </div>
-</div>
+                    <div x-show="warning" x-transition class="text-sm text-red-400 mt-2">
+                        Solo puedes seleccionar hasta 3 especialidades.
+                    </div>
+                </div>
+
                 <!-- Descripción -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-medium">Descripción</label>
@@ -140,8 +143,9 @@
 
 <!-- Script -->
 <script>
-function multiselectDropdown() {
+function modalFormData() {
     return {
+        // Modal control
         open: false,
         selected: [],
         selectedLabels: [],
@@ -157,8 +161,10 @@ function multiselectDropdown() {
 
             if (event.target.checked) {
                 if (this.selected.length < 3) {
-                    this.selected.push(id);
-                    this.selectedLabels.push(label);
+                    if (!this.selected.includes(id)) {
+                        this.selected.push(id);
+                        this.selectedLabels.push(label);
+                    }
                 } else {
                     event.target.checked = false;
                     this.warning = true;
@@ -170,14 +176,14 @@ function multiselectDropdown() {
             }
         },
 
-        init(ids = [], labels = []) {
-            this.selected = ids;
-            this.selectedLabels = labels;
+        initBarberData(ids = [], labels = []) {
+            // Asignar los valores iniciales
+            this.selected = Array.isArray(ids) ? [...ids] : [];
+            this.selectedLabels = Array.isArray(labels) ? [...labels] : [];
         }
     }
 }
 </script>
-
 
 <!-- Scrollbar personalizada -->
 <style>
