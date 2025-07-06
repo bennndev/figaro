@@ -22,7 +22,7 @@
                 method="POST" 
                 enctype="multipart/form-data" 
                 x-data="modalFormData()" 
-                x-init="initBarberData(@json($barber->specialties->pluck('id')), @json($barber->specialties->pluck('name')))"
+                x-init="setTimeout(() => initBarberData(@json($barber->specialties->pluck('id')), @json($barber->specialties->pluck('name'))), 100);"
             >
                 @csrf
                 @method('PUT')
@@ -128,7 +128,8 @@
                 <!-- Botones -->
                 <div class="flex justify-end gap-4 mt-6">
                     <button type="submit"
-                            class="bg-white text-black font-semibold px-5 py-2 rounded-md hover:bg-gray-200 transition">
+                            class="bg-white text-black font-semibold px-5 py-2 rounded-md hover:bg-gray-200 transition"
+                            onclick="debugModalForm(event)">
                         Actualizar
                     </button>
                     <button type="button" @click="showEditModal = false"
@@ -159,6 +160,8 @@ function modalFormData() {
             const id = parseInt(event.target.value);
             const label = event.target.dataset.label;
 
+            console.log(`Checkbox changed: ID ${id}, Label: ${label}, Checked: ${event.target.checked}`);
+
             if (event.target.checked) {
                 if (this.selected.length < 3) {
                     if (!this.selected.includes(id)) {
@@ -174,14 +177,66 @@ function modalFormData() {
                 this.selected = this.selected.filter(i => i !== id);
                 this.selectedLabels = this.selectedLabels.filter(l => l !== label);
             }
+            
+            console.log('Current selection:', this.selected);
+            console.log('Current labels:', this.selectedLabels);
         },
 
         initBarberData(ids = [], labels = []) {
+            console.log('=== INIT BARBER DATA ===');
+            console.log('Received IDs:', ids);
+            console.log('Received Labels:', labels);
+            
             // Asignar los valores iniciales
             this.selected = Array.isArray(ids) ? [...ids] : [];
             this.selectedLabels = Array.isArray(labels) ? [...labels] : [];
+            
+            console.log('Initialized - Selected:', this.selected);
+            console.log('Initialized - Labels:', this.selectedLabels);
         }
     }
+}
+
+function debugModalForm(event) {
+    event.preventDefault();
+    
+    const form = event.target.form;
+    
+    console.log('=== DEBUG MODAL FORM DATA ===');
+    console.log('Form action:', form.action);
+    console.log('Form method:', form.method);
+    
+    const specialtyInputs = form.querySelectorAll('input[name="specialty_ids[]"]');
+    const specialtyValues = Array.from(specialtyInputs).map(input => input.value).filter(v => v !== '');
+    
+    console.log('Total specialty_ids[] inputs:', specialtyInputs.length);
+    console.log('Specialty values:', specialtyValues);
+    
+    const formData = new FormData(form);
+    
+    console.log('All form data:');
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+    
+    const specialtyIds = formData.getAll('specialty_ids[]');
+    console.log('specialty_ids[] from FormData:', specialtyIds);
+    
+    if (specialtyIds.length === 0) {
+        if (!confirm('No hay especialidades seleccionadas. ¿Continuar de todas formas?')) {
+            return false;
+        }
+    }
+    
+    const message = specialtyIds.length > 0 
+        ? `Found ${specialtyIds.length} specialties. Check console and click OK to submit.`
+        : `No specialties found. Check console and click OK to submit anyway.`;
+        
+    if (confirm(message)) {
+        form.submit();
+    }
+    
+    return false;
 }
 </script>
 

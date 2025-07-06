@@ -57,24 +57,24 @@
                             @enderror
                         </div>
 
-                                                {{-- Especialidades --}}
+                        {{-- Especialidades --}}
                         <div style="margin-bottom: 20px;">
-                            <label for="specialties">Especialidades:</label><br>
+                            <label for="specialty_ids">Especialidades:</label><br>
                             <select
-                                id="specialties"
-                                name="specialties[]"
+                                id="specialty_ids"
+                                name="specialty_ids[]"
                                 multiple
                                 required
                                 style="width: 100%; padding: 8px; margin-top: 5px;"
                             >
                                 @foreach ($specialties as $specialty)
                                     <option value="{{ $specialty->id }}"
-                                        {{ in_array($specialty->id, old('specialties', $barber->specialties->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                        {{ in_array($specialty->id, old('specialty_ids', $barber->specialties->pluck('id')->toArray())) ? 'selected' : '' }}>
                                         {{ $specialty->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('specialties')
+                            @error('specialty_ids')
                                 <div style="color: red; margin-top: 5px;">{{ $message }}</div>
                             @enderror
                         </div>

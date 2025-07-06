@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin\Resources;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\Barber;
 use App\Services\Admin\Resources\BarberService;
-
 use App\Http\Requests\Admin\Resources\Barber\CreateBarberRequest;
 use App\Http\Requests\Admin\Resources\Barber\UpdateBarberRequest;
 use App\Http\Requests\Admin\Resources\Barber\FilterBarberRequest;
@@ -34,10 +32,13 @@ class BarberController extends Controller
 
     public function store(CreateBarberRequest $request)
     {
-        $this->service->create($request->validated());
-
-        return redirect()->route('admin.barbers.index')
-            ->with('message', 'Barbero creado correctamente');
+        try {
+            $barber = $this->service->create($request->validated());
+            return redirect()->route('admin.barbers.index')
+                ->with('message', 'Barbero creado correctamente');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Error al crear el barbero: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function show(int $id)
@@ -56,17 +57,23 @@ class BarberController extends Controller
 
     public function update(UpdateBarberRequest $request, int $id)
     {
-        $this->service->update($id, $request->validated());
-
-        return redirect()->route('admin.barbers.index')
-            ->with('message', 'Barbero actualizado exitosamente');
+        try {
+            $this->service->update($id, $request->validated());
+            return redirect()->route('admin.barbers.index')
+                ->with('message', 'Barbero actualizado correctamente');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Error al actualizar el barbero: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function destroy(int $id)
     {
-        $this->service->delete($id);
-
-        return redirect()->route('admin.barbers.index')
-            ->with('message', 'Barbero eliminado exitosamente');
+        try {
+            $this->service->delete($id);
+            return redirect()->route('admin.barbers.index')
+                ->with('message', 'Barbero eliminado correctamente');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Error al eliminar el barbero: ' . $e->getMessage()]);
+        }
     }
 }

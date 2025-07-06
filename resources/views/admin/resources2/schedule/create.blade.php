@@ -66,18 +66,6 @@
                         @error('end_time') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    {{-- Estado --}}
-                    <div class="mb-5">
-                        <label for="status" class="block text-sm font-medium text-white">Estado</label>
-                        <select name="status" id="status"
-                                class="mt-1 w-full border border-gray-600 rounded-md p-2 bg-[#1F1F1F] text-white focus:outline-none focus:border-blue-500"
-                                required>
-                            <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Disponible</option>
-                            <option value="booked" {{ old('status') == 'booked' ? 'selected' : '' }}>Reservado</option>
-                        </select>
-                        @error('status') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
-                    </div>
-
                     {{-- Botones --}}
                     <div class="mt-6 flex justify-end gap-4">
                         <button type="submit"

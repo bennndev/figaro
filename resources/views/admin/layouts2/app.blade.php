@@ -107,5 +107,127 @@
 
     {{-- Scripts adicionales --}}
     @stack('scripts')
+
+    {{-- SweetAlert Scripts --}}
+    <script>
+        // Función para mostrar SweetAlerts
+        function showAlert(type, title, text) {
+            const config = {
+                title: title,
+                text: text,
+                confirmButtonColor: '#ffffff',
+                confirmButtonText: 'Entendido',
+                background: '#2A2A2A',
+                color: '#ffffff',
+                customClass: {
+                    confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
+                }
+            };
+
+            switch(type) {
+                case 'success':
+                    Swal.fire({
+                        ...config,
+                        icon: 'success',
+                        iconColor: '#10B981'
+                    });
+                    break;
+                case 'error':
+                    Swal.fire({
+                        ...config,
+                        icon: 'error',
+                        iconColor: '#EF4444'
+                    });
+                    break;
+                case 'warning':
+                    Swal.fire({
+                        ...config,
+                        icon: 'warning',
+                        iconColor: '#F59E0B'
+                    });
+                    break;
+                case 'info':
+                    Swal.fire({
+                        ...config,
+                        icon: 'info',
+                        iconColor: '#3B82F6'
+                    });
+                    break;
+            }
+        }
+
+        // Función para confirmación de eliminación
+        function confirmDelete(url, itemName = 'este elemento') {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: `Se eliminará ${itemName} permanentemente`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#F59E0B'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear formulario para DELETE
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = url;
+                    
+                    // Token CSRF
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+                    if (csrfToken) {
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = csrfToken.getAttribute('content');
+                        form.appendChild(csrfInput);
+                    }
+                    
+                    // Method DELETE
+                    const methodInput = document.createElement('input');
+                    methodInput.type = 'hidden';
+                    methodInput.name = '_method';
+                    methodInput.value = 'DELETE';
+                    form.appendChild(methodInput);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+
+        // Mostrar mensajes de sesión
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('success'))
+                showAlert('success', '¡Éxito!', '{{ session('success') }}');
+            @endif
+
+            @if(session('error'))
+                showAlert('error', 'Error', '{{ session('error') }}');
+            @endif
+
+            @if(session('warning'))
+                showAlert('warning', 'Advertencia', '{{ session('warning') }}');
+            @endif
+
+            @if(session('info'))
+                showAlert('info', 'Información', '{{ session('info') }}');
+            @endif
+
+            @if($errors->any())
+                @php
+                    $errorMessages = $errors->all();
+                    $errorText = count($errorMessages) > 1 
+                        ? implode("\\n", $errorMessages) 
+                        : $errorMessages[0];
+                @endphp
+                showAlert('error', 'Error de validación', '{{ $errorText }}');
+            @endif
+        });
+    </script>
 </body>
 </html>

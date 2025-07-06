@@ -1,6 +1,10 @@
 <x-admin-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <x-slot name="                <div style="margin-bottom: 20px;">
+                    <label for="end_time">Hora de fin:</label>
+                    <input type="time" name="end_time" id="end_time" value="{{ old('end_time', $schedule->end_time) }}" required>
+                </div>
+
+                <button type="submit" style="background-color: blue; color: white; padding: 10px 20px; border-radius: 5px;">"   <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Editar Horario
         </h2>
     </x-slot>
@@ -40,14 +44,6 @@
                 <div style="margin-bottom: 20px;">
                     <label for="end_time">Hora de fin:</label>
                     <input type="time" name="end_time" id="end_time" value="{{ old('end_time', $schedule->end_time) }}" required>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label for="status">Estado:</label>
-                    <select name="status" id="status" required>
-                        <option value="available" {{ $schedule->status === 'available' ? 'selected' : '' }}>Disponible</option>
-                        <option value="booked" {{ $schedule->status === 'booked' ? 'selected' : '' }}>Reservado</option>
-                    </select>
                 </div>
 
                 <button type="submit" style="background-color: blue; color: white; padding: 10px 20px; border-radius: 5px;">

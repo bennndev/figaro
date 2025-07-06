@@ -65,16 +65,6 @@
                         class="w-full p-2 rounded-md bg-[#1E1E1E] border border-gray-600 text-white" required>
                 </div>
 
-                {{-- Estado --}}
-                <div class="mb-4">
-                    <label for="status" class="block text-sm font-medium mb-1">Estado</label>
-                    <select name="status" id="status"
-                        class="w-full p-2 rounded-md bg-[#1E1E1E] border border-gray-600 text-white" required>
-                        <option value="available" {{ $schedule->status === 'available' ? 'selected' : '' }}>Disponible</option>
-                        <option value="booked" {{ $schedule->status === 'booked' ? 'selected' : '' }}>Reservado</option>
-                    </select>
-                </div>
-
                 {{-- Botones --}}
                 <div class="flex justify-end gap-4 mt-6">
                     <button type="submit"
