@@ -10,19 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class DashboardService
 {
     /**
-     * Obtiene los servicios más populares (puedes ajustar la lógica a tu gusto)
-     */
-    public function getPopularServices($limit = 6)
-    {
-        // Ejemplo: los más reservados
-        return Service::with('barbers')
-            ->withCount('reservations')
-            ->orderByDesc('reservations_count')
-            ->take($limit)
-            ->get();
-    }
-
-    /**
      * Obtiene los barberos destacados (puedes ajustar la lógica)
      */
     public function getFeaturedBarbers($limit = 3)
