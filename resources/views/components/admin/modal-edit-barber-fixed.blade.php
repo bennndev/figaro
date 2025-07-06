@@ -191,6 +191,24 @@ function modalFormData() {
             this.selected = Array.isArray(ids) ? [...ids] : [];
             this.selectedLabels = Array.isArray(labels) ? [...labels] : [];
             
+            // Sincronizar checkboxes con los valores iniciales
+            this.$nextTick(() => {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][value]');
+                checkboxes.forEach(checkbox => {
+                    const id = parseInt(checkbox.value);
+                    if (this.selected.includes(id)) {
+                        checkbox.checked = true;
+                    }
+                });
+                
+                // Forzar actualización de la interfaz
+                this.$nextTick(() => {
+                    // Trigger a reactive update to ensure the display updates
+                    this.selected = [...this.selected];
+                    this.selectedLabels = [...this.selectedLabels];
+                });
+            });
+            
             console.log('Initialized - Selected:', this.selected);
             console.log('Initialized - Labels:', this.selectedLabels);
         }

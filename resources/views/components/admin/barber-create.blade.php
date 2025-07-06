@@ -175,13 +175,11 @@
             scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
         }
     </style>
-</div>
-
     <script>
     function multiselectDropdown() {
         return {
             open: false,
-            selected: @json(old('specialty_ids', [])),
+            selected: @json(array_map('intval', old('specialty_ids', []))),
             selectedLabels: [],
             toggle() {
                 this.open = !this.open;
@@ -199,12 +197,15 @@
                 }
             },
             init() {
-                // Inicializa etiquetas desde inputs marcados (en caso de error de validación)
-                this.selectedLabels = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
-                    .map(cb => cb.nextElementSibling.innerText);
+                // Inicializa etiquetas desde valores seleccionados previamente
+                const specialties = @json($specialties ?? []);
+                this.selectedLabels = this.selected.map(id => {
+                    const specialty = specialties.find(s => s.id === id);
+                    return specialty ? specialty.name : '';
+                }).filter(name => name !== '');
             }
         };
     }
-</script>
+    </script>
 
 </div>
