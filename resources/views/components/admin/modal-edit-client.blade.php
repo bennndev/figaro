@@ -91,6 +91,9 @@
         </div>
     </div>
 </div>
+
+<x-utils.modal-error key="showEditModal" />
+
 <!-- Scrollbar personalizado -->
 <style>
     [x-cloak] {

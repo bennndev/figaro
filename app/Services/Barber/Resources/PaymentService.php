@@ -27,6 +27,48 @@ class PaymentService
     }
 
     /**
+     * Obtener todos los pagos con filtros aplicados
+     */
+    public function returnAllWithFilters(array $filters): Collection
+    {
+        $query = auth()->guard('barber')
+            ->user()
+            ->reservations()
+            ->whereIn('status', ['paid', 'completed'])
+            ->with('payment', 'user', 'services')
+            ->has('payment');
+
+        // Filtro por nombre del cliente
+        if (!empty($filters['client_name'])) {
+            $query->whereHas('user', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['client_name'] . '%')
+                  ->orWhere('last_name', 'like', '%' . $filters['client_name'] . '%');
+            });
+        }
+
+        // Filtro por fecha de pago
+        if (!empty($filters['payment_date'])) {
+            $query->whereHas('payment', function ($q) use ($filters) {
+                $q->whereDate('created_at', $filters['payment_date']);
+            });
+        }
+
+        // Filtro por estado del pago
+        if (!empty($filters['status'])) {
+            $query->whereHas('payment', function ($q) use ($filters) {
+                $q->where('status', $filters['status']);
+            });
+        }
+
+        return $query->latest()
+            ->get()
+            ->map(function ($reservation) {
+                return $reservation->payment;
+            })
+            ->filter();
+    }
+
+    /**
      * Obtener todos los pagos de un barbero específico (para estadísticas)
      */
     public function getPaymentsByBarber($barberId): Collection

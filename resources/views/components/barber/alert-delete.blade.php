@@ -1,4 +1,4 @@
-@push('scripts')
+{{-- Componente para confirmación de eliminación con SweetAlert2 --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const deleteForms = document.querySelectorAll('.delete-form');
@@ -24,7 +24,9 @@
                         confirmButton: 'bg-white text-black hover:bg-[#E5E5E5] font-semibold px-5 py-2 rounded-md transition',
                         cancelButton: 'bg-[#2A2A2A] text-white hover:bg-[#3A3A3A] font-semibold px-5 py-2 rounded-md transition',
                     },
-                    buttonsStyling: false
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();
@@ -34,4 +36,3 @@
         });
     });
 </script>
-@endpush

@@ -106,8 +106,7 @@
 
                         {{-- Eliminar --}}
                         <form method="POST" action="{{ route('admin.schedules.destroy', $schedule->id) }}"
-                            class="inline delete-form"
-                            onsubmit="return confirm('¿Estás seguro de eliminar este horario?')">
+                            class="inline delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" title="Eliminar"
@@ -263,4 +262,6 @@ input[type="time"] {
             </div>
         </div>
     </div>
+    <x-admin.alert-delete />
+    <x-admin.alert-success />
 </x-admin-app-layout>

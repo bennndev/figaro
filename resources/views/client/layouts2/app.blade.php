@@ -24,8 +24,39 @@
             font-family: 'DM Sans', sans-serif;
         }
         [x-cloak] {
-        display: none !important;
-    }
+            display: none !important;
+        }
+        
+        /* Estilos de scrollbar personalizados */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Para Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+        
+        *:hover {
+            scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+        }
     </style>
 </head>
 <body class="bg-[#1E1E1E] text-white min-h-screen" x-data="{ sidebarOpen: false }">

@@ -1,4 +1,4 @@
-@props(['key' => 'showCreateBarber'])
+@props(['key'])
 
 @if ($errors->any())
 <script>
@@ -18,11 +18,12 @@
             }
         }).then(() => {
             // Esperamos a que se cierre SweetAlert, y luego forzamos el modal abierto
-            const el = document.querySelector('[x-data]');
-if (el && el.__x) {
-    el.__x.$data.showCreateBarber = true;
-}
-
+            const modalElements = document.querySelectorAll('[x-data]');
+            modalElements.forEach(el => {
+                if (el && el.__x && el.__x.$data.hasOwnProperty('{{ $key }}')) {
+                    el.__x.$data['{{ $key }}'] = true;
+                }
+            });
         });
     });
 </script>

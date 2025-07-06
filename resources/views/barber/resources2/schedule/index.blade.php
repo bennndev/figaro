@@ -227,5 +227,6 @@ input[type="time"]:hover::-webkit-calendar-picker-indicator {
         </div>
     </div>
     <x-barber.alert-delete />
+    <x-barber.alert-success />
 
 </x-barber-app-layout>

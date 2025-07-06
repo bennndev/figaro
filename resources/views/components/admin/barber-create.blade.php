@@ -148,7 +148,7 @@
     </div>
 
     <!-- Esto reactiva el modal si hay errores con SweetAlert -->
-    <x-utils.modal-error key="showCreateBarber" />
+    <x-utils.modal-error-create-barber />
 
    
 

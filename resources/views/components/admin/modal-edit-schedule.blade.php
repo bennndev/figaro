@@ -81,6 +81,8 @@
     </div>
 </div>
 
+<x-utils.modal-error key="showEditScheduleModal" />
+
 <!-- Scroll personalizado -->
 <style>
 .custom-scroll::-webkit-scrollbar {
