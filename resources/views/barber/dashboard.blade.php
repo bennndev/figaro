@@ -1,4 +1,4 @@
-<x-barber-app-layout>
+    <x-barber-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-white leading-tight">
             Dashboard - ¡Hola, {{ auth()->guard('barber')->user()->name }}!

@@ -51,6 +51,17 @@
            class="flex items-center px-4 py-3 transition {{ isActive('admin.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
         </a>
+
+         <a href="{{ route('admin.reservations.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActive('admin.reservations.index') }}">
+            <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Reservas
+        </a>
+
+        <a href="{{ route('admin.payments.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActive('admin.payments.index') }}">
+            <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
+        </a>
+
     </div>
 
     <!-- Cerrar sesión -->
