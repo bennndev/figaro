@@ -55,7 +55,7 @@
 
     <!-- Cerrar sesión -->
     <div class="mt-6">
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
             <button type="submit" 
                     class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition">
