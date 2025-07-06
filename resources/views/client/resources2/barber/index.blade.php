@@ -73,8 +73,8 @@
 
                     {{-- Imagen --}}
                     <div class="flex-shrink-0 mr-4">
-                        @if ($barber->profile_photo && file_exists(public_path('storage/' . $barber->profile_photo)))
-                            <img src="{{ asset('storage/' . $barber->profile_photo) }}"
+                        @if ($barber->profile_photo)
+                            <img src="{{ $barber->profile_photo_url }}"
                                 alt="Foto de perfil"
                                 class="w-24 h-24 object-cover rounded-full border shadow-md">
                         @else

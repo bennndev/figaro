@@ -17,14 +17,14 @@ class ScheduleSeeder extends Seeder
             'Turno Mañana',
             'Turno Tarde', 
             'Turno Completo',
-            'Horario Especial',
-            'Fin de Semana'
         ];
 
-        foreach ($barbers as $index => $barber) {
-            // Crear 15 horarios por barbero distribuidos en diferentes fechas
-            for ($i = 0; $i < 15; $i++) {
-                $date = Carbon::now()->addDays($i % 30); // Distribuir en 30 días
+        foreach ($barbers as $barber) {
+            // Crear máximo 3 horarios por barbero
+            $numSchedules = rand(1, 3);
+            
+            for ($i = 0; $i < $numSchedules; $i++) {
+                $date = Carbon::now()->addDays($i + rand(0, 7)); // Fechas próximas
                 $scheduleType = $scheduleTypes[$i % count($scheduleTypes)];
                 
                 // Definir horarios según el tipo
@@ -40,14 +40,6 @@ class ScheduleSeeder extends Seeder
                     case 'Turno Completo':
                         $startTime = '09:00:00';
                         $endTime = '20:00:00';
-                        break;
-                    case 'Horario Especial':
-                        $startTime = '10:00:00';
-                        $endTime = '18:00:00';
-                        break;
-                    case 'Fin de Semana':
-                        $startTime = '10:00:00';
-                        $endTime = '16:00:00';
                         break;
                 }
 

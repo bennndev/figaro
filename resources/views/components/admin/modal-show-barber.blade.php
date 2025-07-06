@@ -42,7 +42,7 @@
 
             @if ($barber->profile_photo)
                 <div class="mt-6">
-                    <img src="{{ asset('storage/' . $barber->profile_photo) }}" alt="Foto de perfil"
+                    <img src="{{ $barber->profile_photo_url }}" alt="Foto de perfil"
                          class="h-36 w-36 object-cover rounded-lg border border-gray-500 shadow">
                 </div>
             @endif

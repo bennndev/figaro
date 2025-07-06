@@ -14,20 +14,10 @@ class SpecialtySeeder extends Seeder
     {
         $specialties = [
             ['name' => 'Corte Clásico'],
-            ['name' => 'Corte Moderno'],
-            ['name' => 'Barba Tradicional'],
-            ['name' => 'Barba Hipster'],
+            ['name' => 'Corte Degradado'],
+            ['name' => 'Ondulado'],
             ['name' => 'Afeitado'],
-            ['name' => 'Fade'],
-            ['name' => 'Undercut'],
-            ['name' => 'Pompadour'],
-            ['name' => 'Degradado'],
-            ['name' => 'Corte Militar'],
-            ['name' => 'Texturizado'],
-            ['name' => 'Corte Largo'],
-            ['name' => 'Styling'],
-            ['name' => 'Tratamiento Capilar'],
-            ['name' => 'Masaje Capilar'],
+            ['name' => 'Decoloración'],
         ];
 
         foreach ($specialties as $specialty) {

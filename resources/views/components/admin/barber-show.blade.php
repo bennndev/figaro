@@ -41,8 +41,8 @@
                     <li><strong>Actualizado:</strong> <span x-text="barber.updated_at"></span></li>
                 </ul>
 
-                <div class="mt-6 flex justify-center" x-show="barber.profile_photo">
-                    <img :src="'/storage/' + barber.profile_photo" alt="Foto de perfil"
+                <div class="mt-6 flex justify-center" x-show="barber.profile_photo_url">
+                    <img :src="barber.profile_photo_url" alt="Foto de perfil"
                         class="h-40 w-40 object-cover rounded-lg shadow border border-white/10">
                 </div>
 
