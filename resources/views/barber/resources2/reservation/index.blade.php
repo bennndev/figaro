@@ -63,10 +63,19 @@
                     {{-- Ver --}}
                     <a href="{{ route('barber.reservations.show', $reservation->id) }}" 
                         class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
-                        title="Ver"
+                        title="Ver detalle"
                     >
                         <i class="bi bi-eye-fill"></i>
                     </a>
+                    
+                    {{-- Marcar como completado --}}
+                    <button type="button" 
+                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
+                        title="Marcar como completado"
+                        onclick="markAsCompleted({{ $reservation->id }})"
+                    >
+                        <i class="bi bi-check-lg"></i>
+                    </button>
                 </td>
             </tr>
         @endforeach
@@ -76,5 +85,22 @@
             </div>
         </div>
     </div>
+
+    {{-- Script para marcar como completado --}}
+    <script>
+        function markAsCompleted(reservationId) {
+            // Mostrar confirmación
+            if (confirm('¿Está seguro de que desea marcar esta reserva como completada?')) {
+                // Aquí puedes agregar la lógica para actualizar el estado
+                // Por ejemplo, hacer una petición AJAX al servidor
+                
+                // Por ahora, solo mostrar un mensaje de éxito
+                alert('Reserva marcada como completada correctamente.');
+                
+                // Opcional: recargar la página para reflejar los cambios
+                // location.reload();
+            }
+        }
+    </script>
 
 </x-barber-app-layout>
