@@ -51,17 +51,14 @@ class ReservationController extends Controller
     public function store(CreateReservationRequest $request)
     {
         $data = $request->validated();
-        // Si viene de reserva rápida, specialties puede venir vacío o como specialty_id
-        // Si specialties no viene, pero specialty_id sí, lo adaptamos
+        // Adaptar specialties y services si vienen como campos individuales
         if (empty($data['specialties']) && !empty($request->input('specialty_id'))) {
             $data['specialties'] = [$request->input('specialty_id')];
         }
-        // Si services no viene como array, lo adaptamos
         if (empty($data['services']) && !empty($request->input('service_id'))) {
             $data['services'] = [$request->input('service_id')];
         }
         $reservation = $this->service->create($data);
-
         // Stripe Checkout
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
         $user = auth()->user();
@@ -111,16 +108,12 @@ class ReservationController extends Controller
 
     public function destroy(int $id)
     {
-        $reservation = $this->service->find($id);
-
-        if ($reservation->status !== 'pending_pay') {
-            return redirect()->back()->with('error', 'Solo puedes cancelar reservas pendientes.');
+        try {
+            $this->service->delete($id);
+            return redirect()->route('client.reservations.index')->with('message', 'Reserva eliminada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $reservation->delete();
-
-        return redirect()->route('client.reservations.index')
-                         ->with('message', 'Reserva cancelada correctamente');
     }
 
     /**
@@ -145,4 +138,13 @@ class ReservationController extends Controller
         }
     }
     
+    public function cancel($id)
+    {
+        try {
+            $this->service->cancel($id);
+            return redirect()->route('client.reservations.index')->with('message', 'Reserva cancelada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }

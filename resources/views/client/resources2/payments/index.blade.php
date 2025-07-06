@@ -34,7 +34,7 @@
           <li>
             {{ $service->name }} —
             <span class="text-green-400 font-semibold">
-              USD {{ number_format($service->price, 2) }}
+              S/. {{ number_format($service->price, 2) }}
             </span>
             @if(($service->pivot->quantity ?? 1) > 1)
               <span class="text-white/70">(x{{ $service->pivot->quantity }})</span>
@@ -53,7 +53,7 @@
         <button
           type="submit"
           class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-md transition">
-          💳 Pagar <span class="font-semibold">USD {{ number_format($total, 2) }}</span>
+          💳 Pagar <span class="font-semibold">S/. {{ number_format($total, 2) }}</span>
         </button>
       </form>
     </div>
@@ -83,7 +83,7 @@
           <li>
             {{ $service->name }} —
             <span class="text-green-400 font-semibold">
-              USD {{ number_format($service->price, 2) }}
+              S/. {{ number_format($service->price, 2) }}
             </span>
           </li>
         @endforeach
@@ -94,7 +94,7 @@
       @endphp
 
       <p class="font-medium text-white mb-4">
-        Total: <span class="text-green-400 font-semibold">USD {{ number_format($totalPaid, 2) }}</span>
+        Total: <span class="text-green-400 font-semibold">S/. {{ number_format($totalPaid, 2) }}</span>
       </p>
 
       <div class="flex justify-end">

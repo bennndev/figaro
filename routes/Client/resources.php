@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     Route::resource('reservations', ReservationController::class)->except(['destroy']);
     Route::post('reservations/available-slots', [ReservationController::class, 'availableSlots'])
         ->name('reservations.available-slots');
-
+    Route::patch('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
     // Callbacks de pagos (primero estáticos para evitar conflicto con {id})
     Route::get('payments/success', [PaymentController::class, 'success'])->name('payments.success');
     Route::get('payments/failure', [PaymentController::class, 'failure'])->name('payments.failure');

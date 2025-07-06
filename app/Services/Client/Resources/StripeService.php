@@ -26,7 +26,7 @@ public function createCheckoutSession(Reservation $reservation, string $successU
     $items = $reservation->services->map(function($service) {
         return [
           'price_data' => [
-            'currency'     => 'usd',
+            'currency'     => 'pen',
             'product_data' => ['name' => $service->name],
             'unit_amount'  => (int)round($service->price * 100),
           ],

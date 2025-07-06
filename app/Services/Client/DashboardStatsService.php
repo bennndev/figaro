@@ -30,6 +30,7 @@ class DashboardStatsService
         $user = Auth::user();
         return Reservation::with(['services', 'barber'])
             ->where('user_id', $user->id)
+            ->whereIn('status', ['paid', 'completed', 'pending_pay'])
             ->orderByDesc('reservation_date')
             ->orderByDesc('reservation_time')
             ->take($limit)

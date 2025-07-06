@@ -157,4 +157,30 @@ class ReservationService
 
         return $availableSlots;
     }
+
+    /**
+     * Cancelar una reserva (solo si está pendiente de pago)
+     */
+    public function cancel($id): Reservation
+    {
+        $reservation = $this->find($id);
+        if ($reservation->status !== 'pending_pay') {
+            throw new \Exception('Solo puedes cancelar reservas pendientes.');
+        }
+        $reservation->status = 'cancelled';
+        $reservation->save();
+        return $reservation;
+    }
+
+    /**
+     * Eliminar una reserva (solo si está pendiente de pago)
+     */
+    public function delete($id): void
+    {
+        $reservation = $this->find($id);
+        if ($reservation->status !== 'pending_pay') {
+            throw new \Exception('Solo puedes eliminar reservas pendientes.');
+        }
+        $reservation->delete();
+    }
 }
