@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Barber\Resources;
 
 use App\Http\Controllers\Controller;
 use App\Services\Barber\Resources\PaymentService;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\Payment;
 
 class PaymentController extends Controller
 {
@@ -16,13 +14,7 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $filters = [
-            'client_name' => request('client_name'),
-            'payment_date' => request('payment_date'),
-            'status' => request('status')
-        ];
-
-        $payments = $this->service->returnAllWithFilters($filters);
+        $payments = $this->service->returnAll();
         $stats = $this->service->getStats();
         
         return view('barber.resources2.payments.index', compact('payments', 'stats'));
@@ -38,18 +30,5 @@ class PaymentController extends Controller
         $payment = $this->service->find($id);
         
         return view('barber.resources2.payments.show', compact('payment'));
-    }
-
-    public function report(int $id)
-    {
-        if (!$this->service->isPaymentOwner($id)) {
-            abort(404, 'Pago no encontrado o no disponible.');
-        }
-        $payment = Payment::with('reservation.services', 'reservation.user', 'reservation.barber')
-            ->findOrFail($id);
-        $reservation = $payment->reservation;
-        $pdf = Pdf::loadView('barber.resources2.payments.report', compact('reservation', 'payment'))
-            ->setPaper('a4', 'portrait');
-        return $pdf->download("reporte_pago_{$payment->id}.pdf");
     }
 }

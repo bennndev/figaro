@@ -185,8 +185,6 @@ function modalFormData() {
 }
 </script>
 
-<x-utils.modal-error-edit-barber :barberId="$barber->id" />
-
 <!-- Scrollbar personalizada -->
 <style>
 .custom-scroll::-webkit-scrollbar {
