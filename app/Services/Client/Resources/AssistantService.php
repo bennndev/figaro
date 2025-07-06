@@ -25,14 +25,23 @@ class AssistantService
         $fechas  = Schedule::pluck('date')
             ->map(fn($d) => $d->format('d/m/Y'))
             ->join(', ');
-            // horarios (todos juntos)
         $horarios = Schedule::all()
-        ->map(fn($s) => 
-            Carbon::parse($s->start_time)->format('H:i')
-            .' - '.
-            Carbon::parse($s->end_time)->format('H:i')
-        )
-        ->join(', ');
+            ->map(fn($s) => 
+                Carbon::parse($s->start_time)->format('H:i')
+                .' - '.
+                Carbon::parse($s->end_time)->format('H:i')
+            )
+            ->join(', ');
+        $soporte_numero = '+51929725033';
+        $soporte_link = 'https://wa.me/51929725033';
+
+        // Si el usuario pregunta por soporte, contacto o WhatsApp, responder con el link de soporte
+        if (preg_match('/(soporte|contacto|whatsapp|ayuda|n[uú]mero)/i', $prompt)) {
+            return [
+                'success' => true,
+                'reply' => "Puedes contactarnos por WhatsApp aquí: $soporte_link",
+            ];
+        }
 
         // 2) Construir el system prompt
         $system = <<<EOT
