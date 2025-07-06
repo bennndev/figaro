@@ -75,15 +75,28 @@ class BarberController extends Controller
         //
     }
 
-    public function availableSchedules(Request $request, int $barberId): JsonResponse
+    public function availableSchedules(Request $request, int $barberId): \Illuminate\Http\JsonResponse
+{
+    // Devuelve los próximos 7 días con horarios disponibles y el id del schedule
+    $schedules = \App\Models\Schedule::where('barber_id', $barberId)
+        ->where('date', '>=', now()->toDateString())
+        ->orderBy('date')
+        ->limit(7)
+        ->get(['id', 'date']);
+
+    // Formato: [{id: 1, date: '2025-07-05'}, ...]
+    return response()->json($schedules);
+}
+
+    public function availableDays($barberId)
     {
-        $date = $request->query('date');
+        // Busca los días próximos donde el barbero tiene horarios disponibles
+        $schedules = \App\Models\Schedule::where('barber_id', $barberId)
+            ->where('date', '>=', now()->toDateString())
+            ->orderBy('date')
+            ->limit(7)
+            ->pluck('date');
 
-        if (!$date) {
-            return response()->json(['error' => 'Fecha requerida'], 422);
-        }
-
-        $schedules = $this->service->getSchedulesByDate($barberId, $date);
         return response()->json($schedules);
     }
 }
