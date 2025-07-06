@@ -26,4 +26,3 @@ class UpdateBarberRequest extends FormRequest
         ];
     }
 }
-

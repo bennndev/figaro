@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Admin\Resources\Barber;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class CreateBarberRequest extends FormRequest
 {
@@ -14,12 +13,6 @@ class CreateBarberRequest extends FormRequest
 
     public function rules(): array
     {
-        Log::info('CreateBarberRequest validation', [
-            'request_data' => request()->all(),
-            'has_specialty_ids' => request()->has('specialty_ids'),
-            'specialty_ids_value' => request()->input('specialty_ids')
-        ]);
-
         return [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
