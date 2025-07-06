@@ -65,9 +65,8 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-Route::get('/dashboard', function () {
-    return view('client.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', \App\Http\Controllers\Client\DashboardController::class)
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

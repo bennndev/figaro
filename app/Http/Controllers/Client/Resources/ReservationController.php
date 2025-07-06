@@ -44,21 +44,49 @@ class ReservationController extends Controller
             'reservation' => new Reservation, 
             'barbers' => Barber::all(),
             'services' => Service::all(),
+            'specialties' => Specialty::all(),
         ]);
     }
 
     public function store(CreateReservationRequest $request)
-{
-    $this->service->create($request->validated());
-
-    // Si la petición es AJAX o espera JSON, responde JSON
-    if ($request->expectsJson() || $request->ajax()) {
-        return response()->json(['success' => true, 'message' => 'Reserva creada con éxito']);
+    {
+        $data = $request->validated();
+        // Adaptar specialties y services si vienen como campos individuales
+        if (empty($data['specialties']) && !empty($request->input('specialty_id'))) {
+            $data['specialties'] = [$request->input('specialty_id')];
+        }
+        if (empty($data['services']) && !empty($request->input('service_id'))) {
+            $data['services'] = [$request->input('service_id')];
+        }
+        $reservation = $this->service->create($data);
+        // Stripe Checkout
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+        $user = auth()->user();
+        $service = $reservation->services->first();
+        $checkoutSession = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'pen',
+                    'product_data' => [
+                        'name' => $service->name,
+                        'description' => $service->description,
+                    ],
+                    'unit_amount' => intval($service->price * 100),
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'customer_email' => $user->email,
+            'success_url' => route('client.payments.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('client.payments.failure'),
+            'metadata' => [
+                'reservation_id' => $reservation->id,
+                'user_id' => $user->id,
+            ],
+        ]);
+        return redirect($checkoutSession->url);
     }
-
-    // Si es formulario tradicional, redirige
-    return redirect()->route('client.reservations.index')->with('message', 'Reserva creada con éxito');
-}
 
     public function show(int $id)
     {
@@ -80,16 +108,12 @@ class ReservationController extends Controller
 
     public function destroy(int $id)
     {
-        $reservation = $this->service->find($id);
-
-        if ($reservation->status !== 'pending_pay') {
-            return redirect()->back()->with('error', 'Solo puedes cancelar reservas pendientes.');
+        try {
+            $this->service->delete($id);
+            return redirect()->route('client.reservations.index')->with('message', 'Reserva eliminada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $reservation->delete();
-
-        return redirect()->route('client.reservations.index')
-                         ->with('message', 'Reserva cancelada correctamente');
     }
 
     /**
@@ -114,4 +138,13 @@ class ReservationController extends Controller
         }
     }
     
+    public function cancel($id)
+    {
+        try {
+            $this->service->cancel($id);
+            return redirect()->route('client.reservations.index')->with('message', 'Reserva cancelada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }

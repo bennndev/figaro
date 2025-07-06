@@ -22,7 +22,7 @@
             @foreach($reservation->services as $service)
               <li>
                 {{ $service->name }} —
-                USD {{ number_format($service->price, 2) }}
+                S/. {{ number_format($service->price, 2) }}
                 @if(($service->pivot->quantity ?? 1) > 1)
                   (x{{ $service->pivot->quantity }})
                 @endif
@@ -68,7 +68,7 @@
             @foreach($reservation->services as $service)
               <li>
                 {{ $service->name }} —
-                USD {{ number_format($service->price, 2) }}
+                S/. {{ number_format($service->price, 2) }}
               </li>
             @endforeach
           </ul>
@@ -77,7 +77,7 @@
             $totalPaid = $reservation->payment->amount / 100;
           @endphp
 <p class="font-medium flex items-center space-x-4">
-  <span>Total: USD {{ number_format($totalPaid, 2) }}</span>
+  <span>Total: S/. {{ number_format($totalPaid, 2) }}</span>
 
   <a
     href="{{ route('client.payments.show', $reservation->payment->id) }}"

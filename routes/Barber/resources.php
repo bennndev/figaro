@@ -20,6 +20,9 @@ Route::middleware(['auth:barber', 'barber.verified'])->prefix('barber')->name('b
 
     Route::resource('payments', PaymentController::class)->only(['index', 'show']);
 
+    # Ruta para descargar PDF de pago
+    Route::get('payments/{id}/pdf', [PaymentController::class, 'report'])->name('payments.pdf');
+
     # Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

@@ -6,13 +6,13 @@
     }
 @endphp
 
-<nav class="flex flex-col justify-between h-full text-white p-4 rounded-2xl shadow-xl text-sm">
+<nav class="flex flex-col justify-between h-full text-white p-4 rounded-2xl shadow-xl text-sm overflow-hidden">
 
     <!-- Logo o ícono superior -->
     
 
     <!-- Menú -->
-    <div class="space-y-4">
+    <div class="space-y-4 overflow-y-auto pr-2 scrollbar-hide" style="max-height:calc(100vh-140px);">
         <div class="flex justify-center my-1 mb-4">
         <img src="{{ asset('images/imagen2.svg') }}" alt="Ícono"
              class="max-w-[100px] max-h-[100px] drop-shadow-xl">
@@ -51,6 +51,17 @@
            class="flex items-center px-4 py-3 transition {{ isActive('admin.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
         </a>
+
+         <a href="{{ route('admin.reservations.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActive('admin.reservations.index') }}">
+            <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Reservas
+        </a>
+
+        <a href="{{ route('admin.payments.index') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActive('admin.payments.index') }}">
+            <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
+        </a>
+
     </div>
 
     <!-- Cerrar sesión -->
@@ -64,3 +75,14 @@
         </form>
     </div>
 </nav>
+
+<style>
+/* Oculta la barra de scroll en todos los navegadores modernos */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+</style>
