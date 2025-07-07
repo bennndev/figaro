@@ -8,7 +8,7 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4">
             <!-- Bienvenida personalizada -->
-            <div class="bg-[#2A2A2A] text-white rounded-2xl shadow-lg mb-8 p-8 flex flex-col md:flex-row items-center gap-6">
+            <div class="bg-[#2A2A2A] text-white rounded-2xl shadow-lg mb-8 p-8 flex flex-col md:flex-row items-center gap-6 border border-white/10">
                 <img src="{{ asset('images/imagen.svg') }}" alt="Barbería" class="w-24 h-24 md:w-32 md:h-32 rounded-full shadow-lg border-4 border-[#222] bg-[#181818]">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-1">¡Hola, <span class="text-white">{{ Auth::user()->name }}</span>!</h1>
@@ -18,7 +18,7 @@
 
             <!-- Próxima reserva -->
             @if($nextReservation)
-            <div class="bg-[#2A2A2A] border-l-4 border-gray-500 rounded-xl p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4 shadow">
+            <div class="bg-[#2A2A2A] border-l-4 border-gray-500 rounded-xl p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4 shadow border border-white/10">
                 <div>
                     <div class="font-semibold text-white mb-1 flex items-center gap-2">
                         <i class="bi bi-calendar-event text-xl text-white"></i> Tu próxima reserva:
@@ -37,22 +37,22 @@
 
             <!-- Estadísticas personales -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
+                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow border border-white/10">
                     <i class="bi bi-calendar2-check text-3xl text-white mb-2"></i>
                     <div class="text-2xl font-bold text-white">{{ $stats['total'] }}</div>
                     <div class="text-gray-300 text-sm">Reservas totales</div>
                 </div>
-                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
+                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow border border-white/10">
                     <i class="bi bi-check-circle text-3xl text-white mb-2"></i>
                     <div class="text-2xl font-bold text-white">{{ $stats['completed'] }}</div>
                     <div class="text-gray-300 text-sm">Completadas</div>
                 </div>
-                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
+                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow border border-white/10">
                     <i class="bi bi-x-circle text-3xl text-white mb-2"></i>
                     <div class="text-2xl font-bold text-white">-</div>
                     <div class="text-gray-300 text-sm">Canceladas</div>
                 </div>
-                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
+                <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow border border-white/10">
                     <i class="bi bi-cash-stack text-3xl text-white mb-2"></i>
                     <div class="text-2xl font-bold text-white">S/. {{ number_format($stats['totalSpent'], 2) }}</div>
                     <div class="text-gray-300 text-sm">Total gastado</div>
@@ -63,7 +63,7 @@
             <div class="mb-12">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2"><i class="bi bi-clock-history text-white"></i> Tus últimas reservas</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full bg-[#2A2A2A] rounded-xl text-white">
+                    <table class="min-w-full bg-[#2A2A2A] rounded-xl text-white border border-white/10">
                         <thead>
                             <tr class="text-white text-left">
                                 <th class="py-2 px-4">Fecha</th>
@@ -108,7 +108,7 @@
             <!-- Recomendaciones personalizadas -->
             <div class="mb-12">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2"><i class="bi bi-lightbulb text-white"></i> Te recomendamos</h2>
-                <div class="bg-[#2A2A2A] rounded-xl p-6 text-gray-300">
+                <div class="bg-[#2A2A2A] rounded-xl p-6 text-gray-300 border border-white/10">
                     ¿No sabes qué elegir? Prueba nuestros servicios destacados o consulta a nuestro <a href="{{ route('client.assistant.index') }}" class="text-white underline font-semibold">asistente virtual</a> para una recomendación personalizada.
                 </div>
             </div>
@@ -116,7 +116,7 @@
             <!-- Estado de cuenta o pagos pendientes -->
             <div class="mb-12">
                 <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2"><i class="bi bi-credit-card-2-front text-white"></i> Estado de cuenta</h2>
-                <div class="bg-[#2A2A2A] rounded-xl p-6 text-gray-300">
+                <div class="bg-[#2A2A2A] rounded-xl p-6 text-gray-300 border border-white/10">
                     @if($stats['totalSpent'] > 0)
                         ¡Gracias por confiar en nosotros! Puedes ver tus recibos y pagos en la sección <a href="{{ route('client.payments.index') }}" class="text-white underline font-semibold">Pagos</a>.
                     @else

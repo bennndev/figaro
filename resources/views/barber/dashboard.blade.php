@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
             {{-- Mensaje de bienvenida y verificación de horarios --}}
-            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-xl font-bold">¡Bienvenido de vuelta!</h3>
@@ -31,7 +31,7 @@
             {{-- Estadísticas principales de pagos --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Total recaudado -->
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-cash-stack text-white text-5xl mr-4"></i>
                         <div>
@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- Este mes -->
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-calendar-month text-white text-5xl mr-4"></i>
                         <div>
@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- Reservas completadas -->
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-check-lg text-white text-5xl mr-4"></i>
                         <div>
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Promedio por servicio -->
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-graph-up text-white text-5xl mr-4"></i>
                         <div>
@@ -85,7 +85,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Próximas reservas --}}
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <h3 class="text-lg font-bold mb-4 flex items-center">
                         <i class="bi bi-calendar-event mr-2"></i>
                         Próximas Reservas
@@ -130,7 +130,7 @@
                 </div>
 
                 {{-- Servicios más populares --}}
-                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                     <h3 class="text-lg font-bold mb-4 flex items-center">
                         <i class="bi bi-star mr-2"></i>
                         Servicios Más Populares
@@ -161,7 +161,7 @@
             </div>
 
             {{-- Actividad reciente --}}
-            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
                 <h3 class="text-lg font-bold mb-4 flex items-center">
                     <i class="bi bi-clock-history mr-2"></i>
                     Actividad Reciente
@@ -204,7 +204,7 @@
             {{-- Accesos rápidos --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <a href="{{ route('barber.reservations.index') }}" 
-                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group">
+                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-calendar-event text-2xl mr-4"></i>
                         <div>
@@ -215,7 +215,7 @@
                 </a>
 
                 <a href="{{ route('barber.payments.index') }}" 
-                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group">
+                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-credit-card text-2xl mr-4"></i>
                         <div>
@@ -226,7 +226,7 @@
                 </a>
 
                 <a href="{{ route('barber.schedules.index') }}" 
-                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group">
+                   class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 hover:bg-white hover:text-black transition block group border border-white/10">
                     <div class="flex items-center">
                         <i class="bi bi-calendar-check text-2xl mr-4"></i>
                         <div>
