@@ -8,11 +8,12 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
-            {{-- Mensaje de bienvenida y verificación de horarios --}}
-            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
+            {{-- Mensaje de bienvenida común --}}
+            <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-8 border border-white/10">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-xl font-bold">¡Bienvenido de vuelta!</h3>
+                        <h1 class="text-3xl font-bold text-white mb-2">¡Hola, {{ auth()->guard('barber')->user()->name }}!</h1>
+                        <p class="text-gray-300 text-lg">Bienvenido a tu panel de barbero.</p>
                         <p class="text-gray-300 mt-1">
                             Hoy es {{ now()->locale('es')->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
                         </p>
@@ -28,12 +29,12 @@
                 </div>
             </div>
 
-            {{-- Estadísticas principales de pagos --}}
+            {{-- Estadísticas principales --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Total recaudado -->
                 <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
-                    <div class="flex items-center">
-                        <i class="bi bi-cash-stack text-white text-5xl mr-4"></i>
+                    <div class="bg-[#1E1E1E] rounded-lg p-4 flex items-center">
+                        <i class="bi bi-cash-stack text-white text-4xl mr-4"></i>
                         <div>
                             <p class="text-sm font-medium text-gray-300">Total Recaudado</p>
                             <p class="text-2xl font-semibold text-white">
@@ -45,8 +46,8 @@
 
                 <!-- Este mes -->
                 <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
-                    <div class="flex items-center">
-                        <i class="bi bi-calendar-month text-white text-5xl mr-4"></i>
+                    <div class="bg-[#1E1E1E] rounded-lg p-4 flex items-center">
+                        <i class="bi bi-calendar-month text-white text-4xl mr-4"></i>
                         <div>
                             <p class="text-sm font-medium text-gray-300">Este Mes</p>
                             <p class="text-2xl font-semibold text-white">
@@ -58,8 +59,8 @@
 
                 <!-- Reservas completadas -->
                 <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
-                    <div class="flex items-center">
-                        <i class="bi bi-check-lg text-white text-5xl mr-4"></i>
+                    <div class="bg-[#1E1E1E] rounded-lg p-4 flex items-center">
+                        <i class="bi bi-check-lg text-white text-4xl mr-4"></i>
                         <div>
                             <p class="text-sm font-medium text-gray-300">Completadas</p>
                             <p class="text-2xl font-semibold text-white">
@@ -71,8 +72,8 @@
 
                 <!-- Promedio por servicio -->
                 <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg p-6 border border-white/10">
-                    <div class="flex items-center">
-                        <i class="bi bi-graph-up text-white text-5xl mr-4"></i>
+                    <div class="bg-[#1E1E1E] rounded-lg p-4 flex items-center">
+                        <i class="bi bi-graph-up text-white text-4xl mr-4"></i>
                         <div>
                             <p class="text-sm font-medium text-gray-300">Promedio</p>
                             <p class="text-2xl font-semibold text-white">
