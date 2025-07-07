@@ -6,8 +6,7 @@
       No hay problema. Ingresa tu correo electrónico y te enviaremos un enlace para que puedas restablecerla.
     </p>
 
-    <!-- Mensaje de sesión -->
-    <x-auth-session-status class="mb-4 text-sm text-green-500 text-center" :status="session('status')" />
+    {{-- Los mensajes de sesión se manejan con SweetAlert en el layout --}}
 
     <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
       @csrf
@@ -18,7 +17,7 @@
         <input type="email" name="email" id="email" value="{{ old('email') }}"
                class="w-full px-4 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
                required autofocus>
-        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-sm" />
+        {{-- Los errores se manejan con SweetAlert --}}
       </div>
 
       <!-- Botón enviar -->

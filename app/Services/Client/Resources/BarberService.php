@@ -3,8 +3,8 @@
 namespace App\Services\Client\Resources;
 
 use App\Models\Barber;
-use App\Http\Requests\Client\Resources\Barber\FilterBarberRequest;
 use App\Models\Specialty;
+use App\Models\Schedule;
 
 class BarberService
 {
@@ -36,10 +36,18 @@ class BarberService
             });
         }
 
-        return $query->paginate(10);
+        return $query->paginate(6);
     }
 
     public function getSpecialties(){
         return Specialty::all();
+    }
+
+    public function getSchedulesByDate(int $barberId, string $date)
+    {
+        return Schedule::where('barber_id', $barberId)
+            ->where('date', $date)
+            ->orderBy('start_time')
+            ->get(['id', 'start_time', 'end_time']);
     }
 }

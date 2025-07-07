@@ -23,15 +23,14 @@ class ScheduleController extends Controller
     {
         $schedules = $this->service->index($request); // paginado para la tabla
         $barbers = $this->service->getAllBarbers();
-        $calendarSchedules = $this->service->getForCalendar($request); // para el calendario
 
-        return view('admin.resources.schedule.index', compact('schedules', 'barbers', 'calendarSchedules'));
+        return view('admin.resources2.schedule.index', compact('schedules', 'barbers'));
     }
 
     public function create()
     {
         $barbers = $this->service->getAllBarbers();
-        return view('admin.resources.schedule.create', compact('barbers'));
+        return view('admin.resources2.schedule.create', compact('barbers'));
     }
 
     public function store(CreateScheduleRequest $request)
@@ -50,7 +49,7 @@ class ScheduleController extends Controller
     {
         $schedule = $this->service->getById($id);
         $barbers = $this->service->getAllBarbers();
-        return view('admin.resources.schedule.edit', compact('schedule', 'barbers'));
+        return view('admin.resources2.schedule.edit', compact('schedule', 'barbers'));
     }
 
     public function update(UpdateScheduleRequest $request, int $id)
@@ -65,5 +64,11 @@ class ScheduleController extends Controller
         $schedule = $this->service->getById($id);
         $this->service->destroy($schedule);
         return redirect()->route('admin.schedules.index')->with('message', 'Horario eliminado correctamente.');
+    }
+
+    public function calendar()
+    {
+        $schedules = $this->service->all();
+        return view('admin.resources2.schedule.calendar', compact('schedules'));
     }
 }

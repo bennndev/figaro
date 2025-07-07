@@ -9,7 +9,7 @@
         <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
             {{-- Información principal --}}
             <div class="flex flex-col items-center">
-                <img src="{{ asset('storage/' . $barber->profile_photo) }}"
+                <img src="{{ $barber->profile_photo_url }}"
                      alt="Foto de perfil"
                      class="w-40 h-40 object-cover rounded-full border shadow-md mb-4">
                 <h3 class="text-2xl font-bold mb-2">{{ $barber->name }} {{ $barber->last_name }}</h3>

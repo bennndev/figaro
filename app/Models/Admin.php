@@ -28,6 +28,7 @@ class Admin extends Authenticatable implements MustVerifyEmail
         'last_name',
         'email',
         'password',
+        'profile_photo',
     ];
 
     # Ocultar campos importantes: contraseña y token

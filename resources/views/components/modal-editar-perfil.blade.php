@@ -17,12 +17,12 @@
 
             <div>
                 <label class="block text-sm font-medium mb-1">Contraseña</label>
-                <input type="password" class="w-full bg-[#1E1E1E] border border-gray-600 rounded px-4 py-2">
+                <input type="password" name="password" class="w-full bg-[#1E1E1E] border border-gray-600 rounded px-4 py-2">
             </div>
 
             <div>
                 <label class="block text-sm font-medium mb-1">Confirmar Contraseña</label>
-                <input type="password" class="w-full bg-[#1E1E1E] border border-gray-600 rounded px-4 py-2">
+                <input type="password" name="password_confirmation" class="w-full bg-[#1E1E1E] border border-gray-600 rounded px-4 py-2">
             </div>
 
             <div class="flex justify-end pt-2">

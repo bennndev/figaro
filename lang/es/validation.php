@@ -280,5 +280,49 @@ return [
         'winner'                   => 'ganador',
         'work'                     => 'trabajo',
         'year'                     => 'año',
+        
+        // Atributos personalizados para la barbería
+        'last_name'                => 'apellido',
+        'phone_number'             => 'número de teléfono',
+        'profile_photo'            => 'foto de perfil',
+        'specialties'              => 'especialidades',
+        'specialty_ids'            => 'especialidades',
+        'barber_id'                => 'barbero',
+        'price'                    => 'precio',
+        'duration'                 => 'duración',
+        'specialty_id'             => 'especialidad',
+        'start_time'               => 'hora de inicio',
+        'end_time'                 => 'hora de fin',
+        'notes'                    => 'notas',
+        'total_price'              => 'precio total',
+        'user_id'                  => 'cliente',
+        'service_id'               => 'servicio',
+        'birth_date'               => 'fecha de nacimiento',
+        'day_of_week'              => 'día de la semana',
+        'role'                     => 'rol',
+        'last_login'               => 'último acceso',
+        'amount'                   => 'monto',
+        'method'                   => 'método de pago',
+        'transaction_id'           => 'ID de transacción',
+        'reservation_id'           => 'reserva',
+        'processed_at'             => 'fecha de procesamiento',
+        'is_active'                => 'estado activo',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Estados de Reservas
+    |--------------------------------------------------------------------------
+    |
+    | Las siguientes líneas contienen las traducciones para los estados
+    | de las reservas utilizados en el sistema.
+    |
+    */
+
+    'reservation_status' => [
+        'pending_pay' => 'Pendiente de Pago',
+        'paid'        => 'Pagado',
+        'cancelled'   => 'Cancelado',
+        'completed'   => 'Completado',
     ],
 ];

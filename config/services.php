@@ -39,6 +39,14 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
+    'stripe' => [
+        'key'    => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+    'deepseek' => [
+    'api_key' => env('DEEPSEEK_API_KEY'),
+    'api_url' => env('DEEPSEEK_API_URL', 'https://api.deepseek.com/v1')
+],
 ];
 
 

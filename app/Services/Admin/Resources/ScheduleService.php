@@ -18,7 +18,6 @@ class ScheduleService
             });
         })
         ->when($request->date, fn($q) => $q->where('date', $request->date))
-        ->when($request->status, fn($q) => $q->where('status', $request->status))
         ->latest()
         ->paginate(10);
     }
@@ -59,7 +58,11 @@ class ScheduleService
                 });
             })
             ->when($request->date, fn($q) => $q->where('date', $request->date))
-            ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->get();
+    }
+
+    public function all()
+    {
+        return Schedule::with('barber')->get();
     }
 }

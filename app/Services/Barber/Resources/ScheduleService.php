@@ -54,4 +54,9 @@ class ScheduleService
         $schedule = $this->find($id);
         return $schedule->delete();
     }
+
+    public function all()
+    {
+        return Schedule::where('barber_id', auth('barber')->id())->get();
+    }
 }

@@ -5,14 +5,49 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\Resources\ReservationController;
 use App\Http\Controllers\Client\Resources\BarberController;
 use App\Http\Controllers\Client\Resources\ServiceController;
+use App\Http\Controllers\Client\Resources\PaymentController;
+use App\Http\Controllers\Client\Resources\AssistantController;
 
-### Resources - Cliente
+# Resources - Cliente
 Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->group(function () {
-    # Only View - Barberos
-    Route::resource('barbers', BarberController::class)->only(['index','show']);
-    # Only View - Servicios 
-    Route::resource('services', ServiceController::class)->only(['index','show']);
-    # CRUD Reservas - Cliente
+
+    // Barberos (solo vistas)
+    Route::resource('barbers', BarberController::class)->only(['index', 'show']);
+    Route::get('barbers/{barber}/schedules', [BarberController::class, 'availableSchedules'])
+        ->name('barbers.schedules');
+
+    // Servicios (solo vistas)
+    Route::resource('services', ServiceController::class)->only(['index', 'show']);
+    Route::get('services/specialty/{id}', [ServiceController::class, 'getBySpecialty'])
+        ->name('services.getBySpecialty');
+
+    // AJAX: Filtrar servicios por especialidad
+    Route::get('reservations/services-by-specialty', [ReservationController::class, 'servicesBySpecialty'])->name('reservations.services-by-specialty');
+    // AJAX: Filtrar barberos por especialidad y/o servicio
+    Route::get('reservations/barbers-by-specialty-service', [ReservationController::class, 'barbersBySpecialtyService'])->name('reservations.barbers-by-specialty-service');
+    // Reservas (CRUD excepto destroy)
     Route::resource('reservations', ReservationController::class)->except(['destroy']);
+    Route::post('reservations/available-slots', [ReservationController::class, 'availableSlots'])
+        ->name('reservations.available-slots');
+    Route::patch('reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel');
+    // Callbacks de pagos (primero estáticos para evitar conflicto con {id})
+    Route::get('payments/success', [PaymentController::class, 'success'])->name('payments.success');
+    Route::get('payments/failure', [PaymentController::class, 'failure'])->name('payments.failure');
+    Route::get('payments/pending', [PaymentController::class, 'pending'])->name('payments.pending');
+
+    // Pagos (index, store, show)
+    Route::resource('payments', PaymentController::class)->only(['index', 'store', 'show']);
+
+    // Historial de pagos
+    Route::get('payments-history', [PaymentController::class, 'history'])->name('payments.history');
+
+    // Reporte PDF de pago
+    Route::get('payments/{id}/report', [PaymentController::class, 'downloadReport'])
+        ->name('payments.report');
+
+    // Asistente IA
+    Route::resource('assistant', AssistantController::class)->only(['index']);
+    Route::post('assistant/ask', [AssistantController::class, 'ask'])->name('assistant.ask');
 });
+
 

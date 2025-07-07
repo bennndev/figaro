@@ -21,12 +21,12 @@ class ScheduleController extends Controller
         $filters = $request->validated();
         $schedules = $this->service->filter($filters);
 
-        return view('barber.resources.schedule.index', compact('schedules', 'filters'));
+        return view('barber.resources2.schedule.index', compact('schedules', 'filters'));
     }
 
     public function create()
     {
-        return view('barber.resources.schedule.form', [
+        return view('barber.resources2.schedule.form', [
             'schedule' => new Schedule(),
         ]);
     }
@@ -42,13 +42,13 @@ class ScheduleController extends Controller
     public function show(int $id)
     {
         $schedule = $this->service->find($id);
-        return view('barber.resources.schedule.show', compact('schedule'));
+        return view('barber.resources2.schedule.show', compact('schedule'));
     }
 
     public function edit(int $id)
     {
         $schedule = $this->service->find($id);
-        return view('barber.resources.schedule.edit', compact('schedule'));
+        return view('barber.resources2.schedule.edit', compact('schedule'));
     }
 
     public function update(UpdateScheduleRequest $request, int $id)
@@ -65,5 +65,11 @@ class ScheduleController extends Controller
 
         return redirect()->route('barber.schedules.index')
             ->with('message', 'Horario eliminado exitosamente');
+    }
+
+    public function calendar()
+    {
+        $schedules = $this->service->all();
+        return view('barber.resources2.schedule.calendar', compact('schedules'));
     }
 }

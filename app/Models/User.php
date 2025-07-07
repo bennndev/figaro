@@ -47,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         // Imagen por defecto
-        return asset('images/default-profile.png');
+        return asset('images/client/default-profile.svg');
     }
 
     # Relaciones

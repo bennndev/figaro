@@ -1,11 +1,16 @@
 <x-auth-layout title="Iniciar Sesión">
+  {{-- Botón de volver fuera del contenedor --}}
+  <div class="absolute top-6 left-6 z-10">
+    <a href="{{ url('/') }}" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
+      <i class="bi bi-arrow-left"></i>
+      <span class="text-sm">Volver</span>
+    </a>
+  </div>
+  
   <x-auth-card>
     <h2 class="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
 
-    {{-- Mensaje de estado de sesión --}}
-    @if(session('status'))
-      <div class="text-green-400 text-sm mb-3 text-center">{{ session('status') }}</div>
-    @endif
+    {{-- Los mensajes de sesión se manejan con SweetAlert en el layout --}}
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
       @csrf
@@ -21,9 +26,7 @@
         autofocus
         autocomplete="username"
       />
-      @error('email')
-        <small class="text-red-400">{{ $message }}</small>
-      @enderror
+      {{-- Los errores se manejan con SweetAlert en el layout --}}
 
       {{-- Password --}}
       <x-auth-input
@@ -34,9 +37,7 @@
         required
         autocomplete="current-password"
       />
-      @error('password')
-        <small class="text-red-400">{{ $message }}</small>
-      @enderror
+      {{-- Los errores se manejan con SweetAlert en el layout --}}
 
       {{-- Recordarme + Olvidé mi contraseña --}}
       <div class="flex justify-between items-center text-sm">
@@ -53,7 +54,7 @@
 
       {{-- Botón Iniciar Sesión --}}
       <div class="flex justify-end">
-        <x-auth-button>Iniciar sesión</x-auth-button>
+        <x-auth-button type="submit" id="loginBtn">Iniciar sesión</x-auth-button>
       </div>
 
       {{-- Login con Google --}}

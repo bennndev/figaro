@@ -16,7 +16,6 @@ class FilterScheduleRequest extends FormRequest
         return [
             'barber_name' => ['nullable', 'string'],
             'date' => ['nullable', 'date'],
-            'status' => ['nullable', 'in:available,booked'],
         ];
     }
 }

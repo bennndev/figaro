@@ -14,7 +14,6 @@ class Schedule extends Model
         'date',
         'start_time',
         'end_time',
-        'status',
     ];
 
     protected $casts = [

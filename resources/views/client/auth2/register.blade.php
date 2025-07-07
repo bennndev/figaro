@@ -1,16 +1,16 @@
 <x-auth-layout title="Registro">
+  {{-- Botón de volver fuera del contenedor --}}
+  <div class="absolute top-6 left-6 z-10">
+    <a href="{{ url('/') }}" class="flex items-center gap-2 text-gray-400 hover:text-white transition">
+      <i class="bi bi-arrow-left"></i>
+      <span class="text-sm">Volver</span>
+    </a>
+  </div>
+  
   <x-auth-card>
     <h2 class="text-2xl font-bold text-center mb-6">Registro</h2>
 
-    @if ($errors->any())
-      <div class="mb-4 text-red-400 text-sm">
-        <ul class="list-disc list-inside">
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
+    {{-- Los errores se manejan con SweetAlert en el layout --}}
 
     <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data" class="space-y-5" id="formRegistro">
       @csrf
@@ -23,14 +23,14 @@
             <input type="text" name="name"
                    class="w-full px-3 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg"
                    required>
-            @error('name') <small class="text-red-400">{{ $message }}</small> @enderror
+            {{-- Los errores se manejan con SweetAlert --}}
           </div>
           <div>
             <label class="block mb-1 text-sm">Apellido</label>
             <input type="text" name="last_name"
                    class="w-full px-3 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg"
                    required>
-            @error('last_name') <small class="text-red-400">{{ $message }}</small> @enderror
+            {{-- Los errores se manejan con SweetAlert --}}
           </div>
         </div>
 
@@ -39,7 +39,7 @@
           <input type="text" name="phone_number"
                  class="w-full px-3 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg"
                  required>
-          @error('phone_number') <small class="text-red-400">{{ $message }}</small> @enderror
+          {{-- Los errores se manejan con SweetAlert --}}
         </div>
 
         <input type="hidden" name="role" value="client">
@@ -73,7 +73,7 @@
           <input type="email" name="email"
                  class="w-full px-3 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg"
                  required>
-          @error('email') <small class="text-red-400">{{ $message }}</small> @enderror
+          {{-- Los errores se manejan con SweetAlert --}}
         </div>
 
         <div class="grid sm:grid-cols-2 gap-3">
@@ -82,7 +82,7 @@
             <input type="password" name="password"
                    class="w-full px-3 py-2 bg-[#444]/50 text-white border border-gray-500 rounded-lg"
                    required>
-            @error('password') <small class="text-red-400">{{ $message }}</small> @enderror
+            {{-- Los errores se manejan con SweetAlert --}}
           </div>
           <div>
             <label class="block mb-1 text-sm">Confirmar contraseña</label>
@@ -111,7 +111,7 @@
           <label class="text-sm">Sube tu foto de perfil</label>
           <input type="file" name="profile_photo" accept="image/*"
                  class="block text-sm text-white file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-300">
-          @error('profile_photo') <small class="text-red-400">{{ $message }}</small> @enderror
+          {{-- Los errores se manejan con SweetAlert --}}
         </div>
 
         <div class="flex justify-between">

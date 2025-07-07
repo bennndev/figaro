@@ -29,8 +29,8 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-
+        // Cerrar sesión específica del cliente (no invalidar toda la sesión)
+        $request->session()->forget('web_session');
         $request->session()->regenerateToken();
 
         return redirect('/');
