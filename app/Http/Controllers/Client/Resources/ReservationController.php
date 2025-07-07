@@ -178,4 +178,41 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    /**
+     * Endpoint AJAX: Obtener servicios por especialidad (soporta múltiples)
+     */
+    public function servicesBySpecialty(Request $request)
+    {
+        $specialtyIds = $request->input('specialty_id', []);
+        if (!is_array($specialtyIds)) {
+            $specialtyIds = [$specialtyIds];
+        }
+        if (empty($specialtyIds)) {
+            return response()->json([]);
+        }
+        $services = Service::whereHas('specialties', function($q) use ($specialtyIds) {
+            $q->whereIn('specialties.id', $specialtyIds);
+        })->get();
+        return response()->json($services);
+    }
+
+    /**
+     * Endpoint AJAX: Obtener barberos por especialidad (ignora servicios, solo especialidad)
+     */
+    public function barbersBySpecialtyService(Request $request)
+    {
+        $specialtyIds = $request->input('specialty_id', []);
+        if (!is_array($specialtyIds)) {
+            $specialtyIds = [$specialtyIds];
+        }
+        $barbers = Barber::query();
+        if (!empty($specialtyIds)) {
+            $barbers->whereHas('specialties', function($q) use ($specialtyIds) {
+                $q->whereIn('specialties.id', $specialtyIds);
+            });
+        }
+        $result = $barbers->get();
+        return response()->json($result);
+    }
 }

@@ -42,10 +42,13 @@
         @foreach($services as $srv)
           <button
             type="button"
-            class="servicio-btn cursor-pointer rounded border border-gray-500 p-4 transition hover:border-white hover:bg-gray-700"
+            class="servicio-btn cursor-pointer rounded border border-gray-500 p-4 transition hover:border-white hover:bg-gray-700 flex flex-col items-center"
             data-id="{{ $srv->id }}"
             onclick="toggleServicio({{ $srv->id }}, this)"
           >
+            @if(!empty($srv->image))
+              <img src="{{ asset($srv->image) }}" alt="{{ $srv->name }}" class="h-16 w-16 object-cover rounded mb-2">
+            @endif
             <h3 class="font-semibold">{{ $srv->name }}</h3>
             <p class="text-sm text-gray-400">{{ $srv->duration_minutes }} min</p>
           </button>
@@ -142,13 +145,23 @@ function actualizarWizard(){
 function toggleEspecialidad(id, btn) {
   const idx = reserva.especialidades.indexOf(id);
   if (idx === -1) {
+    if (reserva.especialidades.length >= 2) {
+      showErrorToast('Solo puedes elegir hasta 2 especialidades');
+      return;
+    }
     reserva.especialidades.push(id);
     btn.classList.add('ring', 'ring-blue-500');
   } else {
     reserva.especialidades.splice(idx, 1);
     btn.classList.remove('ring', 'ring-blue-500');
   }
+  // Limpiar servicios y barbero al cambiar especialidad
+  reserva.servicios = [];
+  reserva.barbero = null;
+  filtrarServiciosPorEspecialidad();
+  filtrarBarberos();
 }
+
 function toggleServicio(id, btn) {
   const idx = reserva.servicios.indexOf(id);
   if (idx === -1) {
@@ -158,7 +171,75 @@ function toggleServicio(id, btn) {
     reserva.servicios.splice(idx, 1);
     btn.classList.remove('ring', 'ring-blue-500');
   }
+  // Filtrar barberos al cambiar servicio
+  filtrarBarberos();
 }
+
+function filtrarServiciosPorEspecialidad() {
+  const step2 = document.getElementById('step2');
+  const grid = step2.querySelector('.grid');
+  grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">Cargando servicios...</div>';
+  if (!reserva.especialidades.length) {
+    grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">Selecciona una especialidad primero</div>';
+    return;
+  }
+  // Filtrar por todas las especialidades seleccionadas
+  const params = reserva.especialidades.map(id => `specialty_id[]=${id}`).join('&');
+  fetch(`/client/reservations/services-by-specialty?${params}`)
+    .then(res => res.json())
+    .then(servicios => {
+      if (!servicios.length) {
+        grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">No hay servicios para esta(s) especialidad(es)</div>';
+        return;
+      }
+      grid.innerHTML = '';
+      servicios.forEach(srv => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'servicio-btn cursor-pointer rounded border border-gray-500 p-4 transition hover:border-white hover:bg-gray-700 flex flex-col items-center';
+        btn.dataset.id = srv.id;
+        btn.onclick = function() { toggleServicio(srv.id, btn); };
+        let imgHtml = srv.image ? `<img src='${srv.image}' alt='${srv.name}' class='h-16 w-16 object-cover rounded mb-2'>` : '';
+        btn.innerHTML = `${imgHtml}<h3 class='font-semibold'>${srv.name}</h3><p class='text-sm text-gray-400'>${srv.duration_minutes || ''} min</p>`;
+        if (reserva.servicios.includes(srv.id)) btn.classList.add('ring', 'ring-blue-500');
+        grid.appendChild(btn);
+      });
+    });
+}
+
+function filtrarBarberos() {
+  const step3 = document.getElementById('step3');
+  const grid = step3.querySelector('.grid');
+  grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">Cargando barberos...</div>';
+  if (!reserva.especialidades.length && !reserva.servicios.length) {
+    grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">Selecciona especialidad y/o servicio</div>';
+    return;
+  }
+  const params = new URLSearchParams();
+  reserva.especialidades.forEach(id => params.append('specialty_id[]', id));
+  reserva.servicios.forEach(id => params.append('service_id[]', id));
+  fetch(`/client/reservations/barbers-by-specialty-service?${params.toString()}`)
+    .then(res => res.json())
+    .then(barberos => {
+      if (!barberos.length) {
+        grid.innerHTML = '<div class="col-span-3 text-center text-gray-400">No hay barberos disponibles</div>';
+        return;
+      }
+      grid.innerHTML = '';
+      barberos.forEach(barb => {
+        const div = document.createElement('div');
+        div.className = 'flex cursor-pointer items-center gap-3 rounded border border-gray-500 p-4 transition hover:border-white hover:bg-gray-700';
+        div.onclick = function() { seleccionarBarbero(barb.id, `${barb.name} ${barb.last_name}`); };
+        div.innerHTML = `<img src='${barb.profile_photo_url}' class='h-10 w-10 rounded-full object-cover'><span>${barb.name} ${barb.last_name}</span>`;
+        grid.appendChild(div);
+      });
+    });
+}
+
+// Llamar filtrado inicial al cargar el wizard
+filtrarServiciosPorEspecialidad();
+filtrarBarberos();
+
 function seleccionarBarbero(id, nombreCompleto){
     reserva.barbero = { id, nombreCompleto };
     pasoActual = 4; actualizarWizard();
