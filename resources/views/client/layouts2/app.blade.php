@@ -104,7 +104,7 @@
                     {{-- Avatar y dropdown --}}
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center gap-3 focus:outline-none group">
-                            <span class="text-sm text-white/70 group-hover:text-white transition">{{ Auth::user()->name }}</span>
+                            <span class="text-sm text-white/70 group-hover:text-white transition">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
                             <img src="{{ Auth::user()->profile_photo_url }}"
                                 alt="Foto de perfil"
                                 class="w-10 h-10 rounded-full object-cover border border-gray-500 transition-transform duration-200 transform group-hover:scale-105 group-hover:border-gray-400 shadow-sm" />
