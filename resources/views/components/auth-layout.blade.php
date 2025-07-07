@@ -98,7 +98,11 @@
           @endif
 
           @if(session('status'))
-              showAlert('success', 'Estado', '{{ session('status') }}');
+              @if(session('status') === 'verification-link-sent')
+                  showAlert('success', '¡Enlace enviado!', 'Se ha enviado un nuevo enlace de verificación a tu correo electrónico. Revisa tu bandeja de entrada y sigue las instrucciones para verificar tu cuenta.');
+              @else
+                  showAlert('success', 'Estado', '{{ session('status') }}');
+              @endif
           @endif
 
           @if($errors->any())

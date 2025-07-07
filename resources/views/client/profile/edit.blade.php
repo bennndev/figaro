@@ -77,7 +77,7 @@
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-sm font-medium text-gray-300">Miembro desde</label>
                             <div class="bg-[#1E1E1E] p-3 rounded-lg border border-white/10">
-                                <span class="text-white">{{ Auth::user()->created_at->format('d/m/Y') }}</span>
+                                {{-- <span class="text-white">{{ Auth::user()->created_at->format('d/m/Y') }}</span> --}}
                             </div>
                         </div>
                         
