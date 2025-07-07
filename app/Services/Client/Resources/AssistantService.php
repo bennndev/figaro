@@ -49,6 +49,7 @@ class AssistantService
         Fechas: {$fechas}, Horarios: {$horarios}.
         Barberos disponibles: {$barberos}.
         Servicios: {$servicios}.
+        SOPORTE: {$soporte_numero} (WhatsApp: {$soporte_link}).
         Responde en español, de forma clara y profesional.
         EOT;
 
@@ -67,7 +68,7 @@ class AssistantService
 
         // 4) Llamar a DeepSeek
         try {
-            $resp = Http::timeout(15)
+            $resp = Http::timeout(20)
                 ->withHeaders([
                     'Authorization' => 'Bearer '.config('services.deepseek.api_key'),
                     'Content-Type'  => 'application/json',
