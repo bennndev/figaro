@@ -19,7 +19,7 @@
             
             {{-- Header del modal --}}
             <div class="flex items-center justify-between p-6 border-b border-white/10">
-                <h2 class="text-xl font-semibold text-white">Perfil del Barbero</h2>
+                <h2 class="text-xl font-semibold text-white">Perfil del Cliente</h2>
                 <button @click="open = false" 
                         class="text-gray-400 hover:text-white transition-colors">
                     <i class="bi bi-x-lg text-xl"></i>
@@ -29,19 +29,14 @@
             {{-- Navegación de pestañas --}}
             <div class="flex border-b border-white/10">
                 <button @click="activeTab = 'info'" 
-                        :class="activeTab === 'info' ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-400 hover:text-white'"
+                        :class="activeTab === 'info' ? 'border-white text-white' : 'border-transparent text-gray-400 hover:text-white'"
                         class="flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors">
                     <i class="bi bi-person mr-2"></i>Información
                 </button>
                 <button @click="activeTab = 'password'" 
-                        :class="activeTab === 'password' ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-400 hover:text-white'"
+                        :class="activeTab === 'password' ? 'border-white text-white' : 'border-transparent text-gray-400 hover:text-white'"
                         class="flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors">
                     <i class="bi bi-lock mr-2"></i>Contraseña
-                </button>
-                <button @click="activeTab = 'delete'" 
-                        :class="activeTab === 'delete' ? 'border-red-500 text-red-400' : 'border-transparent text-gray-400 hover:text-white'"
-                        class="flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors">
-                    <i class="bi bi-trash mr-2"></i>Eliminar cuenta
                 </button>
             </div>
             
@@ -56,11 +51,6 @@
                 {{-- Pestaña de contraseña --}}
                 <div x-show="activeTab === 'password'" x-transition>
                     @include('barber.profile.partials.update-password-form')
-                </div>
-                
-                {{-- Pestaña de eliminar cuenta --}}
-                <div x-show="activeTab === 'delete'" x-transition>
-                    @include('barber.profile.partials.delete-user-form')
                 </div>
                 
             </div>

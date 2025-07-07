@@ -22,8 +22,8 @@
                                  class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
                         </div>
                         <div class="flex-1">
-                            <h1 class="text-3xl font-bold text-white">{{ Auth::user()->name }}</h1>
-                            <p class="text-blue-100 text-lg">{{ Auth::user()->email }}</p>
+                            <h1 class="text-3xl font-bold text-white">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</h1>
+                            <p class="text-white/70 text-lg">{{ Auth::user()->email }}</p>
                             <button @click="$dispatch('open-profile-modal')" 
                                     class="mt-4 bg-white text-[#2A2A2A] px-6 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
                                 <i class="bi bi-pencil mr-2"></i>Editar Perfil
@@ -77,7 +77,7 @@
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-sm font-medium text-gray-300">Miembro desde</label>
                             <div class="bg-[#1E1E1E] p-3 rounded-lg border border-white/10">
-                                {{-- <span class="text-white">{{ Auth::user()->created_at->format('d/m/Y') }}</span> --}}
+                                <span class="text-white">{{ Auth::user()->created_at->format('d/m/Y') }}</span>
                             </div>
                         </div>
                         

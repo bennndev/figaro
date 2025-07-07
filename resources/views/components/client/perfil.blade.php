@@ -29,12 +29,12 @@
             {{-- Navegación de pestañas --}}
             <div class="flex border-b border-white/10">
                 <button @click="activeTab = 'info'" 
-                        :class="activeTab === 'info' ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-400 hover:text-white'"
+                        :class="activeTab === 'info' ? 'border-white text-white' : 'border-transparent text-gray-400 hover:text-white'"
                         class="flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors">
                     <i class="bi bi-person mr-2"></i>Información
                 </button>
                 <button @click="activeTab = 'password'" 
-                        :class="activeTab === 'password' ? 'border-blue-500 text-blue-400' : 'border-transparent text-gray-400 hover:text-white'"
+                        :class="activeTab === 'password' ? 'border-white text-white' : 'border-transparent text-gray-400 hover:text-white'"
                         class="flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors">
                     <i class="bi bi-lock mr-2"></i>Contraseña
                 </button>
