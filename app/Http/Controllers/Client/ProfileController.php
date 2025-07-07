@@ -70,11 +70,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        Auth::guard('web')->logout();
 
         $user->delete();
 
-        $request->session()->invalidate();
+        // Usar el mismo patrón que admin y barber
+        $request->session()->forget('web_session');
         $request->session()->regenerateToken();
 
         return Redirect::to('/');

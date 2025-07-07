@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-[#FFFFFF]">
-            {{ __('Información del Perfil del Cliente') }}
+            {{ __('Información del Perfil del Barbero') }}
         </h2>
         <p class="mt-1 text-sm text-white/70">
             {{ __('Actualiza la información de tu cuenta y tu dirección de correo electrónico.') }}

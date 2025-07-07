@@ -11,10 +11,6 @@
             <i class="bi bi-house-door-fill mr-4 text-2xl"></i> Inicio
         </a>
 
-        <a href="{{ route('perfil') }}" class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('perfil') }}">
-            <i class="bi bi-person-circle mr-4 text-2xl"></i> Perfil
-        </a>
-
         <a href="{{ route('usuarios') }}" class="flex items-center px-5 py-4 rounded text-xl transition {{ isActive('usuarios') }}">
             <i class="bi bi-people-fill mr-4 text-2xl"></i> Usuarios
         </a>

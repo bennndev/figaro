@@ -95,6 +95,42 @@
                     <div class="flex items-center">
                         <h2 class="text-2xl font-semibold text-white">{{ $header }}</h2>
                     </div>
+
+                    {{-- Avatar y dropdown --}}
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="flex items-center gap-3 focus:outline-none group">
+                            <span class="text-sm text-white/70 group-hover:text-white transition">{{ Auth::guard('admin')->user()->name }} {{ Auth::guard('admin')->user()->last_name }}</span>
+                            <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center border border-gray-500 transition-transform duration-200 transform group-hover:scale-105 group-hover:border-gray-400 shadow-sm">
+                                <i class="bi bi-person-fill text-white text-lg"></i>
+                            </div>
+                        </button>
+
+                        {{-- Dropdown --}}
+                        <div x-show="open" @click.away="open = false" x-transition
+                            class="absolute right-0 mt-2 w-48 bg-[#2A2A2A] border border-gray-700 rounded-lg shadow-lg z-50">
+                            
+                            {{-- Botón para ver perfil --}}
+                            <a href="{{ route('admin.profile.edit') }}"
+                                class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
+                                Ver perfil
+                            </a>
+                            {{-- Botón para abrir el modal de edición --}}
+                            <button 
+                                @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
+                                class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
+                                Editar perfil
+                            </button>
+
+                            {{-- Logout --}}
+                            <form method="POST" action="{{ route('admin.logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </header>
             @endisset
 
@@ -104,6 +140,9 @@
             </main>
         </div>
     </div>
+
+    {{-- Modal del perfil del admin --}}
+    <x-admin.perfil />
 
     {{-- Scripts adicionales --}}
     @stack('scripts')

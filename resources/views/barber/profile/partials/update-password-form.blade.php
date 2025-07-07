@@ -1,7 +1,7 @@
 <section class="mt-10">
     <header>
         <h2 class="text-lg font-medium text-white">
-            {{ __('Actualizar contraseña del cliente') }}
+            {{ __('Actualizar Contraseña del Barbero') }}
         </h2>
 
         <p class="mt-1 text-sm text-white/70">

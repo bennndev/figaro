@@ -114,12 +114,12 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute right-0 mt-2 w-48 bg-[#2A2A2A] border border-gray-700 rounded-lg shadow-lg z-50">
                             
-                            {{-- Botón para abrir el modal --}}
-                            <button 
-                                @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
+                            {{-- Botón para ver perfil --}}
+                            <a href="{{ route('profile.edit') }}"
                                 class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
                                 Ver perfil
-                            </button>
+                            </a>
+                            {{-- Botón para abrir el modal de edición --}}
                             <button 
                                 @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
                                 class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">

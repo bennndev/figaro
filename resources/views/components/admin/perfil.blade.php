@@ -19,7 +19,7 @@
             
             {{-- Header del modal --}}
             <div class="flex items-center justify-between p-6 border-b border-white/10">
-                <h2 class="text-xl font-semibold text-white">Perfil del Barbero</h2>
+                <h2 class="text-xl font-semibold text-white">Perfil del Administrador</h2>
                 <button @click="open = false" 
                         class="text-gray-400 hover:text-white transition-colors">
                     <i class="bi bi-x-lg text-xl"></i>
@@ -45,12 +45,12 @@
                 
                 {{-- Pestaña de información --}}
                 <div x-show="activeTab === 'info'" x-transition>
-                    @include('barber.profile.partials.update-profile-information-form', ['user' => Auth::guard('barber')->user(), 'specialties' => \App\Models\Specialty::all()])
+                    @include('admin.profile.partials.update-profile-information-form', ['user' => Auth::guard('admin')->user()])
                 </div>
                 
                 {{-- Pestaña de contraseña --}}
                 <div x-show="activeTab === 'password'" x-transition>
-                    @include('barber.profile.partials.update-password-form')
+                    @include('admin.profile.partials.update-password-form')
                 </div>
                 
             </div>

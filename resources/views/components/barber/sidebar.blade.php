@@ -20,11 +20,6 @@
             <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
 
-        <a href="{{ route('barber.profile.edit') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.profile.edit') }}">
-            <i class="bi bi-person-circle mr-3 text-2xl"></i> Perfil
-        </a>
-
         <a href="{{ route('barber.schedules.index') }}"
            class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
@@ -45,15 +40,4 @@
             <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
         </a>
     </div>  
-
-    {{-- Botón de cerrar sesión --}}
-    <div class="mt-4 px-4 mb-4">
-        <form method="POST" action="{{ route('barber.logout') }}">
-            @csrf
-            <button type="submit" 
-                    class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition text-sm">
-                <i class="bi bi-box-arrow-right mr-3 text-2xl"></i> Cerrar sesión
-            </button>
-        </form>
-    </div>
 </nav>
