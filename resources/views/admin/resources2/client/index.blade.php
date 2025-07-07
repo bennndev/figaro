@@ -67,7 +67,7 @@
     <x-admin.table class="min-w-[1000px]">
         <x-slot name="head">
             <tr>
-                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Foto</th>
                 <th class="px-4 py-3">Nombre</th>
                 <th class="px-4 py-3">Apellido</th>
                 <th class="px-4 py-3">Email</th>
@@ -78,7 +78,11 @@
 
         @foreach ($clients as $client)
             <tr class="hover:bg-[#FFFFFF]/20">
-                <td class="px-4 py-2">{{ $client->id }}</td>
+                <td class="px-4 py-2 text-center">
+                    <img src="{{ $client->profile_photo_url }}"
+                         alt="Foto de perfil"
+                         class="h-10 w-10 object-cover rounded-full mx-auto shadow">
+                </td>
                 <td class="px-4 py-2">{{ $client->name }}</td>
                 <td class="px-4 py-2">{{ $client->last_name }}</td>
                 <td class="px-4 py-2">{{ $client->email }}</td>
