@@ -1,4 +1,3 @@
-
 @props(['title' => 'Panel de Cliente', 'header' => null])
 
 <!DOCTYPE html>
@@ -104,7 +103,7 @@
                     {{-- Avatar y dropdown --}}
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center gap-3 focus:outline-none group">
-                            <span class="text-sm text-white/70 group-hover:text-white transition">{{ Auth::user()->name }}</span>
+                            <span class="text-sm text-white/70 group-hover:text-white transition">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
                             <img src="{{ Auth::user()->profile_photo_url }}"
                                 alt="Foto de perfil"
                                 class="w-10 h-10 rounded-full object-cover border border-gray-500 transition-transform duration-200 transform group-hover:scale-105 group-hover:border-gray-400 shadow-sm" />
@@ -114,11 +113,12 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute right-0 mt-2 w-48 bg-[#2A2A2A] border border-gray-700 rounded-lg shadow-lg z-50">
                             
-                            {{-- Botón para abrir el modal --}}
+                            {{-- Botón para ver perfil --}}
                             <a href="{{ route('profile.edit') }}"
                                 class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
                                 Ver perfil
                             </a>
+                            {{-- Botón para abrir el modal de edición --}}
                             <button 
                                 @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
                                 class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
@@ -242,4 +242,3 @@
 </body>
 
 </html>
-    

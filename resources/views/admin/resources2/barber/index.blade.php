@@ -111,7 +111,7 @@
                     @if ($barber->specialties->isNotEmpty())
                         <div class="flex flex-wrap gap-1">
                             @foreach ($barber->specialties as $specialty)
-                                <span class="bg-[#232323] text-white px-3 py-1 rounded-lg text-xs font-bold border border-gray-300">
+                                <span class="bg-white text-[#2A2A2A] px-3 py-1 rounded-lg text-xs font-bold border border-gray-300">
                                     {{ $specialty->name }}
                                 </span>
                             @endforeach

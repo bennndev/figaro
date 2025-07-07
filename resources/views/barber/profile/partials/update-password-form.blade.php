@@ -1,10 +1,11 @@
-<section>
+<section class="mt-10">
     <header>
-        <h3 class="text-lg font-semibold text-white mb-4">
-            {{ __('Actualizar Contraseña') }}
-        </h3>
-        <p class="text-sm text-gray-400 mb-6">
-            {{ __('Asegúrate de usar una contraseña larga y aleatoria para mantener tu cuenta segura.') }}
+        <h2 class="text-lg font-medium text-white">
+            {{ __('Actualizar Contraseña del Barbero') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-white/70">
+            {{ __('Asegúrate de que tu cuenta use una contraseña larga y aleatoria para mayor seguridad.') }}
         </p>
     </header>
 
@@ -13,75 +14,44 @@
         @method('put')
 
         {{-- Contraseña actual --}}
-        <div class="space-y-2">
-            <label for="update_password_current_password" class="block text-sm font-medium text-white">
-                <i class="bi bi-lock mr-2"></i>{{ __('Contraseña Actual') }}
-            </label>
-            <input id="update_password_current_password" 
-                   name="current_password" 
-                   type="password" 
-                   autocomplete="current-password"
-                   placeholder="Ingresa tu contraseña actual"
-                   class="bg-[#1F1F1F] text-white border border-gray-600 rounded-lg px-4 py-3 w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" />
-            @error('current_password', 'updatePassword')
-                <p class="text-sm text-red-400 mt-2 flex items-center">
-                    <i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}
-                </p>
-            @enderror
+        <div>
+            <label for="update_password_current_password" class="block mb-1 text-sm text-white">Contraseña actual</label>
+            <input id="update_password_current_password" name="current_password" type="password"
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                autocomplete="current-password">
+            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2 text-red-400" />
         </div>
 
         {{-- Nueva contraseña --}}
-        <div class="space-y-2">
-            <label for="update_password_password" class="block text-sm font-medium text-white">
-                <i class="bi bi-key mr-2"></i>{{ __('Nueva Contraseña') }}
-            </label>
-            <input id="update_password_password" 
-                   name="password" 
-                   type="password" 
-                   autocomplete="new-password"
-                   placeholder="Ingresa tu nueva contraseña"
-                   class="bg-[#1F1F1F] text-white border border-gray-600 rounded-lg px-4 py-3 w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" />
-            @error('password', 'updatePassword')
-                <p class="text-sm text-red-400 mt-2 flex items-center">
-                    <i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}
-                </p>
-            @enderror
+        <div>
+            <label for="update_password_password" class="block mb-1 text-sm text-white">Nueva contraseña</label>
+            <input id="update_password_password" name="password" type="password"
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                autocomplete="new-password">
+            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2 text-red-400" />
         </div>
 
-        {{-- Confirmar contraseña --}}
-        <div class="space-y-2">
-            <label for="update_password_password_confirmation" class="block text-sm font-medium text-white">
-                <i class="bi bi-check-circle mr-2"></i>{{ __('Confirmar Contraseña') }}
-            </label>
-            <input id="update_password_password_confirmation" 
-                   name="password_confirmation" 
-                   type="password" 
-                   autocomplete="new-password"
-                   placeholder="Confirma tu nueva contraseña"
-                   class="bg-[#1F1F1F] text-white border border-gray-600 rounded-lg px-4 py-3 w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" />
-            @error('password_confirmation', 'updatePassword')
-                <p class="text-sm text-red-400 mt-2 flex items-center">
-                    <i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}
-                </p>
-            @enderror
+        {{-- Confirmar nueva contraseña --}}
+        <div>
+            <label for="update_password_password_confirmation" class="block mb-1 text-sm text-white">Confirmar contraseña</label>
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password"
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                autocomplete="new-password">
+            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2 text-red-400" />
         </div>
+        
 
-        {{-- Botón guardar --}}
-        <div class="flex items-center justify-between pt-4">
+        {{-- Botón Guardar --}}
+        <div class="flex items-center gap-4">
             <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg px-6 py-3 transition-colors flex items-center space-x-2">
-                <i class="bi bi-check-circle"></i>
-                <span>{{ __('Actualizar Contraseña') }}</span>
+                class="px-5 py-2 bg-white text-[#2A2A2A] font-semibold rounded-md hover:bg-gray-200 transition">
+                Guardar
             </button>
 
             @if (session('status') === 'password-updated')
-                <p x-data="{ show: true }"
-                   x-show="show"
-                   x-transition
-                   x-init="setTimeout(() => show = false, 3000)"
-                   class="text-sm text-green-400 flex items-center space-x-1">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>{{ __('Contraseña actualizada correctamente') }}</span>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-green-400">
+                    Guardado.
                 </p>
             @endif
         </div>

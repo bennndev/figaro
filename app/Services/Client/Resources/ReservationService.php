@@ -134,6 +134,9 @@ class ReservationService
         });
 
         $availableSlots = [];
+        $today = Carbon::today();
+        $isToday = $schedule->date->equalTo($today);
+        $now = Carbon::now();
 
         // 📆 Generamos bloques disponibles evitando solapamientos
         while ($start->copy()->addMinutes($totalDuration)->lte($end)) {
@@ -144,6 +147,12 @@ class ReservationService
             $overlaps = $blockedRanges->contains(function ($range) use ($slotStart, $slotEnd) {
                 return $slotStart->lt($range['end']) && $slotEnd->gt($range['start']);
             });
+
+            // 🔴 Si la fecha es hoy y el slot ya pasó, se descarta
+            if ($isToday && $slotStart->lt($now)) {
+                $start->addMinutes($totalDuration);
+                continue;
+            }
 
             if (! $overlaps) {
                 $availableSlots[] = [

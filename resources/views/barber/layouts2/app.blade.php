@@ -139,7 +139,7 @@
                     
                     {{-- Perfil del usuario --}}
                     <div class="flex items-center space-x-4" x-data="{ open: false }">
-                        <span class="text-white font-medium">{{ Auth::guard('barber')->user()->name }}</span>
+                        <span class="text-white font-medium">{{ Auth::guard('barber')->user()->name }} {{ Auth::guard('barber')->user()->last_name }}</span>
                         
                         {{-- Avatar con dropdown --}}
                         <div class="relative">

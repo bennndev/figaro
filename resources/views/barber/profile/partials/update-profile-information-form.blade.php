@@ -1,6 +1,11 @@
 <section>
     <header>
-        <h3 class="text-lg font-semibold text-white mb-4">Información del Barbero</h3>
+        <h2 class="text-lg font-medium text-[#FFFFFF]">
+            {{ __('Información del Perfil del Barbero') }}
+        </h2>
+        <p class="mt-1 text-sm text-white/70">
+            {{ __('Actualiza la información de tu cuenta y tu dirección de correo electrónico.') }}
+        </p>
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
@@ -11,66 +16,60 @@
         @csrf
         @method('patch')
 
+        <!-- Imagen de Perfil con ícono de lápiz -->
+        <div class="relative w-24 h-24">
+            <img src="{{ ($user && $user->profile_photo_url) ? $user->profile_photo_url : asset('images/default-profile.png') }}"
+                 alt="Foto de perfil actual"
+                 class="w-24 h-24 rounded-full object-cover border border-gray-500" />
+
+            <!-- Botón de lápiz superpuesto -->
+            <label for="profile_photo"
+                   class="absolute bottom-0 right-0 bg-white text-[#2A2A2A] rounded-full p-1 cursor-pointer hover:bg-gray-200 transition shadow-md">
+                <i class="bi bi-pencil-fill text-sm"></i>
+            </label>
+            <input id="profile_photo" name="profile_photo" type="file" accept="image/*" class="hidden" />
+            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('profile_photo')" />
+        </div>
+
         <!-- Nombre -->
         <div>
-            <label for="name" class="block text-sm font-medium text-white mb-1">Nombre</label>
+            <x-input-label for="name" :value="__('Nombre')" class="text-white" />
             <input id="name" name="name" type="text"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('name', $user->name ?? '') }}" required>
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                value="{{ old('name', $user->name ?? '') }}" required autofocus autocomplete="name">
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('name')" />
         </div>
 
         <!-- Apellido -->
         <div>
-            <label for="last_name" class="block text-sm font-medium text-white mb-1">Apellido</label>
+            <x-input-label for="last_name" :value="__('Apellido')" class="text-white" />
             <input id="last_name" name="last_name" type="text"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('last_name', $user->last_name ?? '') }}" required>
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                value="{{ old('last_name', $user->last_name ?? '') }}" required autocomplete="family-name">
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('last_name')" />
         </div>
-
-        <!-- Foto de Perfil -->
-        <div class="flex flex-col items-center space-y-4">
-            <div class="relative">
-                <img src="{{ ($user && $user->profile_photo_url) ? $user->profile_photo_url : asset('images/default-profile.png') }}" 
-                     alt="Foto de perfil" 
-                     class="w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-lg">
-                <label for="profile_photo" 
-                       class="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 cursor-pointer transition-colors shadow-lg">
-                    <i class="bi bi-camera text-sm"></i>
-                </label>
-            </div>
-            
-            <input id="profile_photo" name="profile_photo" type="file" class="hidden" accept="image/*" />
-            
-            @if ($user && $user->profile_photo)
-                <button type="button" 
-                        class="text-sm text-red-400 hover:text-red-300 transition-colors"
-                        onclick="removePhoto()">
-                    <i class="bi bi-trash mr-1"></i>Eliminar foto actual
-                </button>
-            @endif
-            
-            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('profile_photo')" />
-        </div>
-
-        <!-- Correo electrónico -->
+        <!-- Correo Electrónico -->
         <div>
-            <label for="email" class="block text-sm font-medium text-white mb-1">Correo electrónico</label>
+            <x-input-label for="email" :value="__('Correo electrónico')" class="text-white" />
             <input id="email" name="email" type="email"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('email', $user->email ?? '') }}" required>
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                value="{{ old('email', $user->email ?? '') }}" required autocomplete="username">
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('email')" />
 
-            @if ($user && $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                <div class="mt-2 text-sm text-white">
-                    Tu correo no está verificado.
-                    <button form="send-verification" class="underline text-sm text-gray-300 hover:text-white">
-                        Haz clic aquí para reenviar el correo de verificación.
-                    </button>
+            @if ($user && $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                <div>
+                    <p class="text-sm mt-2 text-white/70">
+                        {{ __('Tu dirección de correo no está verificada.') }}
+
+                        <button form="send-verification"
+                            class="underline text-sm text-white hover:text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            {{ __('Haz clic aquí para reenviar el correo de verificación.') }}
+                        </button>
+                    </p>
+
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-green-400">
-                            Se envió un nuevo enlace de verificación a tu correo.
+                        <p class="mt-2 font-medium text-sm text-green-400">
+                            {{ __('Se ha enviado un nuevo enlace de verificación a tu correo electrónico.') }}
                         </p>
                     @endif
                 </div>
@@ -78,16 +77,17 @@
         </div>
 
         <!-- Especialidades -->
+        <!-- Especialidades -->
         <div x-data="multiselectDropdown()" x-init="init()" class="relative w-full">
-            <label class="block text-sm font-medium text-white mb-2">Especialidades (máx. 3):</label>
+            <x-input-label for="specialties" :value="__('Especialidades (máx. 3)')" class="text-white" />
             <button @click="toggle" type="button"
-                class="w-full bg-[#1E1E1E] text-white border border-gray-600 rounded-md px-4 py-2 flex justify-between items-center">
+                class="w-full bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 flex justify-between items-center focus:outline-none focus:border-blue-500">
                 <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Seleccionar especialidades'"></span>
                 <i class="bi bi-chevron-down ml-2"></i>
             </button>
 
             <div x-show="open" @click.outside="open = false"
-                class="absolute z-50 mt-2 w-full bg-[#2A2A2A] text-white rounded-md border border-gray-600 shadow-lg max-h-60 overflow-y-auto">
+                class="absolute z-50 mt-2 w-full bg-[#2A2A2A] text-white rounded-md border border-gray-500 shadow-lg max-h-60 overflow-y-auto">
                 <div class="p-2 space-y-1">
                     @foreach ($specialties as $specialty)
                         <label class="flex items-center space-x-2 px-2 py-1 hover:bg-white/10 rounded">
@@ -112,30 +112,36 @@
 
         <!-- Teléfono -->
         <div>
-            <label for="phone_number" class="block text-sm font-medium text-white mb-1">Teléfono</label>
-            <input id="phone_number" name="phone_number" type="text"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
-                value="{{ old('phone_number', $user->phone_number ?? '') }}" required>
+            <x-input-label for="phone_number" :value="__('Teléfono')" class="text-white" />
+            <input id="phone_number" name="phone_number" type="tel"
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
+                value="{{ old('phone_number', $user->phone_number ?? '') }}" autocomplete="tel">
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('phone_number')" />
         </div>
 
         <!-- Descripción -->
         <div>
-            <label for="description" class="block text-sm font-medium text-white mb-1">Descripción</label>
+            <x-input-label for="description" :value="__('Descripción')" class="text-white" />
             <textarea id="description" name="description" rows="4"
-                class="block w-full bg-[#1F1F1F] text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500">{{ old('description', $user->description ?? '') }}</textarea>
+                class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">{{ old('description', $user->description ?? '') }}</textarea>
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('description')" />
         </div>
 
-        <!-- Botón -->
+        <!-- Botón Guardar -->
         <div class="flex items-center gap-4">
             <button type="submit"
-                class="bg-white text-[#2A2A2A] font-semibold rounded-md px-5 py-2 hover:bg-white/90 transition">
+                class="px-5 py-2 bg-white text-[#2A2A2A] font-semibold rounded-md hover:bg-gray-200 transition">
                 Guardar
             </button>
+
             @if (session('status') === 'profile-updated')
-                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-400">Guardado.</p>
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-green-400"
+                >Guardado.</p>
             @endif
         </div>
     </form>
