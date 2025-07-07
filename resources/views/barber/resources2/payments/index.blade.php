@@ -57,9 +57,13 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-2">
-                                    @if ($payment->status === 'complete')
+                                    @if ($payment->status === 'complete' && $payment->reservation && $payment->reservation->status === 'completed')
                                         <span class="inline-block px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full">
                                             Completado
+                                        </span>
+                                    @elseif ($payment->status === 'complete')
+                                        <span class="inline-block px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
+                                            Pagado
                                         </span>
                                     @elseif ($payment->status === 'open')
                                         <span class="inline-block px-3 py-1 bg-yellow-600 text-white text-sm font-semibold rounded-full">

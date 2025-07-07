@@ -69,6 +69,12 @@ class Barber extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Reservation::class);
     }
 
+    # Relación -> muchos a muchos -> Servicios
+    public function services()
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
     # Accesor para obtener la URL de la foto de perfil
     public function getProfilePhotoUrlAttribute()
     {

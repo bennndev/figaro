@@ -21,6 +21,10 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     Route::get('services/specialty/{id}', [ServiceController::class, 'getBySpecialty'])
         ->name('services.getBySpecialty');
 
+    // AJAX: Filtrar servicios por especialidad
+    Route::get('reservations/services-by-specialty', [ReservationController::class, 'servicesBySpecialty'])->name('reservations.services-by-specialty');
+    // AJAX: Filtrar barberos por especialidad y/o servicio
+    Route::get('reservations/barbers-by-specialty-service', [ReservationController::class, 'barbersBySpecialtyService'])->name('reservations.barbers-by-specialty-service');
     // Reservas (CRUD excepto destroy)
     Route::resource('reservations', ReservationController::class)->except(['destroy']);
     Route::post('reservations/available-slots', [ReservationController::class, 'availableSlots'])
