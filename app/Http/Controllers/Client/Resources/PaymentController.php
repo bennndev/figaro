@@ -23,23 +23,29 @@ class PaymentController extends Controller
     }
 
 public function index()
-{
-    $userId = auth()->id();
+    {
+        $pending = Reservation::where('user_id', auth()->id())
+            ->where('status', 'pending_pay')
+            ->with(['barber', 'services'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(2);
 
-    // Pendientes de pago
-    $pending = Reservation::with('services')
-        ->where('user_id', $userId)
-        ->where('status', 'pending_pay')
-        ->get();
+        return view('client.resources2.payments.index', compact('pending'));
+    }
 
-    // Historial (ya pagadas)
-    $paid = Reservation::with(['services', 'payment'])
-        ->where('user_id', $userId)
-        ->where('status', 'paid')
-        ->get();
+    /**
+     * Mostrar el historial de pagos del cliente
+     */
+    public function history()
+    {
+        $paid = Reservation::where('user_id', auth()->id())
+            ->whereIn('status', ['paid', 'completed'])
+            ->with(['barber', 'services', 'payment'])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(2);
 
-    return view('client.resources2.payments.index', compact('pending', 'paid'));
-}
+        return view('client.resources2.payments.history', compact('paid'));
+    }
 
 
 // PaymentController.php

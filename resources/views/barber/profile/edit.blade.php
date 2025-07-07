@@ -68,6 +68,24 @@
                             </div>
                         </div>
                         
+                        {{-- Especialidades --}}
+                        <div class="space-y-2 md:col-span-2">
+                            <label class="text-sm font-medium text-gray-300">Especialidades</label>
+                            <div class="bg-[#1E1E1E] p-3 rounded-lg border border-white/10">
+                                @if(Auth::guard('barber')->user()->specialties && Auth::guard('barber')->user()->specialties->count() > 0)
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach(Auth::guard('barber')->user()->specialties as $specialty)
+                                            <span class="bg-[#FFFFFF] text-[#2A2A2A] px-3 py-1 rounded-full text-sm">
+                                                {{ $specialty->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-white">No especificado</span>
+                                @endif
+                            </div>
+                        </div>
+                        
                         {{-- Fecha de registro --}}
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-sm font-medium text-gray-300">Miembro desde</label>

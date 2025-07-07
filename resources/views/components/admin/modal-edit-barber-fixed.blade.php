@@ -142,6 +142,9 @@
     </div>
 </div>
 
+<!-- Componente de errores -->
+<x-utils.modal-error-edit-barber :barberId="$barber->id" />
+
 <!-- Script -->
 <script>
 function modalFormData() {

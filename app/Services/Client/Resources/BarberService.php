@@ -36,7 +36,7 @@ class BarberService
             });
         }
 
-        return $query->paginate(10);
+        return $query->paginate(6);
     }
 
     public function getSpecialties(){

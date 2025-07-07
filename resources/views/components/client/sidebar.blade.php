@@ -42,6 +42,11 @@
            class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('client.payments.index') }}">
             <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
         </a>
+
+        <a href="{{ route('client.payments.history') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('client.payments.history') }}">
+            <i class="bi bi-clock-history mr-3 text-2xl"></i> Historial de Pagos
+        </a>
     </div>
 
     {{-- Botón de cerrar sesión --}}

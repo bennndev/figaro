@@ -61,9 +61,9 @@
         <!-- Teléfono -->
         <div>
             <x-input-label for="phone_number" :value="__('Teléfono')" class="text-white" />
-            <input id="phone_number" name="phone_number" type="text"
+            <input id="phone_number" name="phone_number" type="tel"
                 class="bg-[#1F1F1F] text-white border border-gray-500 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500"
-                value="{{ old('phone_number', $user->phone_number) }}" autocomplete="tel">
+                value="{{ old('phone_number', $user->phone_number ?? '') }}" autocomplete="tel">
             <x-input-error class="mt-2 text-red-400" :messages="$errors->get('phone_number')" />
         </div>
 

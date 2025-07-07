@@ -1,7 +1,7 @@
 <x-barber-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-white leading-tight flex items-center space-x-2">
-            <span>Perfil del Barbero</span>
+            <span>Horario del Barbero</span>
             <span class="mx-2 text-white">/</span>
             <a href="{{ route('barber.dashboard') }}" class="text-white">Inicio</a>
         </h2>
@@ -110,96 +110,13 @@
                 {{-- Botón crear --}}
                 <div class="mt-6 flex justify-end">
                     <x-barber.create />
-
                 </div>
-</div>
-                {{-- FullCalendar --}}
-                <hr class="my-10 border-white/20">
-                <h3 class="text-xl font-semibold mb-4">Calendario de Horarios</h3>
-                <div id="calendar" class="bg-white rounded shadow"></div>
 
-                {{-- FullCalendar Scripts --}}
-                <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
-                <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+            </div>
+        </div>
+    </div>
 
-                @php
-                    $calendarEvents = $schedules->map(function ($s) {
-                        return [
-                            'title' => $s->name,
-                            'start' => $s->date->format('Y-m-d') . 'T' . $s->start_time,
-                            'end' => $s->date->format('Y-m-d') . 'T' . $s->end_time,
-                            'color' => '#3B82F6',
-                        ];
-                    });
-                @endphp
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        let calendarEl = document.getElementById('calendar');
-                        let calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridMonth',
-                            locale: 'es',
-                            height: 650,
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                            },
-                            events: @json($calendarEvents)
-                        });
-                        calendar.render();
-                    });
-
-                    
-
-
-          
-
-
-                </script>
-
-                <style>
-                    #calendar {
-                        background-color: #2A2A2A;
-                        color: white;
-                        padding: 1rem;
-                        border-radius: 0.5rem;
-                    }
-
-                    .fc .fc-daygrid-day-number,
-                    .fc .fc-col-header-cell-cushion,
-                    .fc-toolbar-title {
-                        color: white;
-                    }
-
-                    .fc-button {
-                        background-color: #1F1F1F !important;
-                        color: white !important;
-                        border: 1px solid #444 !important;
-                    }
-
-                    .fc-button:hover {
-                        background-color: #3B3B3B !important;
-                    }
-
-                    .fc-daygrid-day:hover {
-                        background-color: rgba(255, 255, 255, 0.05);
-                    }
-
-                    .fc-event {
-                        border: none;
-                        font-weight: 500;
-                    }
-
-                    .fc .fc-scrollgrid-section-header td {
-                        background-color: #1F1F1F;
-                    }
-
-                    .fc-theme-standard td,
-                    .fc-theme-standard th {
-                        border: 1px solid #3B3B3B;
-                    }
-                    
+    <style>
 /* Mejor visibilidad del input date/time */
 input[type="date"],
 input[type="time"],
@@ -220,7 +137,6 @@ input[type="date"]:hover::-webkit-calendar-picker-indicator,
 input[type="time"]:hover::-webkit-calendar-picker-indicator {
     opacity: 1;
 }
-
                 </style>
 
             </div>

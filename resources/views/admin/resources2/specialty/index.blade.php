@@ -86,21 +86,13 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form 
-                            action="{{ route('admin.specialties.destroy', $specialty->id) }}"
-                            method="POST"
-                            class="inline-block delete-form"
+                        <button 
+                            onclick="confirmDelete('{{ route('admin.specialties.destroy', $specialty->id) }}', '{{ $specialty->name }}')"
+                            class="text-white hover:text-white/70 bg-transparent border-none cursor-pointer"
+                            title="Eliminar"
                         >
-                            @csrf
-                            @method('DELETE')
-                            <button 
-                                type="submit"
-                                class="text-white hover:text-white/70 bg-transparent border-none cursor-pointer"
-                                title="Eliminar"
-                            >
-                                <i class="bi bi-trash-fill text-lg"></i>
-                            </button>
-                        </form>
+                            <i class="bi bi-trash-fill text-lg"></i>
+                        </button>
                     </td>
                 </tr>
             @endforeach

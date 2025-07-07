@@ -27,7 +27,7 @@
                     <label for="name" class="block text-sm font-medium">Nombre del horario</label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}" required
                         class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
-                    @error('name') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
 
                 <div>
@@ -41,28 +41,28 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('barber_id') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
 
                 <div>
                     <label for="date" class="block text-sm font-medium">Fecha</label>
                     <input type="date" name="date" id="date" value="{{ old('date') }}" required
                         class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
-                    @error('date') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
 
                 <div>
                     <label for="start_time" class="block text-sm font-medium">Hora de inicio</label>
                     <input type="time" name="start_time" id="start_time" value="{{ old('start_time') }}" required
                         class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
-                    @error('start_time') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
 
                 <div>
                     <label for="end_time" class="block text-sm font-medium">Hora de fin</label>
                     <input type="time" name="end_time" id="end_time" value="{{ old('end_time') }}" required
                         class="w-full px-3 py-2 border rounded bg-[#1F1F1F] border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30">
-                    @error('end_time') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+
                 </div>
             </div>
 

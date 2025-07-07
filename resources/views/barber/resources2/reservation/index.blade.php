@@ -32,7 +32,6 @@
                 <th class="px-4 py-2 font-semibold">Hora</th>
                 <th class="px-4 py-2 font-semibold">Estado</th>
                 <th class="px-4 py-2 font-semibold">Pago</th>
-                <th class="px-4 py-2 font-semibold">Notas</th>
                 <th class="px-4 py-2 font-semibold">Acciones</th>
             </tr>
         </x-slot>

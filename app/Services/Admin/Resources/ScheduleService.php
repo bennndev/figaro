@@ -60,4 +60,9 @@ class ScheduleService
             ->when($request->date, fn($q) => $q->where('date', $request->date))
             ->get();
     }
+
+    public function all()
+    {
+        return Schedule::with('barber')->get();
+    }
 }

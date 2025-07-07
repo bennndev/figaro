@@ -50,42 +50,73 @@ class ReservationController extends Controller
 
     public function store(CreateReservationRequest $request)
     {
-        $data = $request->validated();
-        // Adaptar specialties y services si vienen como campos individuales
-        if (empty($data['specialties']) && !empty($request->input('specialty_id'))) {
-            $data['specialties'] = [$request->input('specialty_id')];
-        }
-        if (empty($data['services']) && !empty($request->input('service_id'))) {
-            $data['services'] = [$request->input('service_id')];
-        }
-        $reservation = $this->service->create($data);
-        // Stripe Checkout
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $user = auth()->user();
-        $service = $reservation->services->first();
-        $checkoutSession = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'pen',
-                    'product_data' => [
-                        'name' => $service->name,
-                        'description' => $service->description,
+        try {
+            $data = $request->validated();
+            // Adaptar specialties y services si vienen como campos individuales
+            if (empty($data['specialties']) && !empty($request->input('specialty_id'))) {
+                $data['specialties'] = [$request->input('specialty_id')];
+            }
+            if (empty($data['services']) && !empty($request->input('service_id'))) {
+                $data['services'] = [$request->input('service_id')];
+            }
+            
+            $reservation = $this->service->create($data);
+            
+            // Si es una request AJAX, devolver JSON
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Reserva creada exitosamente',
+                    'reservation_id' => $reservation->id
+                ]);
+            }
+            
+            // Stripe Checkout para requests normales
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            $user = auth()->user();
+            $service = $reservation->services->first();
+            $checkoutSession = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'pen',
+                        'product_data' => [
+                            'name' => $service->name,
+                            'description' => $service->description,
+                        ],
+                        'unit_amount' => intval($service->price * 100),
                     ],
-                    'unit_amount' => intval($service->price * 100),
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'customer_email' => $user->email,
+                'success_url' => route('client.payments.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('client.payments.failure'),
+                'metadata' => [
+                    'reservation_id' => $reservation->id,
+                    'user_id' => $user->id,
                 ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'customer_email' => $user->email,
-            'success_url' => route('client.payments.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('client.payments.failure'),
-            'metadata' => [
-                'reservation_id' => $reservation->id,
-                'user_id' => $user->id,
-            ],
-        ]);
-        return redirect($checkoutSession->url);
+            ]);
+            return redirect($checkoutSession->url);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Error de validación',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            throw $e;
+        } catch (\Exception $e) {
+            \Log::error('Error al crear reserva: ' . $e->getMessage());
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Error al guardar la reserva: ' . $e->getMessage()
+                ], 500);
+            }
+            return redirect()->back()->with('error', 'Error al crear la reserva');
+        }
     }
 
     public function show(int $id)

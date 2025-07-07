@@ -33,9 +33,7 @@
                         required 
                         class="w-full mt-1 p-2 border border-gray-300 rounded"
                     >
-                    @error('name')
-                        <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                    @enderror
+
                 </div>
 
                 <div class="flex justify-end gap-4 mt-6">

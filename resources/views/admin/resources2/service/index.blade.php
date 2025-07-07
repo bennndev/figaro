@@ -110,15 +110,11 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST"
-                              class="inline delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" title="Eliminar"
-                                    class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 bg-transparent border-none p-0">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </form>
+                        <button onclick="confirmDelete('{{ route('admin.services.destroy', $service->id) }}', '{{ $service->name }}')"
+                                title="Eliminar"
+                                class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 bg-transparent border-none p-0">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
                     </td>
                 </tr>
             @endforeach

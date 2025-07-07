@@ -11,6 +11,9 @@ Route::middleware(['auth:barber', 'barber.verified'])->prefix('barber')->name('b
     # CRUD Horarios - Barbero
     Route::resource('schedules', ScheduleController::class);
     
+    # Calendario de Horarios
+    Route::get('schedules-calendar', [ScheduleController::class, 'calendar'])->name('schedules.calendar');
+    
     # CRUD Reservas - Barbero (solo index y show)
     Route::resource('reservations', ReservationController::class)->only(['index', 'show']);
     

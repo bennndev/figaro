@@ -66,4 +66,10 @@ class ScheduleController extends Controller
         return redirect()->route('barber.schedules.index')
             ->with('message', 'Horario eliminado exitosamente');
     }
+
+    public function calendar()
+    {
+        $schedules = $this->service->all();
+        return view('barber.resources2.schedule.calendar', compact('schedules'));
+    }
 }

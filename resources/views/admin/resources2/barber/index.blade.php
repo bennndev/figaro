@@ -75,9 +75,7 @@
 
     
                 {{-- Mensaje de sesión --}}
-                @if (session('message'))
-                    <x-admin.client-create />
-                @endif
+                
 
                 {{-- Tabla de barberos --}}
 @if ($barbers->isEmpty())

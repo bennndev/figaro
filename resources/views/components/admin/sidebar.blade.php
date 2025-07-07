@@ -6,19 +6,17 @@
     }
 @endphp
 
-<nav class="flex flex-col justify-between h-full text-white p-4 rounded-2xl shadow-xl text-sm overflow-hidden">
+<nav class="flex flex-col justify-between h-full relative text-sm">
+    {{-- Imagen/Ícono en la cabecera --}} 
 
-    <!-- Logo o ícono superior -->
-    
-
-    <!-- Menú -->
+    {{-- Opciones de menú --}}
     <div class="space-y-4 overflow-y-auto pr-2 scrollbar-hide" style="max-height:calc(100vh-140px);">
-        <div class="flex justify-center my-1 mb-4">
+        <div class="flex justify-center my-1">
         <img src="{{ asset('images/imagen2.svg') }}" alt="Ícono"
-             class="max-w-[100px] max-h-[100px] drop-shadow-xl">
-    </div><br>
+             class="max-w-[100px] max-h-[100px] drop-shadow-xl  ">
+</div><br>
         <a href="{{ route('admin.dashboard') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.dashboard') }}">
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.dashboard') }}">
             <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
 
@@ -27,49 +25,54 @@
             <i class="bi bi-person-circle mr-3 text-2xl"></i> Perfil
         </a>
 
-        <a href="{{ route('admin.clients.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.clients.index') }}">
+        <a href="{{ route('admin.clients.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.clients.index') }}">
             <i class="bi bi-people-fill mr-3 text-2xl"></i> Clientes
         </a>
 
-        <a href="{{ route('admin.barbers.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.barbers.index') }}">
+        <a href="{{ route('admin.barbers.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.barbers.index') }}">
             <i class="bi bi-scissors mr-3 text-2xl"></i> Barberos
         </a>
 
-        <a href="{{ route('admin.specialties.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.specialties.index') }}">
+        <a href="{{ route('admin.specialties.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.specialties.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Especialidad
         </a>
 
-        <a href="{{ route('admin.services.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.services.index') }}">
+        <a href="{{ route('admin.services.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.services.index') }}">
             <i class="bi bi-bag-check-fill mr-3 text-2xl"></i> Servicios
         </a>
 
-        <a href="{{ route('admin.schedules.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.schedules.index') }}">
+        <a href="{{ route('admin.schedules.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
         </a>
 
-         <a href="{{ route('admin.reservations.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.reservations.index') }}">
+        <a href="{{ route('admin.schedules.calendar') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.schedules.calendar') }}">
+            <i class="bi bi-calendar3 mr-3 text-2xl"></i> Calendario
+        </a>
+
+        <a href="{{ route('admin.reservations.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.reservations.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Reservas
         </a>
 
-        <a href="{{ route('admin.payments.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActive('admin.payments.index') }}">
+        <a href="{{ route('admin.payments.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActive('admin.payments.index') }}">
             <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
         </a>
 
     </div>
 
-    <!-- Cerrar sesión -->
-    <div class="mt-6">
+    {{-- Botón de cerrar sesión --}}
+    <div class="mt-4 px-4 mb-4">
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
             <button type="submit" 
-                    class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition">
+                    class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition text-sm">
                 <i class="bi bi-box-arrow-right mr-3 text-2xl"></i> Cerrar sesión
             </button>
         </form>

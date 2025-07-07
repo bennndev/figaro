@@ -3,11 +3,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<div class="relative flex w-full max-w-5xl flex-col overflow-hidden rounded-xl bg-[#2A2A2A] text-white shadow-lg md:flex-row">
+<div class="relative flex w-full max-w-4xl h-[600px] flex-col overflow-visible rounded-xl bg-[#2A2A2A] text-white shadow-lg md:flex-row md:h-[500px]">
   <!-- Sidebar de pasos -->
   <aside class="relative w-full md:w-1/5 bg-[#2A2A2A] p-6">
-    <div class="absolute left-1/2 top-12 h-[calc(100%-4rem)] w-1 -translate-x-1/2 bg-gray-600"></div>
-    <div class="relative z-10 flex justify-between md:flex-col gap-4 md:gap-12">
+    <div class="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-1 -translate-x-1/2 bg-gray-600 md:top-12 md:h-[calc(100%-8rem)]"></div>
+    <div class="relative z-10 flex justify-center md:justify-start md:flex-col gap-4 md:gap-12 md:items-center">
       <div class="step-circle active-step"></div>
       <div class="step-circle"></div>
       <div class="step-circle"></div>
@@ -17,11 +17,11 @@
   </aside>
 
   <!-- Contenido wizard -->
-  <section class="relative flex flex-1 flex-col overflow-auto p-6">
+  <section class="relative flex flex-1 flex-col p-6">
     <!-- Paso 1: Especialidad (selección múltiple) -->
-    <div id="step1" class="wizard-step active space-y-4">
-      <h2 class="text-2xl font-bold">Selecciona una o varias especialidades</h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div id="step1" class="wizard-step active space-y-4 overflow-y-auto max-h-[400px]">
+      <h2 class="text-2xl font-bold sticky top-0 bg-[#2A2A2A] py-2 z-10">Selecciona una o varias especialidades</h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 pb-20">
         @foreach($specialties as $spec)
           <button
             type="button"
@@ -36,9 +36,9 @@
     </div>
 
     <!-- Paso 2: Servicio (selección múltiple) -->
-    <div id="step2" class="wizard-step hidden space-y-4">
-      <h2 class="text-2xl font-bold">Elige uno o varios servicios</h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div id="step2" class="wizard-step hidden space-y-4 overflow-y-auto max-h-[400px]">
+      <h2 class="text-2xl font-bold sticky top-0 bg-[#2A2A2A] py-2 z-10">Elige uno o varios servicios</h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 pb-20">
         @foreach($services as $srv)
           <button
             type="button"
@@ -54,9 +54,9 @@
     </div>
 
     <!-- Paso 3: Barbero -->
-    <div id="step3" class="wizard-step hidden space-y-4">
-      <h2 class="text-2xl font-bold">Selecciona un barbero</h2>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div id="step3" class="wizard-step hidden space-y-4 overflow-y-auto max-h-[400px]">
+      <h2 class="text-2xl font-bold sticky top-0 bg-[#2A2A2A] py-2 z-10">Selecciona un barbero</h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 pb-20">
         @foreach($barbers as $barb)
           <div
             class="flex cursor-pointer items-center gap-3 rounded border border-gray-500 p-4 transition hover:border-white hover:bg-gray-700"
@@ -70,17 +70,17 @@
     </div>
 
     <!-- Paso 4: Fecha -->
-    <div id="step4" class="wizard-step hidden space-y-4">
-      <h2 class="text-xl md:text-2xl font-bold mb-4">Selecciona una fecha</h2>
-      <div id="dateOptions" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div id="step4" class="wizard-step hidden space-y-4 overflow-y-auto max-h-[400px]">
+      <h2 class="text-xl md:text-2xl font-bold mb-4 sticky top-0 bg-[#2A2A2A] py-2 z-10">Selecciona una fecha</h2>
+      <div id="dateOptions" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pb-20">
         <!-- Las fechas se generan dinámicamente -->
       </div>
     </div>
 
     <!-- Paso 5: Horario -->
-    <div id="step5" class="wizard-step hidden space-y-4">
-      <h2 class="text-xl md:text-2xl font-bold mb-4">Elige un horario</h2>
-      <div id="horarios" class="flex flex-wrap gap-2">
+    <div id="step5" class="wizard-step hidden space-y-4 overflow-y-auto max-h-[400px]">
+      <h2 class="text-xl md:text-2xl font-bold mb-4 sticky top-0 bg-[#2A2A2A] py-2 z-10">Elige un horario</h2>
+      <div id="horarios" class="flex flex-wrap gap-2 pb-20">
         <!-- Los horarios se generan dinámicamente -->
       </div>
     </div>
@@ -99,7 +99,7 @@
   <!-- Cerrar -->
   <button
     onclick="cerrarModalReserva()"
-    class="absolute top-4 right-4 text-3xl text-white hover:text-gray-400 transition"
+    class="absolute top-2 right-2 z-50 flex h-8 w-8 items-center justify-center rounded-full bg-gray-700 text-xl text-white hover:bg-gray-600 hover:text-gray-300 transition"
   >&times;</button>
 </div>
 
@@ -112,6 +112,15 @@
     border-radius: 9999px;
   }
   .step-circle.active-step { background: #fff; }
+  
+  /* Ocultar barra de scroll pero mantener funcionalidad */
+  .wizard-step {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  .wizard-step::-webkit-scrollbar {
+    display: none; /* Safari y Chrome */
+  }
 </style>
 
 <script>
@@ -180,13 +189,22 @@ function validarPaso() {
 }
 document.getElementById('btnSiguiente').addEventListener('click', () => {
     if (!validarPaso()) {
-      alert('Debes completar este paso antes de continuar.');
+      showErrorToast('Debes completar este paso antes de continuar.');
       return;
     }
     if(pasoActual < totalPasos){
       pasoActual++;
       actualizarWizard();
     } else {
+      console.log('Enviando reserva:', {
+        barber_id: reserva.barbero.id,
+        services: reserva.servicios,
+        specialties: reserva.especialidades,
+        schedule_id: reserva.schedule_id,
+        reservation_date: reserva.fecha,
+        reservation_time: reserva.hora,
+      });
+      
       fetch('/client/reservations', {
         method: 'POST',
         headers: {
@@ -203,16 +221,29 @@ document.getElementById('btnSiguiente').addEventListener('click', () => {
           reservation_time: reserva.hora,
         })
       })
-      .then(res => res.json())
+      .then(res => {
+        console.log('Respuesta del servidor:', res.status, res.statusText);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(data => {
+        console.log('Datos recibidos:', data);
         if (data.error) {
-          alert('Error al guardar la reserva: ' + data.error);
+          showErrorAlert('Error al guardar la reserva', data.error);
+        } else if (data.success || data.message) {
+          showSuccessAlert('¡Reserva guardada con éxito!', data.message || 'Tu reserva ha sido procesada correctamente.');
+          cerrarModalReserva();
         } else {
-          alert('¡Reserva guardada con éxito!');
+          showSuccessAlert('¡Reserva guardada con éxito!', 'Tu reserva ha sido procesada correctamente.');
           cerrarModalReserva();
         }
       })
-      .catch(() => alert('Error al guardar la reserva.'));
+      .catch(error => {
+        console.error('Error completo:', error);
+        showErrorAlert('Error al guardar la reserva', error.message);
+      });
     }
 });
 document.getElementById('btnAnterior').addEventListener('click', () => {

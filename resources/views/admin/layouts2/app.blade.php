@@ -156,6 +156,38 @@
             }
         }
 
+        // Función para mostrar toasts de error
+        window.showErrorToast = function(title) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: title,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#EF4444'
+            });
+        };
+
+        // Función para mostrar toasts de éxito
+        window.showSuccessToast = function(title) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: title,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#10B981'
+            });
+        };
+
         // Función para confirmación de eliminación
         function confirmDelete(url, itemName = 'este elemento') {
             Swal.fire({
@@ -203,30 +235,44 @@
         // Mostrar mensajes de sesión
         document.addEventListener('DOMContentLoaded', function() {
             @if(session('success'))
-                showAlert('success', '¡Éxito!', '{{ session('success') }}');
+                showSuccessToast('{{ session('success') }}');
             @endif
 
             @if(session('error'))
-                showAlert('error', 'Error', '{{ session('error') }}');
+                showErrorToast('{{ session('error') }}');
             @endif
 
             @if(session('warning'))
-                showAlert('warning', 'Advertencia', '{{ session('warning') }}');
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: '{{ session('warning') }}',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#2A2A2A',
+                    color: '#ffffff',
+                    iconColor: '#F59E0B'
+                });
             @endif
 
             @if(session('info'))
-                showAlert('info', 'Información', '{{ session('info') }}');
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: '{{ session('info') }}',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#2A2A2A',
+                    color: '#ffffff',
+                    iconColor: '#3B82F6'
+                });
             @endif
 
-            @if($errors->any())
-                @php
-                    $errorMessages = $errors->all();
-                    $errorText = count($errorMessages) > 1 
-                        ? implode("\\n", $errorMessages) 
-                        : $errorMessages[0];
-                @endphp
-                showAlert('error', 'Error de validación', '{{ $errorText }}');
-            @endif
+            // Los errores de validación ahora se manejan con toasts individuales en cada modal
         });
     </script>
 </body>

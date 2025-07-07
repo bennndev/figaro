@@ -66,49 +66,48 @@
 
 
         {{-- Tarjetas de barberos --}}
-        <div class="flex flex-wrap justify-start gap-6 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-7xl mx-auto px-4">
             @forelse ($barbers as $barber)
-                <div class="flex bg-[#2A2A2A] text-white shadow-md rounded-xl p-4 border border-[#E5E4E2] transition transform hover:scale-[1.02] hover:shadow-lg hover:border-white"
-                     style="width: auto; min-width: 300px; max-width: 100%;">
+                <div class="bg-[#2A2A2A] text-white shadow-md rounded-xl p-6 border border-[#E5E4E2] transition transform hover:scale-[1.02] hover:shadow-lg hover:border-white h-[220px] flex flex-col">
 
-                    {{-- Imagen --}}
-                    <div class="flex-shrink-0 mr-4">
-                        @if ($barber->profile_photo)
-                            <img src="{{ $barber->profile_photo_url }}"
-                                alt="Foto de perfil"
-                                class="w-24 h-24 object-cover rounded-full border shadow-md">
-                        @else
-                            <img src="{{ asset('images/default-barber.png') }}"
-                                alt="Foto por defecto"
-                                class="w-24 h-24 object-cover rounded-full border shadow-md">
-                        @endif
+                    {{-- Header con imagen y nombre --}}
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 mr-4">
+                            @if ($barber->profile_photo)
+                                <img src="{{ $barber->profile_photo_url }}"
+                                    alt="Foto de perfil"
+                                    class="w-16 h-16 object-cover rounded-full border shadow-md">
+                            @else
+                                <div class="w-16 h-16 bg-gray-600 rounded-full border shadow-md flex items-center justify-center">
+                                    <span class="text-gray-300 text-xs">Foto de perfil</span>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <h3 class="text-lg font-bold truncate">{{ $barber->name }} {{ $barber->last_name }}</h3>
+                        </div>
                     </div>
 
-                    {{-- Contenido --}}
-                    <div class="flex flex-col justify-center flex-grow">
-                        <h3 class="text-lg font-bold">{{ $barber->name }} {{ $barber->last_name }}</h3>
-
-                        {{-- Especialidades --}}
-                        <div class="mt-2">
-                            <p class="text-sm font-semibold mb-1">Especialidades:</p>
-                            <div class="flex flex-wrap gap-2">
-                                @forelse($barber->specialties as $specialty)
-                                    <span class="bg-white text-black text-xs px-3 py-1 rounded-full">
-                                        {{ $specialty->name }}
-                                    </span>
-                                @empty
-                                    <span class="text-xs text-gray-300">Sin especialidades</span>
-                                @endforelse
-                            </div>
+                    {{-- Especialidades --}}
+                    <div class="flex-grow">
+                        <p class="text-sm font-semibold mb-2">Especialidades:</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            @forelse($barber->specialties as $specialty)
+                                <span class="bg-white text-black text-xs px-3 py-1 rounded-full">
+                                    {{ $specialty->name }}
+                                </span>
+                            @empty
+                                <span class="text-xs text-gray-300">Sin especialidades</span>
+                            @endforelse
                         </div>
+                    </div>
 
-                        {{-- Botón Ver Más --}}
-                        <div class="mt-3 flex justify-end">
-                            <button @click="selectedBarber = {{ $barber->toJson() }}; showModal = true"
-                                    class="text-white hover:text-indigo-300 transition text-3xl">
-                                <i class="bi bi-plus-circle-fill"></i>
-                            </button>
-                        </div>
+                    {{-- Botón Ver Más --}}
+                    <div class="flex justify-end mt-auto">
+                        <button @click="selectedBarber = {{ $barber->toJson() }}; showModal = true"
+                                class="text-white hover:text-indigo-300 transition text-3xl">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </button>
                     </div>
                 </div>
             @empty

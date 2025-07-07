@@ -34,6 +34,9 @@ Route::middleware(['auth', 'verified'])->prefix('client')->name('client.')->grou
     // Pagos (index, store, show)
     Route::resource('payments', PaymentController::class)->only(['index', 'store', 'show']);
 
+    // Historial de pagos
+    Route::get('payments-history', [PaymentController::class, 'history'])->name('payments.history');
+
     // Reporte PDF de pago
     Route::get('payments/{id}/report', [PaymentController::class, 'downloadReport'])
         ->name('payments.report');

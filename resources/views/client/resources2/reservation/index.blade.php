@@ -8,17 +8,13 @@
             </a>
         </h2>
     </x-slot>
+    
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto">
             <div class="bg-[#2A2A2A] text-white shadow-sm sm:rounded-lg px-4 sm:px-6 lg:px-8 py-6">
 
                 <h3 class="text-lg font-semibold mb-4">Listado de tus reservas</h3>
-
-                {{-- Mensaje de éxito --}}
-                @if (session('message'))
-                    <p class="text-green-400 mb-4">{{ session('message') }}</p>
-                @endif
 
                 {{-- Filtro de estado --}}
                 <form class="mb-6">
@@ -35,11 +31,17 @@
                     </div>
                 </form>
 
+                
+
 @if ($reservations->isEmpty())
     <p class="text-white">No tienes reservaciones registradas.</p>
-@else
-    {{-- Botón para nueva reserva arriba a la derecha --}}
     <div class="flex justify-end mb-4">
+      <a href="#" onclick="openReservationModal()" class="bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition text-sm sm:text-base">
+        Nueva Reservación
+      </a>
+    </div>
+@else
+<div class="flex justify-end mb-4">
       <a href="#" onclick="openReservationModal()" class="bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition text-sm sm:text-base">
         Nueva Reservación
       </a>
@@ -75,9 +77,9 @@
                         <span class="inline-block px-3 py-1 bg-gray-600 text-white text-sm font-semibold rounded-full">
                             Cancelado
                         </span>
-                    @else
+                    @elseif ($reservation->status === 'completed')
                         <span class="inline-block px-3 py-1 bg-gray-600 text-white text-sm font-semibold rounded-full">
-                            {{ ucfirst($reservation->status) }}
+                            Completado
                         </span>
                     @endif
                 </td>
@@ -106,7 +108,7 @@
                         <form method="POST" action="{{ route('client.reservations.cancel', $reservation->id) }}" class="inline">
                             @csrf
                             @method('PATCH')
-                            <button type="submit" class="text-white hover:text-red-500 transition" title="Cancelar" onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
+                            <button type="button" class="text-white hover:text-red-500 transition" title="Cancelar" onclick="cancelarReserva(this)">
                                 <i class="bi bi-x-circle-fill"></i>
                             </button>
                         </form>
@@ -124,6 +126,7 @@
             </tr>
         @endforeach
     </x-admin.table>
+    
 
     {{-- Renderizar modales después de la tabla --}}
     @foreach ($reservations as $reservation)
@@ -133,6 +136,8 @@
         @endif
     @endforeach
 @endif
+{{-- Botón para nueva reserva arriba a la derecha --}}
+    
 
 
 
@@ -178,6 +183,21 @@
         });
       });
     }
+    
+    // Función para cancelar reserva con SweetAlert2
+    window.cancelarReserva = function(button) {
+      showConfirmAlert(
+        '¿Cancelar reserva?',
+        '¿Estás seguro que deseas cancelar esta reserva? Esta acción no se puede deshacer.',
+        'Sí, cancelar',
+        'No, mantener'
+      ).then((result) => {
+        if (result.isConfirmed) {
+          // Enviar el formulario
+          button.closest('form').submit();
+        }
+      });
+    };
   });
 </script>
 

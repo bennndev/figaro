@@ -98,14 +98,11 @@
                         </button>
 
                         {{-- Eliminar --}}
-                        <form method="POST" action="{{ route('admin.clients.destroy', $client->id) }}" class="inline delete-form">
-    @csrf
-    @method('DELETE')
-    <button type="submit" title="Eliminar"
-        class="text-white hover:text-white/70 transition">
-        <i class="bi bi-trash-fill"></i>
-    </button>
-</form>
+                        <button onclick="confirmDelete('{{ route('admin.clients.destroy', $client->id) }}', '{{ $client->name }} {{ $client->last_name }}')"
+                                title="Eliminar"
+                                class="text-white hover:text-white/70 transition">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
 
                     </div>
                 </td>

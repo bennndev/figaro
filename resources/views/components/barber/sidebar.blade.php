@@ -6,41 +6,52 @@
     }
 @endphp
 
-<nav class="flex flex-col justify-between h-full text-white p-4 rounded-2xl shadow-xl text-sm">
+<nav class="flex flex-col justify-between h-full relative text-sm">
+    {{-- Imagen/Ícono en la cabecera --}} 
 
-   
-
-    <!-- Enlaces -->
+    {{-- Opciones de menú --}}
     <div class="space-y-4">
-        <div class="flex justify-center mb-6">
-        <img src="{{ asset('images/imagen2.svg') }}" alt="Ícono" class="max-w-[100px] max-h-[100px] drop-shadow-xl">
-    </div>
+        <div class="flex justify-center my-1">
+        <img src="{{ asset('images/imagen2.svg') }}" alt="Ícono"
+             class="max-w-[100px] max-h-[100px] drop-shadow-xl  ">
+</div><br>
         <a href="{{ route('barber.dashboard') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.dashboard') }}">
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.dashboard') }}">
             <i class="bi bi-house-door-fill mr-3 text-2xl"></i> Inicio
         </a>
 
-        <a href="{{ route('barber.schedules.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.schedules.index') }}">
+        <a href="{{ route('barber.profile.edit') }}" 
+           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.profile.edit') }}">
+            <i class="bi bi-person-circle mr-3 text-2xl"></i> Perfil
+        </a>
+
+        <a href="{{ route('barber.schedules.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.schedules.index') }}">
             <i class="bi bi-calendar-check-fill mr-3 text-2xl"></i> Horarios
         </a>
-        <a href="{{ route('barber.reservations.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.reservations.index') }}">
+
+        <a href="{{ route('barber.schedules.calendar') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.schedules.calendar') }}">
+            <i class="bi bi-calendar3 mr-3 text-2xl"></i> Calendario
+        </a>
+
+        <a href="{{ route('barber.reservations.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.reservations.index') }}">
             <i class="bi bi-calendar2-check mr-3 text-2xl"></i> Reservas
         </a>
 
-        <a href="{{ route('barber.payments.index') }}" 
-           class="flex items-center px-4 py-3 transition {{ isActiveBarber('barber.payments.index') }}">
+        <a href="{{ route('barber.payments.index') }}"
+           class="flex items-center px-4 py-3 rounded-xl transition {{ isActiveBarber('barber.payments.index') }}">
             <i class="bi bi-credit-card-fill mr-3 text-2xl"></i> Pagos
         </a>
     </div>  
 
-    <!-- Cerrar sesión -->
-    <div class="mt-6">
+    {{-- Botón de cerrar sesión --}}
+    <div class="mt-4 px-4 mb-4">
         <form method="POST" action="{{ route('barber.logout') }}">
             @csrf
             <button type="submit" 
-                    class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition">
+                    class="w-full flex items-center px-4 py-3 rounded-xl bg-white text-black hover:bg-gray-200 transition text-sm">
                 <i class="bi bi-box-arrow-right mr-3 text-2xl"></i> Cerrar sesión
             </button>
         </form>

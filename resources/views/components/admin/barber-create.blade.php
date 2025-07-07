@@ -37,7 +37,7 @@
                         <label for="name" class="block text-sm font-medium">Nombre:</label>
                         <input type="text" name="name" id="name" required value="{{ old('name') }}"
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">
-                        @error('name') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Apellido -->
@@ -45,7 +45,7 @@
                         <label for="last_name" class="block text-sm font-medium">Apellido:</label>
                         <input type="text" name="last_name" id="last_name" required value="{{ old('last_name') }}"
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">
-                        @error('last_name') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Email -->
@@ -53,7 +53,7 @@
                         <label for="email" class="block text-sm font-medium">Email:</label>
                         <input type="email" name="email" id="email" required value="{{ old('email') }}"
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">
-                        @error('email') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Teléfono -->
@@ -61,7 +61,7 @@
                         <label for="phone_number" class="block text-sm font-medium">Teléfono:</label>
                         <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number') }}"
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">
-                        @error('phone_number') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Especialidades -->
@@ -96,9 +96,7 @@
                             <input type="hidden" name="specialty_ids[]" :value="id">
                         </template>
 
-                        @error('specialty_ids')
-                            <div class="text-red-400 text-sm mt-2">{{ $message }}</div>
-                        @enderror
+
                     </div>
 
                     <!-- Descripción -->
@@ -106,14 +104,14 @@
                         <label for="description" class="block text-sm font-medium">Descripción:</label>
                         <textarea name="description" id="description" rows="3" required
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">{{ old('description') }}</textarea>
-                        @error('description') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Foto -->
                     <div class="md:col-span-2">
                         <label for="profile_photo" class="block text-sm font-medium">Foto de perfil:</label>
                         <input type="file" name="profile_photo" id="profile_photo" class="mt-1 text-white">
-                        @error('profile_photo') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Contraseña -->
@@ -121,7 +119,7 @@
                         <label for="password" class="block text-sm font-medium">Contraseña:</label>
                         <input type="password" name="password" id="password" required
                             class="mt-1 w-full border rounded-md p-2 bg-[#1E1E1E] text-white">
-                        @error('password') <div class="text-red-400 text-sm mt-1">{{ $message }}</div> @enderror
+
                     </div>
 
                     <!-- Confirmar contraseña -->

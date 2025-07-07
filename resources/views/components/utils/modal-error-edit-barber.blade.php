@@ -1,23 +1,21 @@
 @props(['barberId'])
 
+{{-- Componente para mostrar errores específicos del modal de editar barbero --}}
 @if ($errors->any() && (session('modal_context') === 'edit_barber' || request()->routeIs('admin.barbers.update')))
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        Swal.fire({
-            icon: 'error',
-            title: 'Se encontraron errores',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            background: '#2A2A2A',
-            color: 'white',
-            iconColor: '#EF4444',
-            confirmButtonColor: '#EF4444',
-            confirmButtonText: 'Entendido',
-            customClass: {
-                popup: 'rounded-xl border border-white/10 shadow-lg',
-                confirmButton: 'text-white font-semibold px-4 py-2'
+        // Mostrar cada error como un toast individual
+        @foreach($errors->all() as $error)
+            if (typeof showErrorToast === 'function') {
+                showErrorToast('{{ $error }}');
+            } else {
+                // Fallback si showErrorToast no está disponible
+                console.error('showErrorToast no está disponible:', '{{ $error }}');
             }
-        }).then(() => {
-            // Esperamos a que se cierre SweetAlert, y luego forzamos el modal de editar barbero abierto
+        @endforeach
+        
+        // Mantener el modal abierto después de mostrar los errores
+        setTimeout(() => {
             const editModal = document.querySelector('[x-data*="showEditModal"]');
             if (editModal && editModal.__x && editModal.__x.$data.hasOwnProperty('showEditModal')) {
                 editModal.__x.$data.showEditModal = true;
@@ -27,7 +25,7 @@
             @if(isset($barberId))
             window.dispatchEvent(new CustomEvent('open-modal-edit-barber-{{ $barberId }}'));
             @endif
-        });
+        }, 100);
     });
 </script>
 @endif

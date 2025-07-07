@@ -22,6 +22,9 @@ Route::middleware(['auth:admin', 'admin.verified'])->prefix('admin')->name('admi
     Route::resource('services', ServiceController::class);
     # CRUD Horarios - Admin
     Route::resource('schedules', ScheduleController::class);
+    
+    # Calendario de Horarios
+    Route::get('schedules-calendar', [ScheduleController::class, 'calendar'])->name('schedules.calendar');
     # Only View - Reservas
     Route::resource('reservations', ReservationController::class)->only(['index', 'show']);
     # Only View - Pagos

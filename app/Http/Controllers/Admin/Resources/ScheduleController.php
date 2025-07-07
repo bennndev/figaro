@@ -23,9 +23,8 @@ class ScheduleController extends Controller
     {
         $schedules = $this->service->index($request); // paginado para la tabla
         $barbers = $this->service->getAllBarbers();
-        $calendarSchedules = $this->service->getForCalendar($request); // para el calendario
 
-        return view('admin.resources2.schedule.index', compact('schedules', 'barbers', 'calendarSchedules'));
+        return view('admin.resources2.schedule.index', compact('schedules', 'barbers'));
     }
 
     public function create()
@@ -65,5 +64,11 @@ class ScheduleController extends Controller
         $schedule = $this->service->getById($id);
         $this->service->destroy($schedule);
         return redirect()->route('admin.schedules.index')->with('message', 'Horario eliminado correctamente.');
+    }
+
+    public function calendar()
+    {
+        $schedules = $this->service->all();
+        return view('admin.resources2.schedule.calendar', compact('schedules'));
     }
 }

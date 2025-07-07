@@ -18,6 +18,9 @@
     {{-- Tailwind y Alpine.js --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -148,6 +151,95 @@
 
     {{-- Scripts adicionales --}}
     @stack('scripts')
+    
+    {{-- SweetAlert2 Configuration --}}
+    <script>
+        // Configuración global de SweetAlert2 para el tema oscuro
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            background: '#2A2A2A',
+            color: '#ffffff',
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        // Función global para mostrar alertas de éxito
+        window.showSuccessAlert = function(title, text = '') {
+            Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                confirmButtonColor: '#10B981',
+                confirmButtonText: 'Entendido'
+            });
+        };
+
+        // Función global para mostrar alertas de error
+        window.showErrorAlert = function(title, text = '') {
+            Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                confirmButtonColor: '#EF4444',
+                confirmButtonText: 'Entendido'
+            });
+        };
+
+        // Función global para mostrar toast de éxito
+        window.showSuccessToast = function(title) {
+            Toast.fire({
+                icon: 'success',
+                title: title
+            });
+        };
+
+        // Función global para mostrar toast de error
+        window.showErrorToast = function(title) {
+            Toast.fire({
+                icon: 'error',
+                title: title
+            });
+        };
+
+        // Función global para mostrar confirmación
+        window.showConfirmAlert = function(title, text, confirmText = 'Sí, confirmar', cancelText = 'Cancelar') {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: confirmText,
+                cancelButtonText: cancelText
+            });
+        };
+
+        // Detectar mensajes de sesión de Laravel y mostrarlos con SweetAlert2
+        @if(session('success'))
+            showSuccessToast('{{ session('success') }}');
+        @endif
+
+        @if(session('error'))
+            showErrorToast('{{ session('error') }}');
+        @endif
+
+        @if(session('message'))
+            showSuccessToast('{{ session('message') }}');
+        @endif
+    </script>
 </body>
 
 </html>
