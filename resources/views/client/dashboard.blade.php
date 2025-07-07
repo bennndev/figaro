@@ -49,7 +49,7 @@
                 </div>
                 <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
                     <i class="bi bi-x-circle text-3xl text-white mb-2"></i>
-                    <div class="text-2xl font-bold text-white">-</div>
+                    <div class="text-2xl font-bold text-white">{{ $stats['cancelled'] }}</div>
                     <div class="text-gray-300 text-sm">Canceladas</div>
                 </div>
                 <div class="bg-[#2A2A2A] rounded-xl p-5 flex flex-col items-center shadow">
@@ -86,6 +86,8 @@
                                             <span class="bg-white text-black px-2 py-1 rounded text-xs font-bold">Pagado</span>
                                         @elseif($reservation->status === 'pending_pay')
                                             <span class="bg-gray-700 text-white px-2 py-1 rounded text-xs font-bold">Pendiente de pago</span>
+                                        @elseif($reservation->status === 'cancelled')
+                                            <span class="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">Cancelado</span>
                                         @else
                                             <span class="bg-gray-600 text-white px-2 py-1 rounded text-xs font-bold">{{ ucfirst($reservation->status) }}</span>
                                         @endif

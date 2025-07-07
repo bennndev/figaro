@@ -12,6 +12,7 @@ class DashboardStatsService
         $user = Auth::user();
         $total = Reservation::where('user_id', $user->id)->count();
         $completed = Reservation::where('user_id', $user->id)->whereIn('status', ['completed', 'paid'])->count();
+        $cancelled = Reservation::where('user_id', $user->id)->where('status', 'cancelled')->count();
         $totalSpent = Reservation::where('user_id', $user->id)
             ->whereIn('status', ['completed', 'paid'])
             ->with('services')
@@ -21,6 +22,7 @@ class DashboardStatsService
         return [
             'total' => $total,
             'completed' => $completed,
+            'cancelled' => $cancelled,
             'totalSpent' => $totalSpent,
         ];
     }
@@ -30,7 +32,7 @@ class DashboardStatsService
         $user = Auth::user();
         return Reservation::with(['services', 'barber'])
             ->where('user_id', $user->id)
-            ->whereIn('status', ['paid', 'completed', 'pending_pay'])
+            ->whereIn('status', ['paid', 'completed', 'pending_pay', 'cancelled'])
             ->orderByDesc('reservation_date')
             ->orderByDesc('reservation_time')
             ->take($limit)

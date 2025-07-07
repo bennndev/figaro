@@ -16,7 +16,7 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
         style="display: none;"
     >
-        <div class="bg-[#2A2A2A] text-white w-full max-w-3xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
+        <div @click.outside="showCreateBarber = false" class="bg-[#2A2A2A] text-white w-full max-w-3xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
 
             <!-- Botón cerrar -->
             <button 
@@ -149,51 +149,6 @@
 
     <!-- Esto reactiva el modal si hay errores con SweetAlert -->
     <x-utils.modal-error-create-barber />
-
-    <!-- SweetAlert Scripts para este modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar SweetAlert de éxito si se creó el barbero
-            @if(session('success') && !$errors->any())
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    title: '{{ session('success') }}',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    background: '#2A2A2A',
-                    color: '#ffffff',
-                    iconColor: '#10B981'
-                });
-            @endif
-
-            // Mostrar SweetAlert de error si hubo problemas
-            @if($errors->any() && session('modal_context') === 'create_barber')
-                let errorMessages = [];
-                @foreach($errors->all() as $error)
-                    errorMessages.push('{{ $error }}');
-                @endforeach
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error al crear barbero',
-                    html: '<ul style="text-align: left; margin: 0; padding-left: 20px;">' + 
-                          errorMessages.map(msg => '<li>' + msg + '</li>').join('') + 
-                          '</ul>',
-                    confirmButtonColor: '#ffffff',
-                    confirmButtonText: 'Entendido',
-                    background: '#2A2A2A',
-                    color: '#ffffff',
-                    iconColor: '#EF4444',
-                    customClass: {
-                        confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
-                    }
-                });
-            @endif
-        });
-    </script>
 
    
 
