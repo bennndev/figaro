@@ -83,17 +83,7 @@
                             @enderror
                         </div>
 
-                        {{-- Debug temporal --}}
-                        <div style="margin-bottom: 20px; background: #f0f0f0; padding: 10px; color: #000;">
-                            <strong>Debug Info:</strong><br>
-                            Barbero ID: {{ $barber->id }}<br>
-                            Barbero nombre: {{ $barber->name }}<br>
-                            Especialidades del barbero (IDs): {{ $barber->specialties->pluck('id')->toArray() | json_encode }}<br>
-                            Especialidades del barbero (nombres): {{ $barber->specialties->pluck('name')->toArray() | json_encode }}<br>
-                            Total especialidades disponibles: {{ $specialties->count() }}<br>
-                            Old specialty_ids: {{ old('specialty_ids', []) | json_encode }}<br>
-                            Especialidades seleccionadas por defecto: {{ old('specialty_ids', $barber->specialties->pluck('id')->toArray()) | json_encode }}
-                        </div>
+                        {{-- Debug information removed for production --}}
 
                         {{-- Especialidades --}}
                         <div style="margin-bottom: 20px;">
@@ -228,10 +218,8 @@
                             return false;
                         }
                         
-                        // Mostrar alerta y preguntar si continuar
-                        if (confirm(`Found ${specialtyIds.length} specialties. Debug info logged to console. Check console and click OK to submit form.`)) {
-                            form.submit();
-                        }
+                        // Enviar formulario
+                        form.submit();
                         
                         return false;
                     }

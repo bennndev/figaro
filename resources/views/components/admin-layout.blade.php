@@ -25,6 +25,11 @@
         body {
             font-family: 'DM Sans', sans-serif;
         }
+        
+        /* Z-index alto para SweetAlert sobre modales */
+        .swal-high-z-index {
+            z-index: 9999 !important;
+        }
     </style>
 </head>
 <body class="bg-[#1E1E1E] text-white min-h-screen" x-data="{ sidebarOpen: false }">
@@ -93,7 +98,8 @@
                 background: '#2A2A2A',
                 color: '#ffffff',
                 customClass: {
-                    confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
+                    confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition',
+                    container: 'swal-high-z-index'
                 }
             };
 
@@ -172,6 +178,44 @@
                 }
             });
         }
+
+        // Función para mostrar toasts de éxito
+        window.showSuccessToast = function(title) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: title,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#10B981',
+                customClass: {
+                    container: 'swal-high-z-index'
+                }
+            });
+        };
+
+        // Función para mostrar toasts de error
+        window.showErrorToast = function(title) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: title,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#EF4444',
+                customClass: {
+                    container: 'swal-high-z-index'
+                }
+            });
+        };
 
         // Mostrar mensajes de sesión
         document.addEventListener('DOMContentLoaded', function() {

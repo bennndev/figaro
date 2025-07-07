@@ -1,4 +1,4 @@
-<div x-data="{ showCreateBarber: {{ $errors->any() ? 'true' : 'false' }} }" x-cloak>
+<div x-data="{ showCreateBarber: {{ ($errors->any() && (session('modal_context') === 'create_barber' || request()->routeIs('admin.barbers.store'))) ? 'true' : 'false' }} }" x-cloak>
     <!-- Botón para abrir modal -->
     <div class="mb-6 flex justify-end">
         <button 
@@ -16,7 +16,7 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
         style="display: none;"
     >
-        <div @click.outside="showCreateBarber = false" class="bg-[#2A2A2A] text-white w-full max-w-3xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
+        <div class="bg-[#2A2A2A] text-white w-full max-w-3xl rounded-2xl shadow-2xl p-6 relative overflow-y-auto max-h-[90vh] custom-scroll">
 
             <!-- Botón cerrar -->
             <button 
@@ -65,7 +65,7 @@
                     </div>
 
                     <!-- Especialidades -->
-                    <div x-data="multiselectDropdown()" class="relative w-full md:col-span-2">
+                    <div x-data="createBarberMultiselect()" class="relative w-full md:col-span-2">
                         <label class="block text-sm font-medium text-white mb-2">Especialidades:</label>
 
                         <button @click="toggle" type="button"
@@ -96,7 +96,9 @@
                             <input type="hidden" name="specialty_ids[]" :value="id">
                         </template>
 
-
+                        <div x-show="warning" x-transition class="text-sm text-red-400 mt-2">
+                            Solo puedes seleccionar hasta 3 especialidades.
+                        </div>
                     </div>
 
                     <!-- Descripción -->
@@ -148,6 +150,51 @@
     <!-- Esto reactiva el modal si hay errores con SweetAlert -->
     <x-utils.modal-error-create-barber />
 
+    <!-- SweetAlert Scripts para este modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar SweetAlert de éxito si se creó el barbero
+            @if(session('success') && !$errors->any())
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#2A2A2A',
+                    color: '#ffffff',
+                    iconColor: '#10B981'
+                });
+            @endif
+
+            // Mostrar SweetAlert de error si hubo problemas
+            @if($errors->any() && session('modal_context') === 'create_barber')
+                let errorMessages = [];
+                @foreach($errors->all() as $error)
+                    errorMessages.push('{{ $error }}');
+                @endforeach
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al crear barbero',
+                    html: '<ul style="text-align: left; margin: 0; padding-left: 20px;">' + 
+                          errorMessages.map(msg => '<li>' + msg + '</li>').join('') + 
+                          '</ul>',
+                    confirmButtonColor: '#ffffff',
+                    confirmButtonText: 'Entendido',
+                    background: '#2A2A2A',
+                    color: '#ffffff',
+                    iconColor: '#EF4444',
+                    customClass: {
+                        confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
+                    }
+                });
+            @endif
+        });
+    </script>
+
    
 
     <!-- Estilo scrollbar -->
@@ -174,26 +221,38 @@
         }
     </style>
     <script>
-    function multiselectDropdown() {
+    function createBarberMultiselect() {
         return {
             open: false,
             selected: @json(array_map('intval', old('specialty_ids', []))),
             selectedLabels: [],
+            warning: false,
+            
             toggle() {
                 this.open = !this.open;
             },
+            
             updateSelection(event) {
                 const id = parseInt(event.target.value);
                 const label = event.target.nextElementSibling.innerText;
 
                 if (event.target.checked) {
-                    this.selected.push(id);
-                    this.selectedLabels.push(label);
+                    if (this.selected.length < 3) {
+                        if (!this.selected.includes(id)) {
+                            this.selected.push(id);
+                            this.selectedLabels.push(label);
+                        }
+                    } else {
+                        event.target.checked = false;
+                        this.warning = true;
+                        setTimeout(() => this.warning = false, 2500);
+                    }
                 } else {
                     this.selected = this.selected.filter(i => i !== id);
                     this.selectedLabels = this.selectedLabels.filter(l => l !== label);
                 }
             },
+            
             init() {
                 // Inicializa etiquetas desde valores seleccionados previamente
                 const specialties = @json($specialties ?? []);

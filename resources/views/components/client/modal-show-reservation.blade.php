@@ -19,10 +19,18 @@
             <div class="mb-4">
                 <strong>Estado:</strong>
                 <span class="ml-2 px-3 py-1 rounded-full text-sm font-semibold
-                    {{ $reservation->status === 'paid' ? 'bg-green-500/20 text-green-300' : 
-                       ($reservation->status === 'pending_pay' ? 'bg-yellow-500/20 text-yellow-300' : 
-                       ($reservation->status === 'completed' ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300')) }}">
-                    {{ ucfirst($reservation->status) }}
+                    {{ $reservation->status === 'paid' ? 'bg-white text-[#2A2A2A]' : 
+                       ($reservation->status === 'pending_pay' ? 'border border-white text-white' : 
+                       ($reservation->status === 'completed' ? 'bg-gray-600 text-white' : 'bg-gray-600 text-white')) }}">
+                    @if ($reservation->status === 'paid')
+                        Pagado
+                    @elseif ($reservation->status === 'pending_pay')
+                        Pendiente
+                    @elseif ($reservation->status === 'cancelled')
+                        Cancelado
+                    @elseif ($reservation->status === 'completed')
+                        Completado
+                    @endif
                 </span>
             </div>
 

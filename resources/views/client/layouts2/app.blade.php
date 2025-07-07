@@ -108,6 +108,7 @@
                             <img src="{{ Auth::user()->profile_photo_url }}"
                                 alt="Foto de perfil"
                                 class="w-10 h-10 rounded-full object-cover border border-gray-500 transition-transform duration-200 transform group-hover:scale-105 group-hover:border-gray-400 shadow-sm" />
+                            <i class="bi bi-chevron-down text-white transition-transform" :class="{ 'rotate-180': open }"></i>
                         </button>
 
                         {{-- Dropdown --}}
@@ -115,23 +116,24 @@
                             class="absolute right-0 mt-2 w-48 bg-[#2A2A2A] border border-gray-700 rounded-lg shadow-lg z-50">
                             
                             {{-- Botón para abrir el modal --}}
+                            <a href="{{ route('profile.edit') }}"
+                                class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
+                                <i class="bi bi-eye mr-2"></i>Ver perfil
+                            </a>
                             <button 
                                 @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
                                 class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
-                                Ver perfil
+                                <i class="bi bi-pencil mr-2"></i>Editar perfil
                             </button>
-                            <button 
-                                @click="window.dispatchEvent(new CustomEvent('open-profile-modal')); open = false"
-                                class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
-                                Editar perfil
-                            </button>
+
+                            <div class="border-t border-gray-700 my-1"></div>
 
                             {{-- Logout --}}
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
                                     class="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#3A3A3A]">
-                                    Cerrar sesión
+                                    <i class="bi bi-box-arrow-right mr-2"></i>Cerrar sesión
                                 </button>
                             </form>
                         </div>

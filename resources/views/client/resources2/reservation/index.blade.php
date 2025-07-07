@@ -74,7 +74,7 @@
                             Pendiente
                         </span>
                     @elseif ($reservation->status === 'cancelled')
-                        <span class="inline-block px-3 py-1 bg-gray-600 text-white text-sm font-semibold rounded-full">
+                        <span class="inline-block px-3 py-1 bg- text-white text-sm font-semibold rounded-full">
                             Cancelado
                         </span>
                     @elseif ($reservation->status === 'completed')

@@ -16,15 +16,16 @@
         
         // Mantener el modal abierto después de mostrar los errores
         setTimeout(() => {
-            const editModal = document.querySelector('[x-data*="showEditModal"]');
+            // Buscar el modal específico del barbero
+            const editModal = document.querySelector('[x-on\\:open-modal-edit-barber-{{ $barberId }}\\.window]');
             if (editModal && editModal.__x && editModal.__x.$data.hasOwnProperty('showEditModal')) {
+                console.log('Reabriendo modal de editar barbero {{ $barberId }}');
                 editModal.__x.$data.showEditModal = true;
+            } else {
+                console.log('No se encontró el modal de editar barbero {{ $barberId }}');
+                // Fallback: disparar el evento personalizado
+                window.dispatchEvent(new CustomEvent('open-modal-edit-barber-{{ $barberId }}'));
             }
-            
-            // También podemos usar el evento personalizado si está disponible
-            @if(isset($barberId))
-            window.dispatchEvent(new CustomEvent('open-modal-edit-barber-{{ $barberId }}'));
-            @endif
         }, 100);
     });
 </script>

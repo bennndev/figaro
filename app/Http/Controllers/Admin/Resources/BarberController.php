@@ -35,9 +35,11 @@ class BarberController extends Controller
         try {
             $barber = $this->service->create($request->validated());
             return redirect()->route('admin.barbers.index')
-                ->with('message', 'Barbero creado correctamente');
+                ->with('success', 'Barbero creado correctamente');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Error al crear el barbero: ' . $e->getMessage()])->withInput();
+            return back()->withErrors(['error' => 'Error al crear el barbero: ' . $e->getMessage()])
+                ->withInput()
+                ->with('modal_context', 'create_barber');
         }
     }
 
@@ -60,9 +62,11 @@ class BarberController extends Controller
         try {
             $this->service->update($id, $request->validated());
             return redirect()->route('admin.barbers.index')
-                ->with('message', 'Barbero actualizado correctamente');
+                ->with('success', 'Barbero actualizado correctamente');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Error al actualizar el barbero: ' . $e->getMessage()])->withInput();
+            return back()->withErrors(['error' => 'Error al actualizar el barbero: ' . $e->getMessage()])
+                ->withInput()
+                ->with('modal_context', 'edit_barber');
         }
     }
 
@@ -71,7 +75,7 @@ class BarberController extends Controller
         try {
             $this->service->delete($id);
             return redirect()->route('admin.barbers.index')
-                ->with('message', 'Barbero eliminado correctamente');
+                ->with('success', 'Barbero eliminado correctamente');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Error al eliminar el barbero: ' . $e->getMessage()]);
         }

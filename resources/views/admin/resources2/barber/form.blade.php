@@ -234,10 +234,8 @@
                             return false;
                         }
                         
-                        // Mostrar alerta y preguntar si continuar
-                        if (confirm(`Found ${specialtyIds.length} specialties. Debug info logged to console. Check console and click OK to submit form.`)) {
-                            form.submit();
-                        }
+                        // Enviar formulario
+                        form.submit();
                         
                         return false;
                     }

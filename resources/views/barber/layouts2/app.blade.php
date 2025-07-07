@@ -227,7 +227,7 @@
                 timerProgressBar: true,
                 background: '#2A2A2A',
                 color: '#ffffff',
-                iconColor: '#10b981'
+                iconColor: '#ffffff'
             });
         };
     </script>

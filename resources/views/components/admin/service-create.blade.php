@@ -110,7 +110,7 @@
 
              <div class="mt-6 flex justify-end">
                     <button type="submit"
-                            class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
+                            class="bg-[#FFFFFF] text-black font-semibold px-4 py-2 rounded hover:bg-gray-200 transition">
                         Guardar
                     </button>
                 </div>

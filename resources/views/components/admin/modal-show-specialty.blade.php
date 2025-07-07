@@ -25,7 +25,7 @@
             </ul>
 
             <div class="mt-6 flex justify-end">
-                <button @click="showSpecialtyModal = false" class="text-gray-600 hover:text-gray-900">
+                <button @click="showSpecialtyModal = false" class="px-4 py-2 bg-white text-black font-semibold rounded hover:bg-gray-200 transition">
                     Cerrar
                 </button>
             </div>

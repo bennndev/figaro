@@ -12,7 +12,6 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     >
         <div 
-            @click.outside="showEditModal = false"
             class="bg-[#1E1E1E] text-white rounded-lg shadow-lg w-full max-w-3xl p-6 overflow-y-auto max-h-[90vh] custom-scroll"
         >
             <h2 class="text-xl font-semibold mb-4">Editar Barbero</h2>
@@ -21,7 +20,7 @@
                 action="{{ route('admin.barbers.update', $barber->id) }}" 
                 method="POST" 
                 enctype="multipart/form-data" 
-                x-data="modalFormData()" 
+                x-data="editBarberModalData()" 
                 x-init="initBarberData(@json($barber->specialties->pluck('id')), @json($barber->specialties->pluck('name')))"
             >
                 @csrf
@@ -142,11 +141,56 @@
 </div>
 
 <!-- Componente de errores -->
-<x-utils.modal-error-edit-barber :barberId="$barber->id" />
+<x-utils.modal-error-edit-barber :barber-id="$barber->id" />
+
+<!-- SweetAlert Scripts para este modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mostrar SweetAlert de éxito si se actualizó el barbero
+        @if(session('success') && !$errors->any())
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#10B981'
+            });
+        @endif
+
+        // Mostrar SweetAlert de error si hubo problemas
+        @if($errors->any() && session('modal_context') === 'edit_barber')
+            let errorMessages = [];
+            @foreach($errors->all() as $error)
+                errorMessages.push('{{ $error }}');
+            @endforeach
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al actualizar barbero',
+                html: '<ul style="text-align: left; margin: 0; padding-left: 20px;">' + 
+                      errorMessages.map(msg => '<li>' + msg + '</li>').join('') + 
+                      '</ul>',
+                confirmButtonColor: '#ffffff',
+                confirmButtonText: 'Entendido',
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#EF4444',
+                customClass: {
+                    confirmButton: 'bg-white text-black font-semibold px-6 py-2 rounded hover:bg-gray-200 transition'
+                }
+            });
+        @endif
+    });
+</script>
 
 <!-- Script -->
 <script>
-function modalFormData() {
+function editBarberModalData() {
     return {
         // Modal control
         open: false,

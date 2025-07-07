@@ -47,7 +47,7 @@
 
             <div class="mt-6 flex justify-end">
                 <button @click="showServiceModal = false"
-                        class="text-white hover:text-gray-300 transition font-semibold">
+                        class="px-4 py-2 bg-white text-black font-semibold rounded hover:bg-gray-200 transition">
                     Cerrar
                 </button>
             </div>

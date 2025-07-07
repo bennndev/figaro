@@ -17,28 +17,64 @@
         @method('patch')
 
         <!-- Imagen de Perfil con ícono de lápiz -->
-        <div class="relative w-24 h-24">
-            <img src="{{ $user->profile_photo_url }}"
-                 alt="Foto de perfil actual"
-                 class="w-24 h-24 rounded-full object-cover border border-gray-500" />
+        <div class="flex flex-col items-center mb-6">
+            <div class="relative w-32 h-32">
+                <img id="profile_image_preview" src="{{ $user->profile_photo_url }}"
+                     alt="Foto de perfil actual"
+                     class="w-32 h-32 rounded-full object-cover border-2 border-gray-400 shadow-lg" />
 
-            <!-- Botón de lápiz superpuesto -->
-            <label for="profile_photo"
-                   class="absolute bottom-0 right-0 bg-white text-[#2A2A2A] rounded-full p-1 cursor-pointer hover:bg-gray-200 transition shadow-md">
-                <i class="bi bi-pencil-fill text-sm"></i>
-            </label>
-            <input id="profile_photo" name="profile_photo" type="file" accept="image/*" class="hidden" />
-            <x-input-error class="mt-2 text-red-400" :messages="$errors->get('profile_photo')" />
+                <!-- Botón de lápiz en esquina inferior derecha -->
+                <label id="pencil-button" for="profile_photo"
+                       class="absolute -bottom-1 -right-1 bg-gray-800 text-white rounded-full p-2 cursor-pointer hover:bg-gray-900 transition-all duration-200 shadow-lg border-2 border-white">
+                    <i class="bi bi-pencil-fill text-sm"></i>
+                </label>
+                <input id="profile_photo" name="profile_photo" type="file" accept="image/*" class="hidden" onchange="previewImage(event)" />
+            </div>
+            
+            <!-- Botón Cambiar (oculto inicialmente) -->
+            <button id="change-button" type="button" onclick="document.getElementById('profile_photo').click()" 
+                    class="hidden mt-3 px-4 py-2 bg-white text-gray-800 text-sm font-bold rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-md border border-gray-300">
+                Cambiar
+            </button>
+        </div>
+        <x-input-error class="mt-2 text-red-400 text-center" :messages="$errors->get('profile_photo')" />
+        
+        <!-- Mensaje de confirmación -->
+        <div id="upload-success-message" class="hidden mt-2 text-green-600 text-center text-sm font-medium">
+            ✓ Imagen subida correctamente
         </div>
 
-        @if ($user->profile_photo)
-            <div>
-                <label class="flex items-center mt-2">
-                    <input type="checkbox" name="remove_photo" value="1" class="mr-2">
-                    <span class="text-sm text-red-600">{{ __('Eliminar foto actual') }}</span>
-                </label>
-            </div>
-        @endif
+        <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile_image_preview').src = e.target.result;
+                    
+                    // Ocultar el botón de lápiz
+                    const pencilButton = document.getElementById('pencil-button');
+                    pencilButton.classList.add('hidden');
+                    
+                    // Mostrar el botón "Cambiar"
+                    const changeButton = document.getElementById('change-button');
+                    changeButton.classList.remove('hidden');
+                    
+                    // Mostrar mensaje de confirmación
+                    const successMessage = document.getElementById('upload-success-message');
+                    successMessage.classList.remove('hidden');
+                    
+                    // Ocultar el mensaje después de 3 segundos
+                    setTimeout(function() {
+                        successMessage.classList.add('hidden');
+                    }, 3000);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        </script>
+
+
 
         <!-- Nombre -->
         <div>
