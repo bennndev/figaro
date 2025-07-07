@@ -63,19 +63,39 @@
                 </div>
 
                 <!-- Especialidades -->
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2">Especialidades</label>
-                    <div class="space-y-1">
-                        @foreach ($specialties as $specialty)
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" name="specialties[]"
-                                       value="{{ $specialty->id }}"
-                                       {{ in_array($specialty->id, old('specialties', $service->specialties->pluck('id')->toArray())) ? 'checked' : '' }}
-                                       class="text-indigo-500 bg-transparent border-gray-500 rounded focus:ring-0">
-                                <span>{{ $specialty->name }}</span>
-                            </label>
-                        @endforeach
+                <div x-data="multiselectDropdownEdit()" class="relative w-full mb-4">
+                    <label class="block text-sm font-medium text-white mb-2">Especialidades:</label>
+
+                    <!-- Botón -->
+                    <button @click="toggle" type="button"
+                        class="w-full bg-[#1E1E1E] text-white border border-gray-600 rounded-md px-4 py-2 flex justify-between items-center">
+                        <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Seleccionar especialidades'"></span>
+                        <i class="bi bi-chevron-down ml-2"></i>
+                    </button>
+
+                    <!-- Lista desplegable -->
+                    <div x-show="open" @click.outside="open = false"
+                        class="absolute z-50 mt-2 w-full bg-[#2A2A2A] text-white rounded-md border border-gray-600 shadow-lg max-h-60 overflow-y-auto">
+                        <div class="p-2 space-y-1">
+                            @foreach ($specialties as $specialty)
+                                <label class="flex items-center space-x-2 px-2 py-1 hover:bg-white/10 rounded">
+                                    <input
+                                        type="checkbox"
+                                        value="{{ $specialty->id }}"
+                                        @change="updateSelection($event)"
+                                        x-bind:checked="selected.includes({{ $specialty->id }})"
+                                        class="text-blue-500 bg-transparent border-gray-500 rounded focus:ring-0"
+                                    >
+                                    <span>{{ $specialty->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
+
+                    <!-- Campos ocultos -->
+                    <template x-for="id in selected" :key="id">
+                        <input type="hidden" name="specialties[]" :value="id">
+                    </template>
                 </div>
 
                 <!-- Botones -->
@@ -95,6 +115,36 @@
 </div>
 
 <x-utils.modal-error key="showEditServiceModal" />
+
+<script>
+    function multiselectDropdownEdit() {
+        return {
+            open: false,
+            selected: @json(old('specialties', $service->specialties->pluck('id')->toArray())),
+            selectedLabels: [],
+            toggle() {
+                this.open = !this.open;
+            },
+            updateSelection(event) {
+                const id = parseInt(event.target.value);
+                const label = event.target.nextElementSibling.innerText;
+
+                if (event.target.checked) {
+                    this.selected.push(id);
+                    this.selectedLabels.push(label);
+                } else {
+                    this.selected = this.selected.filter(i => i !== id);
+                    this.selectedLabels = this.selectedLabels.filter(l => l !== label);
+                }
+            },
+            init() {
+                // Recuperar etiquetas de las especialidades ya seleccionadas
+                const specialtiesData = @json($specialties->keyBy('id')->map(function($specialty) { return $specialty->name; }));
+                this.selectedLabels = this.selected.map(id => specialtiesData[id]).filter(name => name !== undefined);
+            }
+        };
+    }
+</script>
 
 <!-- Scroll personalizado oscuro -->
 <style>

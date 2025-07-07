@@ -87,13 +87,13 @@
                     <td class="px-4 py-3">${{ number_format($service->price, 2) }}</td>
                     <td class="px-4 py-3">
                         @if ($service->specialties && $service->specialties->isNotEmpty())
-                            <ul class="list-disc list-inside">
+                            <div class="flex flex-wrap gap-2">
                                 @foreach ($service->specialties as $specialty)
-                                    <li>{{ $specialty->name }}</li>
+                                    <span class="bg-white text-black px-3 py-1 rounded-full text-sm font-medium">{{ $specialty->name }}</span>
                                 @endforeach
-                            </ul>
+                            </div>
                         @else
-                            <em>Sin especialidades</em>
+                            <span class="bg-white text-black px-3 py-1 rounded-full text-sm font-medium">Sin especialidades</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 space-x-2 whitespace-nowrap">

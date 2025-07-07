@@ -149,7 +149,8 @@
             },
             init() {
                 // Recuperar etiquetas si hay error y old values
-                this.selectedLabels = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
+                const container = this.$el;
+                this.selectedLabels = Array.from(container.querySelectorAll('input[type=checkbox]:checked'))
                     .map(cb => cb.nextElementSibling.innerText);
             }
         };

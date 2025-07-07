@@ -196,6 +196,56 @@
     {{-- Modal de perfil --}}
     <x-barber.perfil />
 
+    <script>
+        // Función para mostrar toasts de error con SweetAlert2
+        window.showErrorToast = function(title) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: title,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#ef4444'
+            });
+        };
+
+        // Función para mostrar toasts de éxito
+        window.showSuccessToast = function(title) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: title,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#2A2A2A',
+                color: '#ffffff',
+                iconColor: '#10b981'
+            });
+        };
+    </script>
+
+    {{-- Mostrar mensaje de éxito si existe --}}
+    @if(session('success'))
+        <script>
+            showSuccessToast('{{ session('success') }}');
+        </script>
+    @endif
+
+    {{-- Mostrar mensaje de error si existe --}}
+    @if(session('error'))
+        <script>
+            showErrorToast('{{ session('error') }}');
+        </script>
+    @endif
+
     @stack('scripts')
 </body>
 </html>

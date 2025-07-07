@@ -11,16 +11,6 @@
                 console.error('showErrorToast no está disponible:', '{{ $error }}');
             }
         @endforeach
-        
-        // Mantener el modal abierto después de mostrar los errores
-        setTimeout(() => {
-            const modalElements = document.querySelectorAll('[x-data]');
-            modalElements.forEach(el => {
-                if (el && el.__x && el.__x.$data.hasOwnProperty('{{ $key }}')) {
-                    el.__x.$data['{{ $key }}'] = true;
-                }
-            });
-        }, 100);
     });
 </script>
 @endif

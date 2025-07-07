@@ -28,7 +28,7 @@ public function index()
             ->where('status', 'pending_pay')
             ->with(['barber', 'services'])
             ->orderBy('created_at', 'desc')
-            ->paginate(2);
+            ->paginate(6);
 
         return view('client.resources2.payments.index', compact('pending'));
     }
@@ -42,7 +42,7 @@ public function index()
             ->whereIn('status', ['paid', 'completed'])
             ->with(['barber', 'services', 'payment'])
             ->orderBy('updated_at', 'desc')
-            ->paginate(2);
+            ->paginate(6);
 
         return view('client.resources2.payments.history', compact('paid'));
     }
@@ -99,7 +99,8 @@ public function success(Request $request)
     // 2) ¡Disparamos la notificación WhatsApp!
     $this->notifier->notify($payment);
 
-    return view('client.resources.payments.success', compact('payment'));
+    return redirect()->route('client.payments.index')
+                     ->with('success', 'Pago completado exitosamente');
 }
 
     public function failure()

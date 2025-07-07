@@ -114,8 +114,8 @@
                         </form>
                     @endif
 
-                    {{-- Icono PDF (solo si está pagado) --}}
-                    @if ($reservation->status === 'paid')
+                    {{-- Icono PDF (si está pagado o completado) --}}
+                    @if ($reservation->status === 'paid' || $reservation->status === 'completed')
                         <a href="{{ route('client.payments.report', $reservation->payment->id) }}" 
                            target="_blank"
                         class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-xl" title="PDF Comprobante">

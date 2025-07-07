@@ -109,7 +109,13 @@
                 <td class="px-4 py-2">{{ $barber->last_name }}</td>
                 <td class="px-4 py-2">
                     @if ($barber->specialties->isNotEmpty())
-                        {{ $barber->specialties->pluck('name')->join(', ') }}
+                        <div class="flex flex-wrap gap-1">
+                            @foreach ($barber->specialties as $specialty)
+                                <span class="bg-[#232323] text-white px-3 py-1 rounded-lg text-xs font-bold border border-gray-300">
+                                    {{ $specialty->name }}
+                                </span>
+                            @endforeach
+                        </div>
                     @else
                         <span class="text-gray-400 italic">Sin especialidades</span>
                     @endif

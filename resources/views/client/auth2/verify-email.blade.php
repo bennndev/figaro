@@ -10,11 +10,7 @@
         Si no lo recibiste, podemos enviarte otro.
     </div>
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-400">
-            Se ha enviado un nuevo enlace de verificación al correo proporcionado durante el registro.
-        </div>
-    @endif
+    {{-- Los mensajes de sesión se manejan con SweetAlert en el layout --}}
 
     <div class="mt-4 flex items-center justify-between">
         <form method="POST" action="{{ route('verification.send') }}">

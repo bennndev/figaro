@@ -44,6 +44,13 @@
                                 center: 'title',
                                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
                             },
+                            buttonText: {
+                                today: 'Hoy',
+                                month: 'Mes',
+                                week: 'Semana',
+                                day: 'Día',
+                                
+                            },
                             events: @json($calendarEvents)
                         });
                         calendar.render();

@@ -13,7 +13,7 @@
 
     <div class="py-12 min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="shadow-sm sm:rounded-lg p-6 text-white">
+            <div class="bg-[#2A2A2A] shadow-sm sm:rounded-lg p-6 text-white">
 
                 {{-- Mensaje de éxito --}}
                 @if (session('success'))

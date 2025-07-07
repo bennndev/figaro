@@ -13,7 +13,7 @@
     >
         <div 
             @click.outside="showEditSpecialtyModal = false"
-            class="bg-white text-black rounded-lg shadow-lg w-full max-w-xl p-6"
+            class="bg-[#2A2A2A] text-white rounded-lg shadow-lg w-full max-w-xl p-6"
         >
             <h3 class="text-xl font-semibold mb-4">
                 Editar Especialidad
@@ -31,13 +31,13 @@
                         name="name" 
                         value="{{ old('name', $specialty->name) }}" 
                         required 
-                        class="w-full mt-1 p-2 border border-gray-300 rounded"
+                        class="bg-[#1E1E1E] w-full mt-1 p-2 border border-gray-300 rounded"
                     >
 
                 </div>
 
                 <div class="flex justify-end gap-4 mt-6">
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-md">
+                    <button type="submit" class="bg-white hover:bg-indigo-700 text-[#2A2A2A] font-semibold px-4 py-2 rounded-md">
                         Actualizar
                     </button>
                     <button type="button" @click="showEditSpecialtyModal = false" class="text-gray-600 hover:text-gray-900">

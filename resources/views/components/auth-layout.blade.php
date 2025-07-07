@@ -97,6 +97,10 @@
               showAlert('info', 'Información', '{{ session('info') }}');
           @endif
 
+          @if(session('status'))
+              showAlert('success', 'Estado', '{{ session('status') }}');
+          @endif
+
           @if($errors->any())
               @php
                   $errorMessages = $errors->all();

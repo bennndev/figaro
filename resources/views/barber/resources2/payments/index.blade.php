@@ -75,11 +75,22 @@
                                 <td class="px-4 py-2 text-center">
                                     {{-- Ver --}}
                                     <a href="{{ route('barber.payments.show', $payment->id) }}" 
-                                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition" 
+                                        class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition mr-3" 
                                         title="Ver detalle"
                                     >
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
+                                    
+                                    {{-- Icono PDF (si está completado) --}}
+                                    @if ($payment->status === 'complete')
+                                        <a href="{{ route('client.payments.report', $payment->id) }}" 
+                                           target="_blank"
+                                           class="text-[#FFFFFF] hover:text-[#FFFFFF]/70 transition text-xl" 
+                                           title="PDF Comprobante"
+                                        >
+                                            <i class="bi bi-filetype-pdf"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

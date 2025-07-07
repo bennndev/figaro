@@ -19,16 +19,6 @@
             <form method="POST" action="{{ route('barber.schedules.store') }}">
                 @csrf
 
-                @if ($errors->any())
-                    <div class="text-red-400 mb-4 text-sm">
-                        <ul class="list-disc pl-5">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <!-- Fecha -->
                 <div class="mb-4">
                     <label for="date" class="block font-medium text-sm text-white mb-1">Fecha</label>
@@ -69,4 +59,6 @@
             </form>
         </div>
     </div>
+    
+    <x-utils.modal-error key="showModal" />
 </div>

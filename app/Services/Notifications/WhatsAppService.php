@@ -38,6 +38,14 @@ class WhatsappService
      */
     public function sendMessage(string $to, string $message)
     {
+        // Normalizar número: solo dígitos
+        $to = preg_replace('/[^0-9]/', '', $to);
+        // Si no empieza con 51, agregarlo
+        if (strpos($to, '51') !== 0) {
+            $to = '51' . ltrim($to, '0');
+        }
+        $to = '+' . $to;
+
         return $this->client->messages->create(
             "whatsapp:{$to}", [
                 'from' => $this->from,

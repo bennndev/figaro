@@ -69,4 +69,6 @@
             </form>
         </div>
     </div>
+    
+    <x-utils.modal-error key="showEditModal" />
 </div>

@@ -13,7 +13,7 @@
     >
         <div 
             @click.outside="showSpecialtyModal = false"
-            class="bg-white text-black rounded-lg shadow-lg w-full max-w-xl p-6"
+            class="bg-[#2A2A2A] text-white rounded-lg shadow-lg w-full max-w-xl p-6"
         >
             <h3 class="text-xl font-semibold mb-4">
                 Especialidad: {{ $specialty->name }}

@@ -108,9 +108,9 @@
                                 <td class="px-4 py-2">{{ $reservation->reservation_date->format('d/m/Y') }}</td>
                                 <td class="px-4 py-2">{{ $reservation->reservation_time->format('H:i') }}</td>
                                 <td class="px-4 py-2">
-                                    <div class="flex flex-wrap gap-1">
+                                    <div class="flex flex-wrap gap-2">
                                         @foreach($reservation->services as $service)
-                                            <span class="inline-block bg-gray-600 text-white text-xs px-2 py-1 rounded">
+                                            <span class="bg-[#232323] text-white px-3 py-1 rounded-lg text-xs font-bold border border-gray-300">
                                                 {{ $service->name }}
                                             </span>
                                         @endforeach
@@ -118,13 +118,13 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     @if($reservation->status === 'pending')
-                                        <span class="text-yellow-400">Pendiente</span>
+                                        <span class="bg-gray-700 text-white px-3 py-1 rounded-lg text-xs font-bold">Pendiente</span>
                                     @elseif($reservation->status === 'paid')
-                                        <span class="text-blue-400">Pagado</span>
+                                        <span class="bg-white text-black px-3 py-1 rounded-lg text-xs font-bold">Pagado</span>
                                     @elseif($reservation->status === 'completed')
-                                        <span class="text-green-400">Completado</span>
+                                        <span class="bg-black text-white px-3 py-1 rounded-lg text-xs font-bold">Completado</span>
                                     @elseif($reservation->status === 'cancelled')
-                                        <span class="text-red-400">Cancelado</span>
+                                        <span class="bg-[#232323] text-gray-400 border border-gray-600 px-3 py-1 rounded-lg text-xs font-bold">Cancelado</span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-2">
