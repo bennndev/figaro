@@ -1,49 +1,68 @@
 <p align="center">
-  <img src="https://i.imgur.com/orlSZJ4.png" alt="El Rincón del Barbero Logo" width="100"/>
+  <img src="https://i.imgur.com/FtzI8zV.png" alt="Figaro Logo" width="120" />
 </p>
 
-<h1 align="center">💈 El Rincón del Barbero</h1>
+<h1 align="center">Figaro</h1>
 
 <p align="center">
-  Sistema de reservas para barberías, desarrollado como proyecto integrador académico.
+  Sistema web integral para la gestión de barberías: reservas, horarios, pagos y más.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/PHP-8.x-blue?logo=php&logoColor=white" />
-  <img src="https://img.shields.io/badge/Laravel-10-red?logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/Laravel-12-red?logo=laravel&logoColor=white" />
   <img src="https://img.shields.io/badge/Blade-template-lightgrey?logo=laravel" />
   <img src="https://img.shields.io/badge/MySQL-Database-blue?logo=mysql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Bootstrap-5-purple?logo=bootstrap&logoColor=white" />
+  <img src="https://img.shields.io/badge/TailwindCSS-Utility-06B6D4?logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-Deployment-2496ED?logo=docker&logoColor=white" />
 </p>
 
 ---
 
 ## 🧾 Descripción
 
-**El Rincón del Barbero** es un sistema web que permite a los clientes reservar servicios de barbería de forma fácil y rápida, eligiendo entre diferentes barberos, horarios y métodos de pago.
+**Figaro** es una plataforma web completa para la administración de barberías. Permite a los clientes reservar servicios fácilmente, visualizar disponibilidad, elegir barbero, y pagar de forma segura. Por otro lado, los barberos y administradores pueden gestionar sus horarios, servicios, especialidades, y visualizar reportes de pagos y reservas.
 
+Este sistema fue desarrollado como **proyecto académico integrador** de los cursos:
 
-Este proyecto fue desarrollado como parte del trabajo integrador final de los siguientes cursos:
-
-* 📘 **Base de Datos Avanzado**
-* 🧩 **Ingeniería de Requerimientos y Diseño de Software**
-* 🌐 **Desarrollo de Aplicaciones en Internet**
+- 📘 *Base de Datos Avanzado*
+- 🧩 *Ingeniería de Requerimientos y Diseño de Software*
+- 🌐 *Desarrollo de Aplicaciones en Internet*
 
 ---
 
 ## 🛠️ Tecnologías utilizadas
 
-* **PHP** + **Laravel** (backend)
-* **Blade** (motor de plantillas)
-* **MySQL** (base de datos)
-* **Bootstrap 5** (diseño responsivo y componentes UI)
+- **PHP 8.x** + **Laravel 12** (backend robusto y moderno)
+- **Blade** como motor de plantillas
+- **MySQL** como sistema de base de datos
+- **Tailwind CSS** para el diseño responsivo
+- **FullCalendar** para visualización de horarios y reservas
+- **Docker + Railway** para despliegue en la nube
+- **OAuth con Google** para autenticación de clientes
+
+---
+
+## 🧩 Subsistemas principales
+
+- **Gestión Administrativa:** CRUD de barberos, servicios, especialidades, clientes (solo lectura), visualización de reservas y pagos.
+- **Panel de Barbero:** Gestión de horarios, servicios, especialidades, y visualización de reservas.
+- **Portal del Cliente:** Registro, login, verificación por correo, reserva de servicios, selección de barbero y horario.
+- **Sistema de Reservas:** Basado en horarios disponibles y duración del servicio.
+- **Pagos:** Visualización de reportes por cliente, servicio, o fecha.
+
+---
+
+## 📷 Capturas (próximamente)
+
+> Incluir imágenes del panel administrativo, vista de barbero, vista de cliente, y calendario de reservas.
 
 ---
 
 ## 🎯 Objetivo académico
 
-El proyecto tiene como finalidad aplicar de forma integrada los conocimientos adquiridos en diseño de software, bases de datos y desarrollo web, enfocándose en una solución funcional, escalable y orientada al usuario final.
+El propósito de Figaro es **integrar conocimientos clave** en bases de datos, diseño de software y desarrollo web. Se prioriza la construcción de una solución **modular, escalable y centrada en el usuario**.
 
 ---
 
-> ✂️ Proyecto académico con fines educativos
+> ✂️ Proyecto académico desarrollado con fines educativos.
