@@ -2,8 +2,6 @@
   <img src="https://i.imgur.com/FtzI8zV.png" alt="Figaro Logo" width="120" />
 </p>
 
-<h1 align="center">Figaro</h1>
-
 <p align="center">
   Sistema web integral para la gestión de barberías: reservas, horarios, pagos y más.
 </p>
@@ -50,12 +48,6 @@ Este sistema fue desarrollado como **proyecto académico integrador** de los cur
 - **Portal del Cliente:** Registro, login, verificación por correo, reserva de servicios, selección de barbero y horario.
 - **Sistema de Reservas:** Basado en horarios disponibles y duración del servicio.
 - **Pagos:** Visualización de reportes por cliente, servicio, o fecha.
-
----
-
-## 📷 Capturas (próximamente)
-
-> Incluir imágenes del panel administrativo, vista de barbero, vista de cliente, y calendario de reservas.
 
 ---
 
