@@ -44,3 +44,4 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+//Entorno de prueba Teoria 02 Construccion de pruebas de software
